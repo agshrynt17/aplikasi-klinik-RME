@@ -1,0 +1,1 @@
+<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class OrderPembelian extends Model { protected $guarded = []; public function masterVendor() { return $this->belongsTo(\App\Models\MasterVendor::class); } public function details() { return $this->hasMany(OrderPembelianDetail::class); } }

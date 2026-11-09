@@ -1,0 +1,1 @@
+<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class ResepDetail extends Model { protected $guarded = []; public function masterBarang() { return $this->belongsTo(\App\Models\MasterBarang::class); } }

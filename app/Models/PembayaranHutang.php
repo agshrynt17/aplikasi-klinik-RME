@@ -1,0 +1,1 @@
+<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class PembayaranHutang extends Model { protected $guarded = []; public function hutang() { return $this->belongsTo(Hutang::class); } }

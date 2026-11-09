@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Akhir Magang - Agus Haryanto</title>
+    <style>
+        @page {
+            size: A4;
+            margin-top: 1in;
+            margin-bottom: 1in;
+            margin-left: 1in;
+            margin-right: 1.5in;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+        }
+
+        /* ========================================= */
+        /* COVER PAGE STYLING (WHITE BACKGROUND)     */
+        /* Sesuai Lampiran 15 Panduan Magang         */
+        /* ========================================= */
+        .cover-page {
+            page-break-after: always;
+            min-height: 9.2in;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            padding: 0.2in 0.2in 0.3in 0.2in;
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .cover-logo-img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin: 15px auto 25px auto;
+            display: block;
+        }
+
+        .cover-main-heading {
+            font-size: 16pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+
+        .cover-title {
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.4;
+            color: #000000;
+            max-width: 95%;
+            margin: 0 auto 20px auto;
+        }
+
+        .cover-intern-info {
+            font-size: 12pt;
+            line-height: 1.4;
+            color: #111111;
+            margin-bottom: 25px;
+        }
+
+        .cover-intern-info .instansi {
+            font-size: 13pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .cover-author-block {
+            margin: 30px auto;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000000;
+        }
+
+        .cover-author-block .name {
+            font-size: 13pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cover-author-block .prodi {
+            font-weight: bold;
+        }
+
+        .cover-bottom-block {
+            margin-top: 40px;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #222222;
+            width: 100%;
+        }
+
+        .cover-bottom-block .institution {
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========================================= */
+        /* INNER PAGES STYLING                       */
+        /* ========================================= */
+        .page {
+            page-break-after: always;
+            position: relative;
+            padding-top: 0.1in;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        h1.chapter-title {
+            font-size: 16pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            color: #000000;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+        }
+
+        h2.section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            color: #000000;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+        }
+
+        h3.subsection-title {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 14px;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            color: #000000;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+        }
+
+        .page-break {
+            page-break-before: always !important;
+            break-before: page !important;
+            margin-top: 0.1in;
+        }
+
+        p {
+            text-align: justify;
+            text-justify: inter-word;
+            margin-top: 0;
+            margin-bottom: 12px;
+            text-indent: 0.4in;
+            line-height: 1.5;
+        }
+
+        p.no-indent {
+            text-indent: 0;
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 12px;
+            padding-left: 0.4in;
+            text-align: justify;
+            line-height: 1.5;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 14px;
+            font-size: 10pt;
+            line-height: 1.3;
+        }
+
+        table.bordered th, table.bordered td {
+            border: 1px solid #444;
+            padding: 5px 7px;
+            vertical-align: top;
+        }
+
+        table.bordered th {
+            background-color: #f8fafc;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        table.no-border td {
+            padding: 4px 6px;
+            vertical-align: top;
+            border: none;
+        }
+
+        tr {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .fw-bold { font-weight: bold; }
+
+        .signature-space {
+            height: 65px;
+        }
+
+        .divider {
+            border-bottom: 1.5px solid #000;
+            margin: 12px 0 20px 0;
+        }
+
+        /* Screenshots / Figures Styling */
+        .figure-card {
+            text-align: center;
+            margin: 10px auto 14px auto;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+
+        .figure-card img {
+            width: 80%;
+            max-width: 500px;
+            height: auto;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .figure-card .caption {
+            font-size: 9.5pt;
+            font-weight: bold;
+            font-style: italic;
+            color: #0f172a;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .toc-dots {
+            flex-grow: 1;
+            border-bottom: 1px dotted #666;
+            margin: 0 8px 4px 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================================================== -->
+    <!-- COVER PAGE (Sesuai Lampiran 15 & Warna Putih Bersih)     -->
+    <!-- ======================================================== -->
+    <div class="cover-page">
+        <div>
+            <!-- Logo Resmi Horizon University Indonesia -->
+            <img src="laporan_images/logo_horizon.png" alt="Logo Horizon University Indonesia" class="cover-logo-img">
+            
+            <div class="cover-main-heading">FINAL INTERNSHIP REPORT</div>
+            
+            <div class="cover-title">
+                PENGEMBANGAN SISTEM INFORMASI MANAJEMEN KLINIK DAN REKAM MEDIS ELEKTRONIK (RME) BERBASIS WEB PADA KLINIK TELAGASARI 24 JAM
+            </div>
+
+            <div class="cover-intern-info">
+                Internship Program at:<br>
+                <span class="instansi">KLINIK TELAGASARI 24 JAM</span>
+                Jl. Raya Telagasari - Kosambi, Telagasari, Kec. Telagasari, Kab. Karawang, Jawa Barat<br>
+                From the Period of: <strong>02 September 2026 – 20 Desember 2026</strong>
+            </div>
+        </div>
+
+        <div>
+            <div class="cover-author-block">
+                Submitted by:<br>
+                <div class="name">AGUS HARYANTO</div>
+                Student ID Number (NIM): <strong>4337855201230051</strong><br>
+                Student's Program Study: <span class="prodi">Informatika (S1)</span>
+            </div>
+
+            <div class="cover-bottom-block">
+                <em>This report is submitted to complete the internship enrollment at Horizon University Indonesia</em><br><br>
+                <div class="institution">FACULTY OF INFORMATION AND COMPUTER TECHNOLOGY</div>
+                <div class="institution">HORIZON UNIVERSITY INDONESIA</div>
+                <strong>2026</strong>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- LEMBAR PENGESAHAN KAMPUS (Sesuai Lampiran 12)             -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 15px;">
+        <h1 class="chapter-title" style="font-size: 13pt; margin-bottom: 12px;">UNIVERSITY INTERNSHIP MENTOR APPROVAL SHEET</h1>
+        <div class="divider" style="margin: 8px 0 20px 0;"></div>
+
+        <p class="no-indent" style="line-height: 1.6; margin-top: 20px;">
+            In my capacity as the university internship mentor, I hereby declare that the internship final report submitted by:
+        </p>
+
+        <table class="no-border" style="width: 95%; margin: 20px auto; font-size: 10.5pt; line-height: 1.4;">
+            <tr>
+                <td style="width: 35%;">Name of the Student</td>
+                <td style="width: 3%;">:</td>
+                <td style="width: 62%; font-weight: bold;">AGUS HARYANTO</td>
+            </tr>
+            <tr>
+                <td>Student ID Number (NIM)</td>
+                <td>:</td>
+                <td style="font-weight: bold;">4337855201230051</td>
+            </tr>
+            <tr>
+                <td>Study Program</td>
+                <td>:</td>
+                <td>Informatika (Bachelor of Informatics)</td>
+            </tr>
+            <tr>
+                <td>Faculty</td>
+                <td>:</td>
+                <td>Faculty of Information and Computer Technology (FICT)</td>
+            </tr>
+            <tr>
+                <td>Internship Institution</td>
+                <td>:</td>
+                <td>KLINIK TELAGASARI 24 JAM</td>
+            </tr>
+            <tr>
+                <td>Title of Final Report</td>
+                <td>:</td>
+                <td style="font-weight: bold; line-height: 1.3;">
+                    PENGEMBANGAN SISTEM INFORMASI MANAJEMEN KLINIK DAN REKAM MEDIS ELEKTRONIK (RME) BERBASIS WEB PADA KLINIK TELAGASARI 24 JAM
+                </td>
+            </tr>
+        </table>
+
+        <p class="no-indent" style="line-height: 1.6; margin-top: 20px;">
+            has completed the academic requirements for the Internship Final Report submission and that the aforementioned student has successfully passed the Internship Final Presentation before the Board of Examiners.
+        </p>
+
+        <div style="margin-top: 45px;">
+            <table class="no-border" style="width: 100%; margin: 0;">
+                <tr>
+                    <td style="width: 50%; text-align: center;">
+                        Approved by:<br>
+                        <strong>University Internship Mentor</strong>
+                        <div class="signature-space"></div>
+                        ( .............................................................. )<br>
+                        NIDN: ....................................................
+                    </td>
+                    <td style="width: 50%; text-align: center;">
+                        Acknowledged by:<br>
+                        <strong>Head of Informatics Study Program</strong>
+                        <div class="signature-space"></div>
+                        ( .............................................................. )<br>
+                        NIDN: ....................................................
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- KATA PENGANTAR (Sesuai Panduan: Bagian SATU Halaman)      -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 15px; font-size: 11pt; line-height: 1.4;">
+        <h1 class="chapter-title" style="font-size: 14pt; margin-bottom: 8px;">KATA PENGANTAR</h1>
+        <div class="divider" style="margin: 6px 0 16px 0;"></div>
+
+        <p style="margin-bottom: 8px;">Puji dan syukur penulis panjatkan ke hadirat Tuhan Yang Maha Esa atas limpahan rahmat dan karunia-Nya, sehingga penulis dapat menyelesaikan Program Magang Kerja Praktik beserta penyusunan <strong>Laporan Akhir Magang</strong> ini dengan baik. Laporan ini disusun guna memenuhi syarat kelulusan mata kuliah Magang (20 SKS) pada Program Studi Informatika, Fakultas Teknologi Informasi dan Komputer (FICT), Horizon University Indonesia Tahun Akademik 2026/2027.</p>
+
+        <p style="margin-bottom: 8px;">Pelaksanaan magang di <strong>Klinik Telagasari 24 Jam</strong> selama 16 minggu memberikan wawasan profesional nyata yang sangat bernilai bagi penulis, khususnya dalam merancang bangun aplikasi <strong>Rekam Medis Elektronik (RME)</strong> berbasis web menggunakan framework Laravel yang selaras dengan Permenkes RI Nomor 24 Tahun 2022.</p>
+
+        <p style="margin-bottom: 6px;">Dalam menyelesaikan magang dan laporan ini, penulis menyampaikan rasa hormat dan terima kasih sebesar-besarnya kepada:</p>
+
+        <ol style="margin-bottom: 8px; padding-left: 0.35in; font-size: 10pt; line-height: 1.3;">
+            <li><strong>Dekan Fakultas Teknologi Informasi dan Komputer (FICT) Horizon University Indonesia</strong>.</li>
+            <li><strong>Ketua Program Studi Informatika Horizon University Indonesia</strong> atas arahan akademik.</li>
+            <li><strong>Dosen Pembimbing Magang (University Mentor)</strong> yang senantiasa meluangkan waktu memberikan evaluasi dan bimbingan berharga.</li>
+            <li><strong>Pimpinan dan Manajemen Klinik Telagasari 24 Jam</strong> atas kepercayaan dan fasilitas praktik kerja.</li>
+            <li><strong>Pembimbing Lapangan (Supervisor On-Site)</strong> atas bimbingan profesional dan transfer keilmuan faskes.</li>
+            <li><strong>Seluruh Dokter, Perawat, Apoteker, Kasir, dan Staf Klinik Telagasari 24 Jam</strong> atas kerja sama yang baik.</li>
+            <li><strong>Orang Tua dan Keluarga Tercinta</strong> atas doa, motivasi, dan dukungan yang tak terhingga.</li>
+            <li><strong>Rekan-rekan Mahasiswa Informatika Angkatan 2023</strong> atas kebersamaan dan diskusi positif.</li>
+        </ol>
+
+        <p style="margin-bottom: 8px;">Penulis menyadari laporan ini masih memiliki keterbatasan. Kritik dan saran membangun sangat diharapkan guna penyempurnaan di masa depan. Semoga laporan ini memberi manfaat nyata bagi institusi mitra, universitas, dan pembaca.</p>
+
+        <div style="margin-top: 15px;">
+            <table class="no-border" style="width: 100%; margin: 0;">
+                <tr>
+                    <td style="width: 55%;"></td>
+                    <td style="width: 45%; text-align: center; font-size: 10.5pt; line-height: 1.3;">
+                        Karawang, Oktober 2026<br>
+                        <strong>Penulis,</strong>
+                        <div style="height: 45px;"></div>
+                        <strong>AGUS HARYANTO</strong><br>
+                        NIM: 4337855201230051
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- DAFTAR ISI (Tepat 1 Halaman Rapi)                        -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 10px; font-size: 8.8pt; line-height: 1.2;">
+        <h1 class="chapter-title" style="font-size: 13pt; margin-bottom: 4px;">DAFTAR ISI</h1>
+        <div class="divider" style="margin: 4px 0 10px 0;"></div>
+
+        <div class="toc-item" style="margin-bottom: 3px;"><span class="fw-bold">COVER PAGE</span><span class="toc-dots"></span><span>i</span></div>
+        <div class="toc-item" style="margin-bottom: 3px;"><span class="fw-bold">LEMBAR PENGESAHAN LAPORAN MAGANG</span><span class="toc-dots"></span><span>ii</span></div>
+        <div class="toc-item" style="margin-bottom: 3px;"><span class="fw-bold">KATA PENGANTAR</span><span class="toc-dots"></span><span>iii</span></div>
+        <div class="toc-item" style="margin-bottom: 3px;"><span class="fw-bold">DAFTAR ISI</span><span class="toc-dots"></span><span>iv</span></div>
+
+        <div class="toc-item" style="margin-top: 6px; margin-bottom: 3px;"><span class="fw-bold">CHAPTER I - INTRODUCTION</span><span class="toc-dots"></span><span class="fw-bold">1</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>1.1 Latar Belakang Program Magang</span><span class="toc-dots"></span><span>1</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>1.2 Tujuan Program Magang</span><span class="toc-dots"></span><span>2</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>1.3 Manfaat Program Magang (Peserta, Faskes, Universitas)</span><span class="toc-dots"></span><span>3</span></div>
+
+        <div class="toc-item" style="margin-top: 6px; margin-bottom: 3px;"><span class="fw-bold">CHAPTER II - COMPANY PROFILE</span><span class="toc-dots"></span><span class="fw-bold">4</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>2.1 Sejarah Singkat Klinik Telagasari 24 Jam</span><span class="toc-dots"></span><span>4</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>2.2 Visi, Misi, dan Tujuan Organisasi</span><span class="toc-dots"></span><span>4</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>2.3 Struktur Organisasi</span><span class="toc-dots"></span><span>5</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>2.4 Aktivitas Utama Lembaga</span><span class="toc-dots"></span><span>6</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>2.5 Produk dan Layanan Medis</span><span class="toc-dots"></span><span>6</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>2.6 Tinjauan Pertumbuhan dan Tren Organisasi</span><span class="toc-dots"></span><span>6</span></div>
+
+        <div class="toc-item" style="margin-top: 6px; margin-bottom: 3px;"><span class="fw-bold">CHAPTER III - INTERNSHIP ACTIVITIES</span><span class="toc-dots"></span><span class="fw-bold">7</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>3.1 Ringkasan dan Deskripsi Tugas Magang (Job Description)</span><span class="toc-dots"></span><span>7</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>3.2 Metode Kerja dan Pendekatan Pengembangan (Tools &amp; Tech Stack)</span><span class="toc-dots"></span><span>7</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>3.3 Rancang Bangun dan Portofolio Hasil Proyek RME</span><span class="toc-dots"></span><span>8</span></div>
+        <div class="toc-item" style="padding-left: 28px; margin-bottom: 2px;"><span>Gambar 3.1: Dashboard Manajemen Statistik &amp; Pelayanan</span><span class="toc-dots"></span><span>8</span></div>
+        <div class="toc-item" style="padding-left: 28px; margin-bottom: 2px;"><span>3.3.1 Modul Data Pasien dan Pendaftaran Rawat Jalan (Gambar 3.2)</span><span class="toc-dots"></span><span>9</span></div>
+        <div class="toc-item" style="padding-left: 28px; margin-bottom: 2px;"><span>3.3.2 Modul Rekam Medis Elektronik &amp; Diagnosis ICD-10 (Gambar 3.3)</span><span class="toc-dots"></span><span>10</span></div>
+        <div class="toc-item" style="padding-left: 28px; margin-bottom: 2px;"><span>3.3.3 Modul Farmasi, Resep Dokter, dan Penjualan Apotek (Gambar 3.4)</span><span class="toc-dots"></span><span>11</span></div>
+        <div class="toc-item" style="padding-left: 28px; margin-bottom: 2px;"><span>3.3.4 Modul Kasir, Billing Pasien, dan Pembayaran (Gambar 3.5)</span><span class="toc-dots"></span><span>12</span></div>
+        <div class="toc-item" style="padding-left: 28px; margin-bottom: 2px;"><span>3.3.5 Modul Bridging Interoperabilitas (SatuSehat &amp; BPJS)</span><span class="toc-dots"></span><span>12</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>3.4 Dokumentasi Pengujian Sistem (Black Box Testing)</span><span class="toc-dots"></span><span>13</span></div>
+
+        <div class="toc-item" style="margin-top: 6px; margin-bottom: 3px;"><span class="fw-bold">CHAPTER IV - PERSONAL RESULT / EVALUATION / POINTS LEARNED</span><span class="toc-dots"></span><span class="fw-bold">14</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>4.1 Evaluasi Kemanfaatan Magang</span><span class="toc-dots"></span><span>14</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>4.2 Pemahaman Teori Akademis dalam Penerapan Praktis</span><span class="toc-dots"></span><span>14</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>4.3 Keterampilan Teknis dan Keilmuan Baru yang Diperoleh</span><span class="toc-dots"></span><span>14</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>4.4 Identifikasi Kekuatan dan Kelemahan Diri</span><span class="toc-dots"></span><span>15</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>4.5 Pengaruh Magang terhadap Pertumbuhan Pribadi</span><span class="toc-dots"></span><span>15</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>4.6 Dampak terhadap Rencana Karir Masa Depan</span><span class="toc-dots"></span><span>15</span></div>
+
+        <div class="toc-item" style="margin-top: 6px; margin-bottom: 3px;"><span class="fw-bold">CHAPTER V - RECOMMENDATIONS</span><span class="toc-dots"></span><span class="fw-bold">16</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>5.1 Rekomendasi untuk Klinik Telagasari 24 Jam</span><span class="toc-dots"></span><span>16</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>5.2 Rekomendasi untuk Horizon University Indonesia</span><span class="toc-dots"></span><span>16</span></div>
+
+        <div class="toc-item" style="margin-top: 6px; margin-bottom: 3px;"><span class="fw-bold">APPENDICES AND PROOF OF INTERNSHIP ACTIVITY</span><span class="toc-dots"></span><span class="fw-bold">17</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>Lampiran 1: Rekapitulasi Laporan Kemajuan Mingguan (Narrative Weekly Report)</span><span class="toc-dots"></span><span>17</span></div>
+        <div class="toc-item" style="padding-left: 14px; margin-bottom: 2px;"><span>Lampiran 2: Ringkasan Portofolio Fitur Sistem yang Dibangun</span><span class="toc-dots"></span><span>18</span></div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- CHAPTER I - INTRODUCTION                                 -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 20px;">
+        <h1 class="chapter-title">CHAPTER I<br>INTRODUCTION</h1>
+        <div class="divider"></div>
+
+        <h2 class="section-title">1.1 Latar Belakang Program Magang</h2>
+        <p>Perkembangan teknologi informasi saat ini telah merevolusi hampir seluruh sendi kehidupan modern, tidak terkecuali pada sektor pelayanan kesehatan (<em>healthcare services</em>). Fasilitas Kesehatan Tingkat Pertama (FKTP) seperti klinik pratama swasta dituntut untuk mampu memberikan pelayanan medis yang prima, cepat, akurat, dan transparan. Tuntutan digitalisasi ini diperkuat dengan regulasi resmi pemerintah Republik Indonesia melalui <strong>Peraturan Menteri Kesehatan (Permenkes) No. 24 Tahun 2022</strong> yang mewajibkan seluruh fasilitas pelayanan kesehatan di Indonesia untuk beralih menggunakan <strong>Rekam Medis Elektronik (RME)</strong> serta terhubung dengan ekosistem kesehatan digital nasional, yaitu <strong>Platform SatuSehat Kemenkes RI</strong>.</p>
+
+        <p>Fakultas Teknologi Informasi dan Komputer (FICT) Horizon University Indonesia menetapkan Program Magang Kerja Praktik berbobot 20 SKS sebagai bagian dari kurikulum wajib bagi mahasiswa semester akhir. Kebijakan ini dirancang secara khusus untuk menjembatani kesenjangan (<em>gap</em>) antara teori akademis di ruang kuliah dengan tantangan nyata di lingkungan industri. Melalui keterlibatan langsung di lapangan, mahasiswa ditantang untuk menerapkan keahlian rekayasa perangkat lunak, perancangan basis data, integrasi sistem, dan pemecahan masalah secara nyata.</p>
+
+        <p><strong>Klinik Telagasari 24 Jam</strong> merupakan salah satu fasilitas kesehatan swasta terkemuka di wilayah Kabupaten Karawang yang melayani pasien umum maupun peserta BPJS Kesehatan selama 24 jam nonstop. Tingginya volume kunjungan harian yang mencapai puluhan hingga ratusan pasien menuntut efisiensi operasional yang tinggi. Selama ini, sebagian proses pencatatan administrasi, peresepan obat, serta penelusuran riwayat medis pasien masih mengandalkan dokumen kertas dan arsip fisik. Hal ini menimbulkan potensi terjadinya antrean panjang di loket pendaftaran, kesulitan pencarian berkas rekam medis lama, risiko ketidaksesuaian stok obat pada instalasi farmasi, serta keterlambatan dalam pelaporan klaim penjamin.</p>
+
+        <p>Melihat kondisi tersebut, penulis memilih Klinik Telagasari 24 Jam sebagai tempat pelaksanaan program magang dengan fokus tugas merancang dan mengembangkan <strong>Sistem Informasi Manajemen Klinik dan Rekam Medis Elektronik (RME) Berbasis Web</strong>. Sistem ini dibangun dengan memanfaatkan teknologi web modern menggunakan framework Laravel, database MySQL, dan antarmuka responsif Bootstrap guna mentransformasi alur kerja konvensional menjadi sistem digital yang terintegrasi penuh.</p>
+
+        <h2 class="section-title">1.2 Tujuan Program Magang</h2>
+        <p class="no-indent">Program magang ini dilaksanakan dengan tujuan yang terbagi menjadi dua aspek utama:</p>
+        
+        <h3 class="subsection-title">1.2.1 Tujuan Teknis dan Pengembangan Sistem:</h3>
+        <ol>
+            <li>Menganalisis alur proses bisnis pelayanan klinik mulai dari antrean pendaftaran pasien rawat jalan, skrining visual, pemeriksaan rekam medis dokter, peresepan dan mutasi obat di apotek, hingga transaksi pembayaran di kasir.</li>
+            <li>Merancang struktur basis data relasional yang ternormalisasi untuk menjamin integritas, keamanan, dan kecepatan pemrosesan data rekam medis pasien.</li>
+            <li>Mengembangkan aplikasi web Rekam Medis Elektronik (RME) menggunakan arsitektur MVC (<em>Model-View-Controller</em>) pada framework Laravel.</li>
+            <li>Mengimplementasikan fitur-fitur interaktif seperti pencarian pasien cepat (<em>live autocomplete &amp; modal search</em>), e-resep dokter, kartu stok dan mutasi barang farmasi, billing kasir terpadu, dan cetak laporan resmi.</li>
+            <li>Menyiapkan fondasi modul interoperabilitas (<em>bridging</em>) dengan platform SatuSehat Kemenkes RI dan Antrean BPJS Kesehatan.</li>
+        </ol>
+
+        <h3 class="subsection-title">1.2.2 Tujuan Akademis dan Pengembangan Diri:</h3>
+        <ol>
+            <li>Menerapkan teori Rekayasa Perangkat Lunak, Basis Data Relasional, Pemrograman Web Lanjut, dan Desain UI/UX pada proyek skala enterprise di industri nyata.</li>
+            <li>Mengembangkan keterampilan komunikasi profesional, empati pengguna, dan kerja sama tim lintas departemen bersama tenaga medis dan staf administrasi faskes.</li>
+            <li>Membangun portofolio karya perangkat lunak yang fungsional, teruji, dan siap diimplementasikan untuk operasional klinik secara berkelanjutan.</li>
+        </ol>
+
+        <h2 class="section-title">1.3 Manfaat Program Magang</h2>
+        <p class="no-indent">Pelaksanaan magang ini memberikan manfaat yang signifikan bagi seluruh pihak yang terlibat:</p>
+
+        <h3 class="subsection-title">1.3.1 Manfaat bagi Peserta Magang:</h3>
+        <ul>
+            <li>Memperoleh pengalaman kerja praktis dalam memimpin siklus hidup pengembangan perangkat lunak (SDLC) dari awal hingga penerapan.</li>
+            <li>Meningkatkan penguasaan mendalam atas ekosistem PHP modern (Laravel 10/11), query SQL optimasi relasional, manipulasi asynchronous DOM (AJAX/jQuery), dan REST API.</li>
+            <li>Memperluas pemahaman regulasi standar data medis nasional (ICD-10, ICD-9-CM, HL7 FHIR SatuSehat).</li>
+        </ul>
+
+        <h3 class="subsection-title">1.3.2 Manfaat bagi Klinik Telagasari 24 Jam:</h3>
+        <ul>
+            <li>Memperoleh aplikasi SIM-Klinik dan RME yang disesuaikan secara khusus (<em>custom-built</em>) dengan kebutuhan spesifik operasional klinik setempat.</li>
+            <li>Memangkas waktu tunggu pelayanan pasien pendaftaran rawat jalan dan mempercepat proses temu-kembali riwayat penyakit pasien.</li>
+            <li>Mencegah selisih stok obat farmasi dan mempermudah pemantauan mutasi barang antar gudang serta hutang dagang kepada distributor.</li>
+            <li>Membantu klinik memenuhi kewajiban akreditasi faskes dan regulasi Permenkes No. 24 Tahun 2022.</li>
+        </ul>
+
+        <h3 class="subsection-title">1.3.3 Manfaat bagi Horizon University Indonesia:</h3>
+        <ul>
+            <li>Memperkokoh sinergi dan kemitraan strategis antara universitas dengan industri layanan kesehatan di Kabupaten Karawang.</li>
+            <li>Menjadi rujukan evaluasi kurikulum akademik di Fakultas Teknologi Informasi dan Komputer (FICT) agar senantiasa mutakhir dan sesuai kebutuhan dunia kerja.</li>
+        </ul>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- CHAPTER II - COMPANY PROFILE                             -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 20px;">
+        <h1 class="chapter-title">CHAPTER II<br>COMPANY PROFILE</h1>
+        <div class="divider"></div>
+
+        <h2 class="section-title">2.1 Sejarah Singkat Klinik Telagasari 24 Jam</h2>
+        <p><strong>Klinik Telagasari 24 Jam</strong> didirikan di wilayah Kecamatan Telagasari, Kabupaten Karawang, Jawa Barat, dengan tekad utama menghadirkan fasilitas kesehatan tingkat pertama yang siap melayani masyarakat sepanjang waktu tanpa jeda. Sebelum kehadiran klinik ini, warga di sekitar Telagasari dan pedesaan sekitarnya sering mengalami kendala akses kesehatan gawat darurat atau pemeriksaan medis di malam hari tanpa harus menempuh perjalanan jauh ke pusat kota Karawang.</p>
+
+        <p>Bermula dari penyediaan layanan praktik medis dasar, klinik ini terus berkembang dan resmi beroperasi sebagai Fasilitas Kesehatan Tingkat Pertama (FKTP) swasta yang bekerja sama dengan BPJS Kesehatan dengan nomor kode faskes <strong>0115B064</strong>. Fasilitas yang tersedia terus ditingkatkan mencakup instalasi gawat darurat dasar, rawat jalan poli umum, poli gigi dan mulut, poli kebidanan dan kandungan (KIA), laboratorium diagnostik cepat, serta instalasi farmasi 24 jam. Keberadaan Klinik Telagasari 24 Jam telah menjadi tumpuan penting dalam menjaga derajat kesehatan ribuan warga di wilayah kerjanya.</p>
+
+        <h2 class="section-title">2.2 Visi, Misi, dan Tujuan Organisasi</h2>
+        <p class="no-indent">Sebagai panduan moral dan operasional dalam memberikan pelayanan kesehatan, Klinik Telagasari 24 Jam memiliki visi, misi, dan tujuan sebagai berikut:</p>
+
+        <h3 class="subsection-title">Visi:</h3>
+        <p><em>"Menjadi Fasilitas Pelayanan Kesehatan Tingkat Pertama yang terpercaya, unggul, humanis, dan terdepan dalam pelayanan kesehatan 24 jam berbasis teknologi modern di Kabupaten Karawang."</em></p>
+
+        <h3 class="subsection-title">Misi:</h3>
+        <ol>
+            <li>Memberikan pelayanan kesehatan yang cepat, tepat, ramah, dan bermutu tinggi kepada seluruh lapisan masyarakat tanpa diskriminasi selama 24 jam sehari.</li>
+            <li>Menyediakan tenaga dokter, perawat, bidan, dan apoteker yang kompeten, beretika luhur, dan berorientasi pada keselamatan pasien (<em>patient safety</em>).</li>
+            <li>Mengembangkan sarana prasarana modern, kelengkapan obat-obatan farmasi, dan pemeriksaan penunjang yang terjangkau.</li>
+            <li>Menerapkan tata kelola manajemen faskes yang transparan dan akuntabel melalui implementasi Sistem Informasi Manajemen Klinik dan Rekam Medis Elektronik (RME) yang terintegrasi.</li>
+        </ol>
+
+        <h3 class="subsection-title">Tujuan:</h3>
+        <p>Meningkatkan derajat kesehatan masyarakat secara holistik, menurunkan angka kesakitan melalui deteksi dini pada layanan rawat jalan, serta memberikan kepuasan maksimal kepada pasien dan keluarga melalui pelayanan administrasi yang cepat dan transparan.</p>
+
+        <h2 class="section-title">2.3 Struktur Organisasi</h2>
+        <p class="no-indent">Struktur kepemimpinan dan manajerial pada Klinik Telagasari 24 Jam disusun secara profesional guna memastikan alur koordinasi pelayanan medis berjalan lancar:</p>
+
+        <ol>
+            <li><strong>Pimpinan Klinik / Direktur Medis:</strong> Memimpin arah strategis, penjaminan mutu faskes, serta kebijakan kepatuhan hukum dan perizinan klinik.</li>
+            <li><strong>Dokter Penanggung Jawab Pelayanan (DPJP):</strong> Mengoordinasikan standar operasional prosedur (SOP) pemeriksaan klinis pada Poli Umum dan Poli Gigi.</li>
+            <li><strong>Koordinator Keperawatan &amp; Pelayanan Pasien:</strong> Membawahi staf perawat dan bidan dalam penyelenggaraan triase gawat darurat, skrining pasien, asuhan keperawatan, dan KIA.</li>
+            <li><strong>Instalasi Farmasi &amp; Gudang Obat:</strong> Dikelola oleh Apoteker Penanggung Jawab dan Tenaga Teknis Kefarmasian (TTK) yang bertugas dalam pengadaan logistik, penerimaan faktur dari distributor, pengelolaan stok gudang, mutasi barang ke depo, dan peracikan e-resep.</li>
+            <li><strong>Unit Administrasi &amp; Kasir (Billing):</strong> Bertanggung jawab atas pencatatan pembayaran pasien umum, verifikasi klaim BPJS, pembukuan kas harian, dan penerbitan kuitansi.</li>
+            <li><strong>Unit Rekam Medis &amp; Pendaftaran (Front-Office):</strong> Bertugas melayani registrasi pasien baru/lama, pemanggilan antrean, dan pengelolaan arsip berkas pasien.</li>
+            <li><strong>Divisi IT &amp; Sistem Informasi:</strong> Mengelola pemeliharaan jaringan LAN, server database lokal, keamanan data medis, dan pengembangan aplikasi Rekam Medis Elektronik.</li>
+        </ol>
+
+        <h2 class="section-title">2.4 Aktivitas Utama Lembaga</h2>
+        <p>Aktivitas harian klinik difokuskan pada pemberian pelayanan kesehatan kuratif, preventif, dan rehabilitatif tingkat pertama. Setiap harinya, klinik melayani pendaftaran rawat jalan, pemeriksaan tanda vital oleh perawat, konsultasi dan penegakan diagnosis oleh dokter, tindakan medis sederhana (hecting luka, nebulizer, injeksi), pemeriksaan darah rutin laboratorium, penyerahan obat di apotek, serta pembayaran kasir.</p>
+
+        <h2 class="section-title">2.5 Produk dan Layanan Medis</h2>
+        <ul>
+            <li><strong>Poli Umum 24 Jam:</strong> Pemeriksaan penyakit umum dewasa dan anak oleh dokter umum bersertifikasi.</li>
+            <li><strong>Poli Gigi dan Mulut:</strong> Penambalan gigi, pencabutan, pembersihan karang gigi (scaling), dan konsultasi oral.</li>
+            <li><strong>Poli Kesehatan Ibu dan Anak (KIA):</strong> Pemeriksaan kehamilan (ANC), nifas (PNC), imunisasi dasar bayi, dan kontrasepsi KB.</li>
+            <li><strong>Laboratorium Cepat:</strong> Uji gula darah, kolesterol, asam urat, hemoglobin, tes kehamilan, dan tes urine.</li>
+            <li><strong>Instalasi Farmasi 24 Jam:</strong> Penyediaan obat resep paten/generik, obat racikan puyer/kapsul/sirup, dan alat kesehatan habis pakai.</li>
+            <li><strong>Layanan Surat Keterangan Medis:</strong> Surat Sehat, Surat Sakit, dan Rujukan Faskes Lanjutan.</li>
+        </ul>
+
+        <h2 class="section-title">2.6 Tinjauan Pertumbuhan dan Tren Organisasi</h2>
+        <p>Dalam kurun waktu tiga tahun terakhir, Klinik Telagasari 24 Jam mencatat pertumbuhan volume pasien yang signifikan dengan rata-rata 100 kunjungan per hari. Menghadapi era transformasi kesehatan digital, klinik berkomitmen meninggalkan sistem kertas manual dan bertransformasi penuh ke Rekam Medis Elektronik berbasis web yang aman, terintegrasi, dan responsif.</p>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- CHAPTER III - INTERNSHIP ACTIVITIES                      -->
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+    <!-- CHAPTER III - INTERNSHIP ACTIVITIES                      -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 15px; font-size: 10.5pt; line-height: 1.35;">
+        <h1 class="chapter-title" style="margin-bottom: 12px;">CHAPTER III<br>INTERNSHIP ACTIVITIES</h1>
+        <div class="divider" style="margin: 6px 0 16px 0;"></div>
+
+        <h2 class="section-title" style="margin-top: 10px; margin-bottom: 6px;">3.1 Ringkasan dan Deskripsi Tugas Magang (Job Description)</h2>
+        <p style="margin-bottom: 6px;">Selama 16 minggu pelaksanaan magang di Klinik Telagasari 24 Jam, penulis mengemban peran sebagai <strong>Full-Stack Web Developer &amp; Healthcare IT Specialist</strong>. Penulis bertanggung jawab langsung kepada Supervisor On-Site untuk merancang, mengodekan, menguji, dan menerapkan aplikasi web <strong>Rekam Medis Elektronik (RME)</strong> yang mencakup seluruh alur front-office hingga back-office klinik.</p>
+
+        <p class="no-indent" style="margin-bottom: 4px;">Tugas pokok yang dilaksanakan meliputi:</p>
+        <ol style="margin-bottom: 8px; padding-left: 0.3in;">
+            <li style="margin-bottom: 3px;"><strong>Analisis Kebutuhan Sistem:</strong> Mengamati alur kerja di loket pendaftaran, ruang pemeriksaan, apotek, dan kasir; mengidentifikasi hambatan pada sistem lama.</li>
+            <li style="margin-bottom: 3px;"><strong>Perancangan Basis Data:</strong> Merancang tabel MySQL ternormalisasi 3NF untuk Pasien, Pendaftaran, RME, Skrining, ICD-10, ICD-9, Obat, Mutasi, Resep, Kasir, dan SatuSehat.</li>
+            <li style="margin-bottom: 3px;"><strong>Pengembangan Frontend:</strong> Menyusun tampilan antarmuka responsif menggunakan Blade Template, Bootstrap 5, FontAwesome, dan JavaScript AJAX.</li>
+            <li style="margin-bottom: 3px;"><strong>Pengembangan Backend:</strong> Membangun RESTful controller, Eloquent model, validasi data, algoritma penomoran otomatis, dan otentikasi peran pada Laravel 10/11.</li>
+            <li style="margin-bottom: 3px;"><strong>Implementasi Fitur Interaktif:</strong> Membangun live search autocomplete pasien, kalkulasi resep otomatis, transfer stok antar gudang, dan audio pemanggilan antrean.</li>
+            <li style="margin-bottom: 3px;"><strong>Pengujian &amp; Penerapan:</strong> Menguji sistem dengan metode Black Box Testing, perbaikan bug, dan pelatihan operasional kepada tenaga faskes.</li>
+        </ol>
+
+        <h2 class="section-title" style="margin-top: 10px; margin-bottom: 6px;">3.2 Metode Kerja dan Pendekatan Pengembangan (Tools &amp; Tech Stack)</h2>
+        <p style="margin-bottom: 6px;">Metode pengembangan sistem menggunakan pendekatan <strong>Agile Development</strong> dengan iterasi sprint mingguan. Setiap modul yang selesai diimplementasikan langsung didemonstrasikan kepada staf pengguna untuk evaluasi langsung.</p>
+
+        <table class="bordered" style="margin-top: 4px; margin-bottom: 6px; font-size: 9pt; line-height: 1.25;">
+            <thead>
+                <tr>
+                    <th style="width: 28%;">Komponen Teknologi</th>
+                    <th style="width: 72%;">Deskripsi dan Perangkat Lunak</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Bahasa Pemrograman</strong></td>
+                    <td>PHP versi 8.2 (Backend) dan JavaScript ES6+ (Frontend Interactivity)</td>
+                </tr>
+                <tr>
+                    <td><strong>Framework Utama</strong></td>
+                    <td>Laravel 10/11 Framework (MVC Architecture, Eloquent ORM, Blade Engine)</td>
+                </tr>
+                <tr>
+                    <td><strong>Basis Data (RDBMS)</strong></td>
+                    <td>MariaDB / MySQL dengan InnoDB Storage Engine (Foreign Keys &amp; Transactions)</td>
+                </tr>
+                <tr>
+                    <td><strong>UI Library &amp; Styling</strong></td>
+                    <td>Bootstrap 5.3, Vanilla CSS, FontAwesome 6, SweetAlert2, DataTables</td>
+                </tr>
+                <tr>
+                    <td><strong>Environment Lokal</strong></td>
+                    <td>Laragon Development Environment (Apache Web Server, PHP 8.2, MySQL 8.0)</td>
+                </tr>
+                <tr>
+                    <td><strong>Development Tools</strong></td>
+                    <td>Visual Studio Code, Git Version Control, Postman API Client, Chrome DevTools</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Page Break ke Subbab 3.3 Dashboard (Page 13) -->
+        <div class="page-break"></div>
+
+        <h2 class="section-title" style="margin-top: 10px;">3.3 Rancang Bangun dan Portofolio Hasil Proyek RME</h2>
+        <p class="no-indent" style="margin-bottom: 8px;">Berikut adalah penjabaran modul-modul fungsional yang telah berhasil dibangun dan diterapkan pada Klinik Telagasari 24 Jam:</p>
+
+        <div class="figure-card">
+            <img src="laporan_images/img1_dashboard.png" alt="Dashboard Klinik Telagasari 24 Jam">
+            <div class="caption">Gambar 3.1: Antarmuka Dashboard Manajemen Statistik &amp; Pelayanan Klinik Telagasari 24 Jam</div>
+        </div>
+
+        <p style="margin-bottom: 12px;">Halaman Dashboard Utama (Gambar 3.1) menyajikan ringkasan operasional harian faskes secara <em>real-time</em>, meliputi akumulasi jumlah pasien harian dan bulanan, resep obat yang dilayani, uji laboratorium diagnostik cepat, indikator status integrasi BPJS Kesehatan dan SatuSehat Kemenkes RI, serta navigasi tombol pintas cepat menuju seluruh modul operasional faskes.</p>
+
+        <p>Dengan adanya dashboard terpusat ini, pihak manajemen dan kepala klinik dapat memantau produktivitas pelayanan medis, lonjakan antrean poli, dan performa keuangan klinik secara langsung tanpa harus menunggu rekapitulasi manual di akhir hari.</p>
+
+        <!-- Page Break ke Subbab 3.3.1 Modul Data Pasien (Page 14) -->
+        <div class="page-break"></div>
+
+        <h3 class="subsection-title" style="margin-top: 10px; font-size: 13pt;">3.3.1 Modul Data Pasien dan Pendaftaran Rawat Jalan</h3>
+        <p style="margin-bottom: 8px;">Modul pendaftaran rawat jalan (<code>/pendaftaran-rajal</code> dan <code>/pendaftaran/create</code>) dirancang untuk meminimalkan waktu tunggu pasien di loket admisi. Pada Gambar 3.2 disajikan antarmuka Master Data Pasien yang memuat nomor rekam medis unik, NIK, nomor kartu BPJS (KIS), data demografi domisili, dan status aktif pasien.</p>
+
+        <div class="figure-card">
+            <img src="laporan_images/img2_pasien.png" alt="Modul Data Pasien">
+            <div class="caption">Gambar 3.2: Antarmuka Modul Master Data Pasien dan Rekam Medis</div>
+        </div>
+
+        <ul style="font-size: 10pt; line-height: 1.4; margin-bottom: 10px;">
+            <li style="margin-bottom: 4px;"><strong>Pencarian Cepat Pasien (Dual-Mode Search):</strong> Pengguna dapat langsung mengetikkan nama, No. RM, NIK, atau No. BPJS pada kolom `Pilih Pasien` (live autocomplete dropdown) atau menekan tombol `[ Cari ]` untuk membuka modal popup pencarian tabel pasien dengan filter dinamis.</li>
+            <li style="margin-bottom: 4px;"><strong>Penomoran Otomatis:</strong> Generator otomatis untuk Nomor Rekam Medis (No. RM) berformat unik, Nomor Registrasi Rawat Jalan harian (<code>RGyymmddxxxx</code>), dan Nomor Antrean Poliklinik.</li>
+            <li style="margin-bottom: 4px;"><strong>Panggil Antrean Audio:</strong> Fitur pemanggilan nomor antrean pasien secara otomatis melalui audio browser menuju poliklinik tujuan.</li>
+        </ul>
+
+        <!-- Page Break ke Subbab 3.3.2 Modul ICD-10 (Page 15) -->
+        <div class="page-break"></div>
+
+        <h3 class="subsection-title" style="margin-top: 10px; font-size: 13pt;">3.3.2 Modul Rekam Medis Elektronik (RME) &amp; Diagnosis ICD-10</h3>
+        <p style="margin-bottom: 8px;">Modul ini digunakan oleh dokter dan perawat dalam mendokumentasikan hasil pemeriksaan fisik, skrining tanda-tanda vital, serta penetapan diagnosis klinis standar internasional. Pada Gambar 3.3 disajikan integrasi master data diagnosis ICD-10 yang mencakup lebih dari 18.000 klasifikasi penyakit resmi Kemenkes RI.</p>
+
+        <div class="figure-card">
+            <img src="laporan_images/img3_diagnosa.png" alt="Modul Diagnosa ICD-10">
+            <div class="caption">Gambar 3.3: Antarmuka Master Data Diagnosa Standar Internasional ICD-10</div>
+        </div>
+
+        <ul style="font-size: 10pt; line-height: 1.4; margin-bottom: 10px;">
+            <li style="margin-bottom: 4px;"><strong>Skrining Visual &amp; Tanda Vital:</strong> Form input pengukuran tekanan darah sistole/diastole, suhu badan, nadi, laju respirasi, berat/tinggi badan (IMT otomatis), dan skala nyeri visual.</li>
+            <li style="margin-bottom: 4px;"><strong>Peringatan Alergi:</strong> Pencatatan tanda bahaya alergi obat yang tersorot jelas demi menjamin keselamatan pasien.</li>
+            <li style="margin-bottom: 4px;"><strong>Diagnosis &amp; Tindakan Standar:</strong> Pemilihan diagnosis primer/sekunder ICD-10 dan tindakan medis ICD-9-CM secara cepat dan akurat.</li>
+        </ul>
+
+        <!-- Page Break ke Subbab 3.3.3 Modul Farmasi & Apotek (Page 16) -->
+        <div class="page-break"></div>
+
+        <h3 class="subsection-title" style="margin-top: 10px; font-size: 13pt;">3.3.3 Modul Farmasi, Resep Dokter, dan Penjualan Apotek</h3>
+        <p style="margin-bottom: 8px;">Instalasi farmasi mengelola perputaran logistik obat, dispensing resep dokter, serta transaksi penjualan bebas kepada masyarakat umum (Gambar 3.4). Sistem mencatat nomor transaksi penjualan, identitas pelanggan, total nominal, dan pencetakan nota/laporan penjualan.</p>
+
+        <div class="figure-card">
+            <img src="laporan_images/img4_apotek.png" alt="Modul Penjualan Apotek">
+            <div class="caption">Gambar 3.4: Antarmuka Modul Transaksi Pelayanan Penjualan Apotek / Farmasi</div>
+        </div>
+
+        <ul style="font-size: 10pt; line-height: 1.4; margin-bottom: 10px;">
+            <li style="margin-bottom: 4px;"><strong>Electronic Prescription (E-Resep):</strong> Resep dokter langsung tampil pada antrean apotek secara paperless.</li>
+            <li style="margin-bottom: 4px;"><strong>Mutasi Stok Antar Gudang:</strong> Fasilitas transfer logistik obat dari Gudang Farmasi Utama ke Depo Rawat Jalan lengkap dengan approval dan histori kartu stok.</li>
+            <li style="margin-bottom: 4px;"><strong>Manajemen Batch &amp; Kadaluwarsa:</strong> Pemantauan masa kedaluwarsa obat dan kartu kontrol stok FIFO/FEFO.</li>
+        </ul>
+
+        <!-- Page Break ke Subbab 3.3.4 & 3.3.5 Modul Kasir & Bridging (Page 17) -->
+        <div class="page-break"></div>
+
+        <h3 class="subsection-title" style="margin-top: 10px; font-size: 13pt;">3.3.4 Modul Kasir, Billing Pasien, dan Pembayaran</h3>
+        <p style="margin-bottom: 8px;">Modul kasir (Gambar 3.5) mengonsolidasikan seluruh tagihan biaya pendaftaran, jasa medis dokter, tindakan, tes lab, dan obat-obatan secara terpadu. Sistem menyajikan informasi nomor registrasi, identitas pasien, klinik &amp; dokter pemeriksa, penjamin, total tagihan, status pembayaran, serta status bridging SatuSehat.</p>
+
+        <div class="figure-card">
+            <img src="laporan_images/img5_kasir.png" alt="Modul Transaksi Kasir">
+            <div class="caption">Gambar 3.5: Antarmuka Modul Transaksi Kasir dan Billing Tagihan Pasien</div>
+        </div>
+
+        <ul style="font-size: 10pt; line-height: 1.4; margin-bottom: 10px;">
+            <li style="margin-bottom: 3px;"><strong>Billing Terpadu Otomatis:</strong> Penghitungan otomatis total biaya tanpa risiko kekeliruan aritmatika manual.</li>
+            <li style="margin-bottom: 3px;"><strong>Multi-Metode Pembayaran:</strong> Mendukung pembayaran tunai (dengan hitung kembalian otomatis), QRIS, transfer bank, dan klaim BPJS.</li>
+            <li style="margin-bottom: 3px;"><strong>Cetak Kuitansi Resmi:</strong> Penerbitan bukti pembayaran resmi berlogo Klinik Telagasari 24 Jam.</li>
+        </ul>
+
+        <h3 class="subsection-title" style="margin-top: 10px; font-size: 12pt;">3.3.5 Modul Bridging Interoperabilitas (SatuSehat &amp; BPJS Kesehatan)</h3>
+        <p style="margin-bottom: 8px;">Sistem dilengkapi antarmuka bridging untuk menjamin kepatuhan regulasi Kemenkes, meliputi sinkronisasi ID IHS Pasien/Praktisi, penyiapan payload FHIR Encounter/Observation, serta penyelarasan status antrean faskes dengan sistem Antrol BPJS Kesehatan.</p>
+
+        <!-- Page Break ke Subbab 3.4 Black Box Testing (Page 18) -->
+        <div class="page-break"></div>
+
+        <h2 class="section-title" style="margin-top: 10px;">3.4 Dokumentasi Pengujian Sistem (Black Box Testing)</h2>
+        <p class="no-indent" style="margin-bottom: 8px;">Pengujian fungsionalitas aplikasi dilakukan dengan metode Black Box Testing untuk menguji fungsionalitas tombol, validasi, dan alur data:</p>
+
+        <table class="bordered" style="font-size: 9pt;">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Modul / Fitur</th>
+                    <th style="width: 35%;">Skenario Uji Coba</th>
+                    <th style="width: 25%;">Hasil yang Diharapkan</th>
+                    <th style="width: 15%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pencarian Pasien (Autocomplete)</strong></td>
+                    <td>Ketik minimal 2 huruf nama pasien pada input form registrasi rawat jalan.</td>
+                    <td>Daftar nama pasien, No RM, dan NIK muncul instan di dropdown AJAX.</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">BERHASIL</td>
+                </tr>
+                <tr>
+                    <td><strong>Modal Cari Pasien</strong></td>
+                    <td>Klik tombol `[ Cari ]`, ketik kata kunci pada kotak pencarian di modal.</td>
+                    <td>Tabel pasien terfilter dinamis, tombol Pilih mengisi data ke form registrasi.</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">BERHASIL</td>
+                </tr>
+                <tr>
+                    <td><strong>Pendaftaran Rajal Baru</strong></td>
+                    <td>Simpan pendaftaran pasien baru dengan memilih poliklinik dan dokter jaga.</td>
+                    <td>Data tersimpan di database, No Registrasi dan No Antrean terbit otomatis.</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">BERHASIL</td>
+                </tr>
+                <tr>
+                    <td><strong>E-Resep Dokter</strong></td>
+                    <td>Dokter menginput resep obat racikan dan non-racikan pada form rekam medis.</td>
+                    <td>Resep otomatis masuk ke antrean dispensing farmasi beserta rincian dosis.</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">BERHASIL</td>
+                </tr>
+                <tr>
+                    <td><strong>Mutasi Barang Farmasi</strong></td>
+                    <td>Kirim obat dari Gudang Utama ke Depo Rawat Jalan, lalu konfirmasi terima.</td>
+                    <td>Stok gudang pengirim berkurang, stok gudang penerima bertambah sesuai batch.</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">BERHASIL</td>
+                </tr>
+                <tr>
+                    <td><strong>Billing Kasir Terpadu</strong></td>
+                    <td>Pilih registrasi pasien, proses pembayaran dengan kalkulasi uang kembalian.</td>
+                    <td>Total tagihan sesuai, status periksa berubah menjadi Selesai, kuitansi tercetak.</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">BERHASIL</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- CHAPTER IV - PERSONAL RESULT / EVALUATION               -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 20px;">
+        <h1 class="chapter-title">CHAPTER IV<br>PERSONAL RESULT / EVALUATION / POINTS LEARNED</h1>
+        <div class="divider"></div>
+
+        <h2 class="section-title">4.1 Evaluasi Kemanfaatan Magang</h2>
+        <p>Program magang selama 16 minggu di Klinik Telagasari 24 Jam memberikan dampak positif yang sangat signifikan terhadap pengembangan diri dan kematangan profesional penulis. Penulis tidak hanya mendapatkan gambaran umum dunia kerja, namun dituntut menjadi pengambil keputusan teknis yang bertanggung jawab langsung atas keandalan perangkat lunak yang digunakan dalam operasional fasilitas kesehatan.</p>
+
+        <h2 class="section-title">4.2 Pemahaman Teori Akademis dalam Penerapan Praktis</h2>
+        <p>Selama menjalani tugas magang, penulis berhasil menerapkan dan memvalidasi materi-materi perkuliahan yang selama ini dipelajari di bangku kuliah Informatika Horizon University Indonesia, di antaranya:</p>
+        <ul>
+            <li><strong>Rekayasa Perangkat Lunak:</strong> Penerapan pola arsitektur MVC (<em>Model-View-Controller</em>) terbukti memisahkan logika bisnis, antarmuka, dan akses basis data dengan sangat baik, sehingga pemeliharaan dan penambahan modul baru dapat dilakukan tanpa mengganggu modul yang sudah stabil.</li>
+            <li><strong>Sistem Basis Data Relasional:</strong> Prinsip normalisasi basis data, integritas referensial (foreign keys), penggunaan indeks kolom, serta implementasi <em>database transaction</em> (<code>DB::transaction</code>) terbukti mutlak diperlukan untuk mencegah inkonsistensi stok obat saat terjadi transaksi paralel di apotek.</li>
+            <li><strong>Interaksi Manusia dan Komputer (IMK):</strong> Desain antarmuka yang baik terbukti harus mengutamakan kemudahan navigasi, kejelasan kontras warna, ukuran teks yang mudah dibaca, serta kecepatan respon (<em>responsiveness</em>) tanpa reload halaman.</li>
+        </ul>
+
+        <h2 class="section-title">4.3 Keterampilan Teknis dan Keilmuan Baru yang Diperoleh</h2>
+        <p>Program magang ini membekali penulis dengan sejumlah kompetensi industri terapan yang baru, antara lain:</p>
+        <ol>
+            <li><strong>Penguasaan Framework Laravel Tingkat Lanjut:</strong> Kemahiran dalam memanfaatkan Eloquent ORM, migrasi skema tabel dinamis, validasi data server-side tingkat lanjut, middleware otentikasi peran (RBAC), serta pembuatan custom artisan commands.</li>
+            <li><strong>Manipulasi Asynchronous DOM &amp; AJAX:</strong> Pemrograman JavaScript interaktif untuk membuat pengalaman pengguna yang mulus (SPA-like) seperti fitur autocomplete pencarian pasien dan pembaruan data tabel tanpa reload.</li>
+            <li><strong>Standar Data Kesehatan Digital:</strong> Pemahaman mendalam mengenai struktur kodefikasi diagnosis ICD-10 WHO, tindakan medis ICD-9-CM, interoperabilitas FHIR Kemenkes, serta protokol autentikasi OAuth2 pada API SatuSehat.</li>
+            <li><strong>Manajemen Logistik Kefarmasian:</strong> Memahami manajemen perputaran obat di klinik nyata, mencakup nomor batch produksi, tanggal kedaluwarsa, prinsip FIFO/FEFO, perhitungan biaya racik, serta siklus hutang dagang ke distributor.</li>
+        </ol>
+
+        <h2 class="section-title">4.4 Identifikasi Kekuatan dan Kelemahan Diri</h2>
+        <ul>
+            <li><strong>Kekuatan Diri (Strengths):</strong> Memiliki ketelitian tinggi dalam mendesain basis data, kegigihan dan ketahanan dalam mencari akar permasalahan bug kode (<em>debugging</em>), serta kemampuan komunikasi yang komunikatif saat berdiskusi dengan pengguna non-teknis.</li>
+            <li><strong>Kelemahan Diri (Areas for Improvement):</strong> Pada awal magang, penulis sempat kesulitan dalam memperkirakan estimasi waktu pengerjaan modul yang kompleks; namun, melalui bimbingan supervisor dan penerapan manajemen waktu berbasis prioritas, penulis berhasil menyelesaikan seluruh target modul tepat waktu.</li>
+        </ul>
+
+        <h2 class="section-title">4.5 Pengaruh Magang terhadap Pertumbuhan Pribadi</h2>
+        <p>Pengalaman magang ini membentuk kedisiplinan kerja, etika profesionalisme, rasa tanggung jawab sosial terhadap data medis pasien, serta kepercayaan diri penulis dalam menghadapi tantangan dunia industri perangkat lunak berskala besar.</p>
+
+        <h2 class="section-title">4.6 Dampak terhadap Rencana Karir Masa Depan</h2>
+        <p>Keterlibatan langsung dalam proyek pengembangan sistem faskes ini meyakinkan penulis untuk menetapkan jalur karir profesional sebagai <strong>Full-Stack Web Developer</strong> atau <strong>Healthcare Software Engineer</strong> setelah menyelesaikan studi sarjana di Horizon University Indonesia.</p>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- CHAPTER V - RECOMMENDATIONS (Pas 1 Halaman Rapi)         -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 15px; font-size: 10.5pt; line-height: 1.35;">
+        <h1 class="chapter-title" style="margin-bottom: 12px;">CHAPTER V<br>RECOMMENDATIONS</h1>
+        <div class="divider" style="margin: 8px 0 16px 0;"></div>
+
+        <h2 class="section-title" style="margin-top: 10px; margin-bottom: 6px;">5.1 Rekomendasi untuk Klinik Telagasari 24 Jam</h2>
+        <p class="no-indent" style="margin-bottom: 6px;">Berdasarkan hasil observasi dan implementasi sistem selama masa magang, penulis menyampaikan beberapa rekomendasi strategis demi kemajuan faskes:</p>
+
+        <ol style="margin-bottom: 10px;">
+            <li style="margin-bottom: 4px;"><strong>Penerapan Sistem Cadangan Otomatis Berbasis Cloud (Automated Backup):</strong>  
+                Disarankan agar manajemen klinik melengkapi server lokal dengan skrip otomatis yang mencadangkan dan mengenkripsi database rekam medis setiap hari ke media penyimpanan awan (seperti Google Cloud Storage atau AWS S3) guna mengantisipasi risiko kerusakan perangkat keras server lokal.</li>
+            <li style="margin-bottom: 4px;"><strong>Optimalisasi Infrastruktur Jaringan Lokal (LAN):</strong>  
+                Operasional 24 jam dengan lalu lintas data medis yang intensif membutuhkan jaringan lokal yang stabil. Disarankan penggunaan gigabit switch dan penataan kabel jaringan terpilin (Cat6) serta penyediaan koneksi internet cadangan (<em>backup ISP</em>) untuk menjamin kelancaran bridging SatuSehat dan BPJS.</li>
+            <li style="margin-bottom: 4px;"><strong>Pelatihan Penggunaan Sistem Secara Berkelanjutan (Refresher Training):</strong>  
+                Perlu diadakan sesi pelatihan berkala bagi tenaga medis atau perawat baru yang bertugas agar pemanfaatan form RME, input skrining, dan peresepan obat tetap konsisten dan terhindar dari kesalahan pencatatan.</li>
+        </ol>
+
+        <h2 class="section-title" style="margin-top: 12px; margin-bottom: 6px;">5.2 Rekomendasi untuk Program Studi Informatika &amp; Horizon University Indonesia</h2>
+        <ol style="margin-bottom: 8px;">
+            <li style="margin-bottom: 4px;"><strong>Penyelarasan Kurikulum Praktikum Berbasis Kasus Industri Riil:</strong>  
+                Disarankan agar praktikum mata kuliah Pemrograman Web dan Rekayasa Perangkat Lunak memperbanyak studi kasus riil (seperti sistem informasi klinik, ERP inventori, dan logistik pergudangan) menggunakan framework populer seperti Laravel, sehingga mahasiswa memiliki kesiapan teknis yang lebih tinggi saat magang.</li>
+            <li style="margin-bottom: 4px;"><strong>Workshop Standar Integrasi API dan Keamanan Data Kesehatan:</strong>  
+                Penyelenggaraan seminar atau kuliah praktis mengenai standar interoperabilitas data (seperti RESTful API FHIR, OAuth2, enkripsi database) akan sangat bermanfaat untuk mempersiapkan mahasiswa menghadapi era transformasi digital kesehatan nasional.</li>
+            <li style="margin-bottom: 4px;"><strong>Digitalisasi Terpusat Sistem Pelaporan Magang:</strong>  
+                Disarankan agar pengumpulan laporan mingguan dan evaluasi kinerja pembimbing lapangan dapat terintegrasi sepenuhnya dalam portal web terpusat universitas, sehingga proses monitoring kemajuan mahasiswa dapat terpantau secara real-time dan paperless.</li>
+        </ol>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- APPENDICES AND PROOF OF INTERNSHIP ACTIVITY              -->
+    <!-- ======================================================== -->
+    <div class="page" style="padding-top: 20px;">
+        <h1 class="chapter-title">APPENDICES AND PROOF OF INTERNSHIP ACTIVITY</h1>
+        <div class="divider"></div>
+
+        <h2 class="section-title">Lampiran 1: Rekapitulasi Laporan Kemajuan Mingguan (Narrative Weekly Report)</h2>
+        <p class="no-indent" style="font-size: 10pt; margin-bottom: 8px;">
+            Mahasiswa: <strong>Agus Haryanto</strong> (NIM: <strong>4337855201230051</strong>) | Institusi: <strong>Klinik Telagasari 24 Jam</strong><br>
+            <em>*Status Progres: Pelaksanaan Bulan ke-1 &amp; Bulan ke-2 (Realisasi s.d. 30 Oktober 2026)</em>
+        </p>
+
+        <!-- Tabel 1: Realisasi Kemajuan Terlaksana (Week 1 - Week 9) -->
+        <h3 class="subsection-title" style="font-size: 10.5pt; margin-top: 10px; margin-bottom: 6px; color: #008d4c;">
+            A. Realisasi Kegiatan Magang yang Telah Terlaksana (Bulan September – Oktober 2026)
+        </h3>
+        <table class="bordered" style="font-size: 8.5pt;">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">Minggu</th>
+                    <th style="width: 15%;">Periode</th>
+                    <th style="width: 44%;">Ringkasan Tugas &amp; Aktivitas Utama</th>
+                    <th style="width: 21%;">Kompetensi Diperoleh</th>
+                    <th style="width: 12%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center fw-bold">Week 1</td>
+                    <td>02 Sep – 06 Sep</td>
+                    <td>Orientasi lingkungan faskes, observasi alur pendaftaran pasien, instalasi farmasi, dan administrasi manual.</td>
+                    <td>Analisis Bisnis Faskes</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 2</td>
+                    <td>09 Sep – 13 Sep</td>
+                    <td>Wawancara kebutuhan pengguna (dokter, perawat, apoteker, kasir), perumusan Software Requirements Specification (SRS).</td>
+                    <td>Requirements Elicitation</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 3</td>
+                    <td>16 Sep – 20 Sep</td>
+                    <td>Perancangan arsitektur basis data relasional (ERD) dan pemodelan sistem UML (Use Case, Activity, Sequence Diagram).</td>
+                    <td>Data Modeling, MySQL, UML</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 4</td>
+                    <td>23 Sep – 27 Sep</td>
+                    <td>Inisialisasi project Laravel, konfigurasi web server lokal (Laragon), pembuatan database migrations &amp; seeders master data.</td>
+                    <td>Arsitektur Laravel MVC, Git</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 5</td>
+                    <td>30 Sep – 04 Okt</td>
+                    <td>Rancang bangun modul Pendaftaran Rawat Jalan, pembuatan form input registrasi pasien dan generator No RM unik otomatis.</td>
+                    <td>Blade Templating, UI Design</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 6</td>
+                    <td>07 Okt – 11 Okt</td>
+                    <td>Pengembangan fitur pencarian cepat pasien (live autocomplete &amp; modal popup) menggunakan JavaScript dan AJAX.</td>
+                    <td>AJAX, jQuery DOM</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 7</td>
+                    <td>14 Okt – 18 Okt</td>
+                    <td>Pembangunan modul Master Pasien, Skrining Visual, dan Asesmen Awal Keperawatan (tanda vital, tanda bahaya, alergi).</td>
+                    <td>Pengolahan Data Klinis</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 8</td>
+                    <td>21 Okt – 25 Okt</td>
+                    <td>Implementasi modul Master Diagnosa ICD-10 (18.000+ kode Kemenkes), input tindakan medis ICD-9-CM, riwayat kunjungan.</td>
+                    <td>Standar Medis ICD-10/ICD-9</td>
+                    <td class="text-center fw-bold" style="color: #008d4c;">SELESAI</td>
+                </tr>
+                <tr style="background-color: #fef9c3;">
+                    <td class="text-center fw-bold">Week 9</td>
+                    <td>28 Okt – 01 Nov</td>
+                    <td>Pengembangan transaksi penjualan apotek, modul kasir awal, serta penyusunan draf bimbingan kemajuan proyek magang.</td>
+                    <td>Billing Kasir, Bimbingan Draf</td>
+                    <td class="text-center fw-bold" style="color: #b45309;">SEDANG BERJALAN</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Page Break ke Bagian B & Lampiran 2 -->
+        <div class="page-break"></div>
+
+        <!-- Tabel 2: Rencana Kerja Selanjutnya (Week 10 - Week 16) -->
+        <h3 class="subsection-title" style="font-size: 10.5pt; margin-top: 10px; margin-bottom: 6px; color: #1d4ed8;">
+            B. Rencana Kerja &amp; Roadmap Penyelesaian Proyek (Bulan November – Desember 2026)
+        </h3>
+        <table class="bordered" style="font-size: 8.5pt;">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">Minggu</th>
+                    <th style="width: 15%;">Target Periode</th>
+                    <th style="width: 52%;">Rencana Tugas &amp; Target Milestone</th>
+                    <th style="width: 25%;">Target Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center fw-bold">Week 10</td>
+                    <td>04 Nov – 08 Nov</td>
+                    <td>Penyempurnaan modul Instalasi Farmasi: peracikan e-resep dokter otomatis, kartu kontrol stok obat FIFO/FEFO.</td>
+                    <td>Fitur Dispensing Obat Siap Uji</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 11</td>
+                    <td>11 Nov – 15 Nov</td>
+                    <td>Pengembangan modul Mutasi Barang Antar Gudang (Gudang Utama ke Depo Rajal) dan verifikasi penerimaan faktur vendor.</td>
+                    <td>Siklus Inventori Terintegrasi</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 12</td>
+                    <td>18 Nov – 22 Nov</td>
+                    <td>Konsolidasi Billing Kasir Terpadu, integrasi multi-metode pembayaran (Tunai/QRIS/BPJS), dan cetak kuitansi resmi.</td>
+                    <td>Modul Pembayaran Final</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 13</td>
+                    <td>25 Nov – 29 Nov</td>
+                    <td>Konfigurasi lanjutan modul Interoperabilitas Bridging SatuSehat (Encounter/Observation) dan Antrean Online BPJS.</td>
+                    <td>Bridging API Terhubung</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 14</td>
+                    <td>02 Des – 06 Des</td>
+                    <td>Pengujian sistem menyeluruh (End-to-End Black Box Testing) dan pemecahan bug dari alur pendaftaran hingga kasir.</td>
+                    <td>Hasil Validasi &amp; QA Bersih</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 15</td>
+                    <td>09 Des – 13 Des</td>
+                    <td>Pelatihan operasional sistem (User Acceptance Testing / UAT) kepada dokter jaga, perawat, apoteker, dan kasir faskes.</td>
+                    <td>Staf Terlatih &amp; User Manual</td>
+                </tr>
+                <tr>
+                    <td class="text-center fw-bold">Week 16</td>
+                    <td>16 Des – 20 Des</td>
+                    <td>Evaluasi akhir kinerja bersama Supervisor On-Site, penyusunan laporan akhir lengkap, dan penyelesaian magang.</td>
+                    <td>Laporan Akhir Siap Sidang</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title" style="margin-top: 20px;">Lampiran 2: Ringkasan Portofolio Fitur Sistem yang Dibangun</h2>
+        <ol style="font-size: 10pt; line-height: 1.45;">
+            <li><strong>Dashboard Manajemen Statistik:</strong> Menampilkan ringkasan jumlah kunjungan pasien harian, tren poli teramai, status antrean, dan rekap pendapatan kasir.</li>
+            <li><strong>Form Pendaftaran Rawat Jalan Interaktif:</strong> Dilengkapi fitur live autocomplete pencarian pasien dan modal filter data pasien secara cepat.</li>
+            <li><strong>Daftar Registrasi Rawat Jalan:</strong> Monitoring status pelayanan pasien (Menunggu Antrian, Dalam Proses, Selesai, Batal) dan integrasi tombol panggil antrean.</li>
+            <li><strong>Form Rekam Medis Elektronik (RME):</strong> Pengisian skrining klinis, tanda vital, anamnesis, riwayat alergi, diagnosis ICD-10, tindakan ICD-9-CM, dan e-resep dokter.</li>
+            <li><strong>Modul Instalasi Farmasi &amp; Gudang:</strong> Pelacakan batch kadaluwarsa, transaksi mutasi obat antar gudang, penerimaan faktur dari distributor, dan pelunasan hutang dagang.</li>
+            <li><strong>Modul Kasir &amp; Billing Terpadu:</strong> Perhitungan otomatis invoice pembayaran, rincian diskon, kalkulasi uang kembali, dan cetak kuitansi resmi Klinik Telagasari 24 Jam.</li>
+            <li><strong>Modul Bridging SatuSehat Kemenkes:</strong> Fasilitas pencarian ID IHS Pasien dan IHS Praktisi serta persiapan bridging data medis nasional.</li>
+        </ol>
+    </div>
+
+</body>
+</html>
