@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Laporan Tindakan/Operasi</h4>
         <div style="font-size: 11.5px; color: #777;">
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <!-- Orange Divider Line (1:1 PROFASKES) -->
+    <!-- Orange Divider Line (1:1 KONHAKES) -->
     <div style="height: 2px; background-color: #f39c12; margin-top: 8px; margin-bottom: 15px;"></div>
 
     @if(session('success'))
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <!-- Table Container Card with Cyan Top Border (1:1 PROFASKES) -->
+    <!-- Table Container Card with Cyan Top Border (1:1 KONHAKES) -->
     <div style="border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; background: #fff; padding: 15px;">
         <!-- Item Count Indicator -->
         <div style="font-size: 12.5px; color: #333; margin-bottom: 12px;">

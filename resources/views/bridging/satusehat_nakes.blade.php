@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 SETTING ID SATU SEHAT TENAGA KESEHATAN */
+    /* KONHAKES 1:1 SETTING ID SATU SEHAT TENAGA KESEHATAN */
     .nakes-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .card-nakes-box {
@@ -77,7 +77,7 @@
         padding-top: 8px;
         margin-bottom: 6px;
     }
-    .profaskes-summary-text {
+    .konhakes-summary-text {
         font-size: 13px;
         color: #333;
         margin-bottom: 6px;
@@ -163,10 +163,10 @@
 </style>
 
 <div class="nakes-page">
-    <!-- Header Title & Breadcrumb (PROFASKES 1:1) -->
-    <div class="profaskes-header">
-        <h3 class="profaskes-title">Setting ID Satu Sehat Tenaga Kesehatan</h3>
-        <div class="profaskes-breadcrumb">
+    <!-- Header Title & Breadcrumb (KONHAKES 1:1) -->
+    <div class="konhakes-header">
+        <h3 class="konhakes-title">Setting ID Satu Sehat Tenaga Kesehatan</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span> <span style="color: #777;">Setting ID Satu Sehat Tenaga Kesehatan</span>
         </div>
     </div>
@@ -179,7 +179,7 @@
     </div>
     @endif
 
-    <!-- Main Card Box with Orange Top Border (PROFASKES 1:1) -->
+    <!-- Main Card Box with Orange Top Border (KONHAKES 1:1) -->
     <div class="card-nakes-box">
         <!-- Action Toolbar -->
         <div class="d-flex align-items-center gap-2 mb-2">
@@ -225,14 +225,14 @@
             </div>
         </div>
 
-        <!-- Cyan Top Border Separator & Summary (PROFASKES 1:1) -->
+        <!-- Cyan Top Border Separator & Summary (KONHAKES 1:1) -->
         <div class="cyan-table-header">
-            <div class="profaskes-summary-text">
+            <div class="konhakes-summary-text">
                 Menampilkan <b>{{ $nakes->firstItem() ?? 1 }}-{{ $nakes->lastItem() ?? $nakes->count() }}</b> dari <b>{{ $nakes->total() }}</b> item.
             </div>
         </div>
 
-        <!-- Table Grid (PROFASKES 1:1) -->
+        <!-- Table Grid (KONHAKES 1:1) -->
         <div class="table-responsive">
             <table class="table-satusehat-nakes">
                 <thead>
@@ -293,7 +293,7 @@
             </table>
         </div>
 
-        <!-- Pagination (PROFASKES 1:1) -->
+        <!-- Pagination (KONHAKES 1:1) -->
         <div class="d-flex justify-content-between align-items-center mt-2">
             <div class="small text-muted">
                 Halaman {{ $nakes->currentPage() }} dari {{ $nakes->lastPage() }}

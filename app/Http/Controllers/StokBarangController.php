@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class StokBarangController extends Controller
 {
     /**
-     * Display listing of stocks per warehouse (PROFASKES Screenshot 1 & 4).
+     * Display listing of stocks per warehouse (KONHAKES Screenshot 1 & 4).
      */
     public function index(Request $request)
     {
@@ -83,7 +83,7 @@ class StokBarangController extends Controller
     }
 
     /**
-     * Form Tambah Stok Awal Per Gudang (PROFASKES Screenshot 2).
+     * Form Tambah Stok Awal Per Gudang (KONHAKES Screenshot 2).
      */
     public function createStokAwal(Request $request)
     {
@@ -161,7 +161,7 @@ class StokBarangController extends Controller
     }
 
     /**
-     * Form Transaksi Penyesuaian Barang (PROFASKES Screenshot 3).
+     * Form Transaksi Penyesuaian Barang (KONHAKES Screenshot 3).
      */
     public function createAdjustment(Request $request)
     {

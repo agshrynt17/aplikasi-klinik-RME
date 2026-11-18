@@ -405,11 +405,23 @@
             <h3 class="login-title">Login Aplikasi</h3>
             <p class="login-box-msg">Masukan akun terdaftar untuk login</p>
 
-            <form id="login-form" action="/dashboard" method="GET">
+            @if ($errors->any())
+                <div class="alert alert-danger py-2 mb-3" style="font-size: 13px; border-radius: 4px;">
+                    <i class="fas fa-exclamation-triangle me-1"></i> {{ $errors->first() }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger py-2 mb-3" style="font-size: 13px; border-radius: 4px;">
+                    <i class="fas fa-exclamation-circle me-1"></i> {{ session('error') }}
+                </div>
+            @endif
+
+            <form id="login-form" action="/login" method="POST">
+                @csrf
                 
                 <!-- Email / Username -->
                 <div class="form-group">
-                    <input type="text" id="loginform-email" class="form-control" name="LoginForm[email]" autocomplete="off" placeholder="Email / Username" value="admin" required>
+                    <input type="text" id="loginform-email" class="form-control" name="LoginForm[email]" autocomplete="off" placeholder="Email / Username" value="{{ old('LoginForm.email') }}" required>
                     <span class="form-control-feedback">
                         <i class="far fa-envelope"></i>
                     </span>
@@ -417,7 +429,7 @@
 
                 <!-- Password -->
                 <div class="form-group">
-                    <input type="password" id="loginform-password" class="form-control" name="LoginForm[password]" autocomplete="off" placeholder="Password" value="admin" required>
+                    <input type="password" id="loginform-password" class="form-control" name="LoginForm[password]" autocomplete="off" placeholder="Password" value="" required>
                     <span class="form-control-feedback">
                         <i class="fas fa-lock"></i>
                     </span>
@@ -431,7 +443,7 @@
                             <canvas id="captchaCanvas" width="115" height="38"></canvas>
                         </div>
                         <div style="flex-grow: 1;">
-                            <input type="text" id="loginform-verifycode" class="form-control" style="height: 40px;" name="LoginForm[verifyCode]" placeholder="Kode verifikasi" required>
+                            <input type="text" id="loginform-verifycode" class="form-control" style="height: 40px;" name="LoginForm[verifyCode]" placeholder="Kode verifikasi" autocomplete="off" required>
                         </div>
                     </div>
                     <p class="captcha-hint">
@@ -441,7 +453,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-login-submit" name="login-button" id="btnSubmit">
-                    Login
+                    <i class="fas fa-sign-in-alt me-1"></i> Masuk Aplikasi
                 </button>
 
                 <!-- Forgot Password -->
@@ -458,7 +470,7 @@
         <div class="box-footer">
             &copy; 2026 Support By <a href="/">Klinik Telagasari 24 Jam</a><br>
             email : info@kliniktelagasari.com <br>
-            hotline w.a : (+62)812-2580-80
+            hotline w.a : (+62)812-8888-2026 (Konhakes)
         </div>
 
     </div>
@@ -485,10 +497,6 @@
                 currentCaptcha = '';
                 for (let i = 0; i < 6; i++) {
                     currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-
-                if (verifyInput && !verifyInput.value) {
-                    verifyInput.value = currentCaptcha;
                 }
 
                 // Add wavy noise lines
@@ -529,14 +537,24 @@
             if (captchaWrap) {
                 captchaWrap.addEventListener('click', function () {
                     generateCaptcha();
-                    if (verifyInput) verifyInput.value = currentCaptcha;
+                    if (verifyInput) {
+                        verifyInput.value = '';
+                        verifyInput.focus();
+                    }
                 });
             }
 
-            // Form Submit to /dashboard
+            // Form Submit handler
             const loginForm = document.getElementById('login-form');
             if (loginForm) {
                 loginForm.addEventListener('submit', function (e) {
+                    if (verifyInput && verifyInput.value.toLowerCase() !== currentCaptcha.toLowerCase()) {
+                        e.preventDefault();
+                        alert('Kode verifikasi captcha tidak cocok. Silakan coba lagi.');
+                        generateCaptcha();
+                        verifyInput.focus();
+                        return false;
+                    }
                     return true;
                 });
             }

@@ -7,7 +7,7 @@ use App\Models\Pendaftaran;
 use App\Models\SurveiKepuasan;
 use App\Models\Poliklinik;
 use App\Models\Penjamin;
-use Database\Seeders\PendaftaranProfaskesSeeder;
+use Database\Seeders\PendaftaranKonhakesSeeder;
 use Illuminate\Http\Request;
 
 class SurveiKepuasanController extends Controller
@@ -17,7 +17,7 @@ class SurveiKepuasanController extends Controller
         // Pastikan ada data pendaftaran jika kosong
         if (Pendaftaran::count() === 0) {
             try {
-                (new PendaftaranProfaskesSeeder())->run();
+                (new PendaftaranKonhakesSeeder())->run();
             } catch (\Throwable $e) {}
         }
 

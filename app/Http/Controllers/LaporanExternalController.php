@@ -222,7 +222,7 @@ class LaporanExternalController extends Controller
             ]);
         }
 
-        // Jika data dari DB kosong, gunakan data sampel PROFASKES (persis dari screenshot)
+        // Jika data dari DB kosong, gunakan data sampel KONHAKES (persis dari screenshot)
         if ($data_gea->isEmpty() && $minDate <= '2026-10-01' && $maxDate >= '2026-10-01') {
             $data_gea = collect([
                 [
@@ -504,7 +504,7 @@ class LaporanExternalController extends Controller
             }
         }
 
-        // Jika data dari DB kosong, gunakan data sampel PROFASKES (persis dari screenshot)
+        // Jika data dari DB kosong, gunakan data sampel KONHAKES (persis dari screenshot)
         if ($data_kunjungan->isEmpty() && $minDate <= '2026-10-01' && $maxDate >= '2026-10-01') {
             $data_kunjungan = collect([
                 [
@@ -701,7 +701,7 @@ class LaporanExternalController extends Controller
         $tglAwalFormatted = date('d-m-Y', strtotime($tglAwal));
         $tglAkhirFormatted = date('d-m-Y', strtotime($tglAkhir));
 
-        // Master Data Sampel Diagnosa Terbanyak (1:1 PROFASKES)
+        // Master Data Sampel Diagnosa Terbanyak (1:1 KONHAKES)
         $masterDiagnosaList = collect([
             [
                 'no' => 1,
@@ -1163,7 +1163,7 @@ class LaporanExternalController extends Controller
                 }
             }
 
-            // Jika DB kosong untuk kelompok diagnosa ini pada periode filter, berikan data sampel realistis PROFASKES
+            // Jika DB kosong untuk kelompok diagnosa ini pada periode filter, berikan data sampel realistis KONHAKES
             if ($data_kunjungan->isEmpty()) {
                 $sampleDataMap = [
                     'Infeksi Saluran Pernapasan Atas (ISPA)' => [
@@ -1533,7 +1533,7 @@ class LaporanExternalController extends Controller
         $listKlinik = Poliklinik::where('is_active', true)->pluck('nama_poli', 'id')->toArray();
         $listPenjamin = Penjamin::where('is_active', true)->pluck('nama_penjamin', 'id')->toArray();
 
-        // 31 Penyakit Standar LB1 / PROFASKES
+        // 31 Penyakit Standar LB1 / KONHAKES
         $masterPenyakit = [
             'Anemia' => ['anemia', 'd50', 'd64', 'kurang darah'],
             'Ano-rectal' => ['ano-rectal', 'anorectal', 'k60', 'k61', 'k62', 'fissura ani', 'fistula ani', 'hemoroid', 'wasir', 'i84'],
@@ -1568,7 +1568,7 @@ class LaporanExternalController extends Controller
             'Tuberculosis Paru (TBC)' => ['tbc', 'tuberculosis', 'tb paru', 'a15', 'a16']
         ];
 
-        // Struktur baseline data PROFASKES sesuai screenshot untuk Oktober 2026
+        // Struktur baseline data KONHAKES sesuai screenshot untuk Oktober 2026
         $baselineData = [
             'Anemia' => ['lama_l' => 8, 'lama_p' => 35],
             'Ano-rectal' => ['lama_l' => 24, 'lama_p' => 17],
@@ -1890,7 +1890,7 @@ class LaporanExternalController extends Controller
         $listKlinik = Poliklinik::orderBy('nama_poli')->get();
         $listPenjamin = Penjamin::orderBy('nama_penjamin')->get();
 
-        // Baseline screenshot data (from live PROFASKES 1:1)
+        // Baseline screenshot data (from live KONHAKES 1:1)
         $baselineData = collect([
             [
                 'tgl_jam' => '2026-10-14 07:02:17',

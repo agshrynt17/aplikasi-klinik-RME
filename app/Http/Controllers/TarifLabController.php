@@ -23,7 +23,7 @@ class TarifLabController extends Controller
         }
 
         $totalCount = $query->count();
-        // Sesuai screenshot PROFASKES menampilkan 9 penjamin
+        // Sesuai screenshot KONHAKES menampilkan 9 penjamin
         $data = $query->orderBy('kode_penjamin', 'asc')->get();
 
         $labs = MasterLab::where('is_active', true)->orderBy('nama_pemeriksaan')->get();

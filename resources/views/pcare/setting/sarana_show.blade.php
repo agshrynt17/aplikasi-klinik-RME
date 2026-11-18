@@ -6,27 +6,27 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover { text-decoration: underline; }
+    .konhakes-breadcrumb a:hover { text-decoration: underline; }
     .table-detail-prof {
         width: 100%;
         font-size: 13px;
@@ -45,9 +45,9 @@
 </style>
 
 <div class="pcare-page">
-    <div class="profaskes-header">
-        <h3 class="profaskes-title">Detail Sarana</h3>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h3 class="konhakes-title">Detail Sarana</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a>
             <span style="color:#777; margin:0 5px;">&nbsp;</span>
             <a href="/pcare-sarana/index">Bridging PCare - Setting Data Sarana</a>

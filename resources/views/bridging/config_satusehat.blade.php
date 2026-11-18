@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 SETTING ACCESS KEY SATU SEHAT */
+    /* KONHAKES 1:1 SETTING ACCESS KEY SATU SEHAT */
     .satusehat-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .alert-callout-orange {
@@ -43,7 +43,7 @@
         color: #ffffff;
         text-decoration: underline;
     }
-    .profaskes-summary-text {
+    .konhakes-summary-text {
         font-size: 13px;
         color: #333;
         margin-bottom: 8px;
@@ -170,10 +170,10 @@
 </style>
 
 <div class="satusehat-page">
-    <!-- Header Title & Breadcrumb (PROFASKES 1:1) -->
-    <div class="profaskes-header">
-        <h3 class="profaskes-title">Setting Access Key Satu Sehat</h3>
-        <div class="profaskes-breadcrumb">
+    <!-- Header Title & Breadcrumb (KONHAKES 1:1) -->
+    <div class="konhakes-header">
+        <h3 class="konhakes-title">Setting Access Key Satu Sehat</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span> <span style="color: #777;">Setting Access Key Satu Sehat</span>
         </div>
     </div>
@@ -186,17 +186,17 @@
     </div>
     @endif
 
-    <!-- Yellow / Orange Banner Notice (PROFASKES 1:1) -->
+    <!-- Yellow / Orange Banner Notice (KONHAKES 1:1) -->
     <div class="alert-callout-orange">
         Data Acces Key yang didaftarkan harus dalam mode <strong>Production</strong>. Jika ingin melihat data Acces API satu sehat klinik anda silakan lihat pada website satu sehat <a href="https://satusehat.kemkes.go.id/platform" target="_blank">https://satusehat.kemkes.go.id/platform</a>
     </div>
 
     <!-- Subtitle Summary -->
-    <div class="profaskes-summary-text">
+    <div class="konhakes-summary-text">
         Menampilkan <b>1-{{ count($settings) }}</b> dari <b>{{ count($settings) }}</b> item.
     </div>
 
-    <!-- Setting Access Table (PROFASKES 1:1) -->
+    <!-- Setting Access Table (KONHAKES 1:1) -->
     <div class="table-responsive" style="border: none;">
         <table class="table-satusehat-grid">
             <thead>
@@ -228,7 +228,7 @@
         </table>
     </div>
 
-    <!-- Status Bridging Banner & Test Button (PROFASKES 1:1) -->
+    <!-- Status Bridging Banner & Test Button (KONHAKES 1:1) -->
     <div class="status-bridging-banner" id="bannerStatusBridging">
         Status Bridging : Aktif
     </div>
@@ -241,7 +241,7 @@
         </button>
     </div>
 
-    <!-- Detail ID Bridging Satu Sehat (PROFASKES 1:1) -->
+    <!-- Detail ID Bridging Satu Sehat (KONHAKES 1:1) -->
     <div class="detail-card-cyan">
         <h4 class="detail-card-title">Detail ID Bridging Satu Sehat</h4>
         <table class="detail-table">

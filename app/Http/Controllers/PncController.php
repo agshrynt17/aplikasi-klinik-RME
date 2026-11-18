@@ -15,7 +15,7 @@ class PncController extends Controller
 {
     public function index(Request $request)
     {
-        // Pastikan sample baseline data 14-10-2026 tersedia jika belum ada (sesuai PROFASKES)
+        // Pastikan sample baseline data 14-10-2026 tersedia jika belum ada (sesuai KONHAKES)
         if (!Pendaftaran::where('nomor_registrasi', 'RG26101400118')->exists()) {
             $pasien1 = Pasien::firstOrCreate(['no_rm' => 'S2023-000183'], [
                 'nama_pasien' => 'SDR IRFANSYAH NAUFAL AEPPUTRA',

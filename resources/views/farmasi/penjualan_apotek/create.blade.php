@@ -2,35 +2,35 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 TAMBAH TRANSAKSI PENJUALAN APOTEK */
+    /* KONHAKES 1:1 TAMBAH TRANSAKSI PENJUALAN APOTEK */
     .tpa-create-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 6px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 19px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
-    .card-profaskes {
+    .card-konhakes {
         background-color: #fff;
         border: 1px solid #e3e3e3;
         border-radius: 2px;
@@ -38,7 +38,7 @@
         padding: 15px 20px;
         margin-bottom: 15px;
     }
-    .card-profaskes-orange-top {
+    .card-konhakes-orange-top {
         border-top: 3px solid #f39c12;
     }
     .form-label-prof {
@@ -151,13 +151,13 @@
     }
 
     /* Table Detail Items */
-    .table-profaskes-detail {
+    .table-konhakes-detail {
         width: 100%;
         border-collapse: collapse;
         font-size: 12px;
         margin-bottom: 20px;
     }
-    .table-profaskes-detail th {
+    .table-konhakes-detail th {
         background-color: #f4f4f4;
         color: #333;
         font-weight: 600;
@@ -166,7 +166,7 @@
         vertical-align: middle;
         text-align: left;
     }
-    .table-profaskes-detail td {
+    .table-konhakes-detail td {
         border: 1px solid #e3e3e3;
         padding: 8px 10px;
         vertical-align: middle;
@@ -240,9 +240,9 @@
 
 <div class="tpa-create-page">
     {{-- Header --}}
-    <div class="profaskes-header">
-        <h1 class="profaskes-title">Tambah Transaksi Penjualan</h1>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h1 class="konhakes-title">Tambah Transaksi Penjualan</h1>
+        <div class="konhakes-breadcrumb">
             <a href="/dashboard">Beranda</a> &gt; <a href="{{ route('transaksipenjualan.index') }}">Transaksipenjualans</a> &gt; <span>Tambah Transaksi Penjualan</span>
         </div>
     </div>
@@ -250,7 +250,7 @@
     <form id="formPenjualanApotek">
         @csrf
         {{-- CARD 1: FORM HEADER TRANSAKSI --}}
-        <div class="card-profaskes">
+        <div class="card-konhakes">
             <div class="row g-3">
                 {{-- Column 1 --}}
                 <div class="col-md-3">
@@ -320,7 +320,7 @@
         </div>
 
         {{-- CARD 2: INPUT DETAIL BARANG --}}
-        <div class="card-profaskes">
+        <div class="card-konhakes">
             <h6 class="fw-bold mb-3" style="font-size: 13px; color: #444;">Silakan Input Detail Barang</h6>
             
             {{-- Row 1: Kelas Terapi, Nama Barang, Harga, Kemasan, Qty, Dosis, Cara Minum, Tambah --}}
@@ -415,7 +415,7 @@
         </div>
 
         {{-- CARD 3: DETAIL ITEM TRANSAKSI & POS PANEL --}}
-        <div class="card-profaskes card-profaskes-orange-top">
+        <div class="card-konhakes card-konhakes-orange-top">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="fw-bold m-0" style="font-size: 13px; color: #444;">Detail Item Transaksi</h6>
                 <a href="{{ route('transaksipenjualan.index') }}" class="btn-prof-orange">
@@ -424,7 +424,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table-profaskes-detail" id="tableItems">
+                <table class="table-konhakes-detail" id="tableItems">
                     <thead>
                         <tr>
                             <th style="width: 35px; text-align: center;">No</th>

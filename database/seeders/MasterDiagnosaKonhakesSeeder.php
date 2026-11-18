@@ -5,12 +5,12 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\MasterDiagnosa;
 
-class MasterDiagnosaProfaskesSeeder extends Seeder
+class MasterDiagnosaKonhakesSeeder extends Seeder
 {
     public function run(): void
     {
         $diagnosas = [
-            // Exact rows 1-6 matching PROFASKES media_1792556314169.png
+            // Exact rows 1-6 matching KONHAKES media_1792556314169.png
             [
                 'kode_diagnosa' => 'A00',
                 'nama_diagnosa' => 'Cholera',

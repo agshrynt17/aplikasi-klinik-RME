@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Tpa;
 
-class TpaProfaskesSeeder extends Seeder
+class TpaKonhakesSeeder extends Seeder
 {
     public function run()
     {

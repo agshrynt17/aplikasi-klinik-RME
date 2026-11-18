@@ -43,7 +43,7 @@ class LogPasienBaruMjknController extends Controller
 
         $logs = $query->orderBy('id', 'asc')->paginate(20)->withQueryString();
         
-        // Counter matching PROFASKES (or actual formatted count)
+        // Counter matching KONHAKES (or actual formatted count)
         $actualTotal = $logs->total();
         $displayTotal = $actualTotal < 100 ? 9605 : $actualTotal;
         $firstItem = $logs->firstItem() ?? 0;
@@ -104,7 +104,7 @@ class LogPasienBaruMjknController extends Controller
     {
         LogPasienBaruMjkn::truncate();
 
-        // 20 Exact Items from PROFASKES Screenshot
+        // 20 Exact Items from KONHAKES Screenshot
         $items = [
             [
                 'no_kartu'      => '0002209997935',

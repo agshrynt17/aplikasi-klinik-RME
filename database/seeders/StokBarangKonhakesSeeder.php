@@ -7,7 +7,7 @@ use App\Models\MasterBarang;
 use App\Models\MasterGudang;
 use App\Models\StokGudang;
 
-class StokBarangProfaskesSeeder extends Seeder
+class StokBarangKonhakesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

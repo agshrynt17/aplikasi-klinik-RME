@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Pendaftaran Skrining
@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <!-- Action Toolbar (1:1 PROFASKES Screenshot 1) -->
+    <!-- Action Toolbar (1:1 KONHAKES Screenshot 1) -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="d-flex align-items-center gap-1">
             <button type="button" class="btn text-white btn-sm" id="btnToggleFilter" style="background-color: #f39c12; border-color: #e08e0b; font-size: 12px; padding: 6px 14px; border-radius: 3px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;">
@@ -73,7 +73,7 @@
         </form>
     </div>
 
-    <!-- Table Card Container (1:1 PROFASKES Screenshot 1) -->
+    <!-- Table Card Container (1:1 KONHAKES Screenshot 1) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); margin-bottom: 20px;">
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0" style="font-size: 12px; border-collapse: collapse; width: 100%;">
@@ -190,7 +190,7 @@
     </div>
 </div>
 
-<!-- Modal Pilih Peserta (1:1 PROFASKES Screenshot 2) -->
+<!-- Modal Pilih Peserta (1:1 KONHAKES Screenshot 2) -->
 <div class="modal fade" id="modalPilihPeserta" tabindex="-1" aria-labelledby="modalPilihPesertaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 620px;">
         <div class="modal-content" style="border-radius: 4px; border: none; box-shadow: 0 5px 25px rgba(0,0,0,0.25);">

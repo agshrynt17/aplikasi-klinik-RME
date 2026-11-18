@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 DATA FASKES SATU SEHAT */
+    /* KONHAKES 1:1 DATA FASKES SATU SEHAT */
     .faskes-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .card-faskes-cyan {
@@ -81,15 +81,15 @@
 </style>
 
 <div class="faskes-page">
-    <!-- Header Title & Breadcrumb (PROFASKES 1:1) -->
-    <div class="profaskes-header">
-        <h3 class="profaskes-title">Bridging Satu Sehat</h3>
-        <div class="profaskes-breadcrumb">
+    <!-- Header Title & Breadcrumb (KONHAKES 1:1) -->
+    <div class="konhakes-header">
+        <h3 class="konhakes-title">Bridging Satu Sehat</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span> <span style="color: #777;">Bridging Satu Sehat</span>
         </div>
     </div>
 
-    <!-- Main Card Cyan (PROFASKES 1:1) -->
+    <!-- Main Card Cyan (KONHAKES 1:1) -->
     <div class="card-faskes-cyan">
         <div class="faskes-section-title">Profil Klinik Terdaftar Pada Satu Sehat</div>
         <div class="faskes-notice-text">

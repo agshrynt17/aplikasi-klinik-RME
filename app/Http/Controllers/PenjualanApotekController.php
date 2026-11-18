@@ -20,7 +20,7 @@ class PenjualanApotekController extends Controller
 {
     /**
      * Display a listing of pharmacy sales transactions.
-     * Matches PROFASKES 1:1 view at /transaksipenjualan/index
+     * Matches KONHAKES 1:1 view at /transaksipenjualan/index
      */
     public function index(Request $request)
     {
@@ -69,7 +69,7 @@ class PenjualanApotekController extends Controller
 
     /**
      * Show the form for creating a new pharmacy sales transaction.
-     * Matches PROFASKES 1:1 POS Cashier at /transaksipenjualan/create
+     * Matches KONHAKES 1:1 POS Cashier at /transaksipenjualan/create
      */
     public function create()
     {

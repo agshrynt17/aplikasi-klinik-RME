@@ -9,7 +9,7 @@ use App\Models\MasterVendor;
 class MasterVendorController extends Controller
 {
     /**
-     * Halaman Data Vendor (1:1 PROFASKES /vendor/index)
+     * Halaman Data Vendor (1:1 KONHAKES /vendor/index)
      */
     public function index(Request $request)
     {
@@ -41,7 +41,7 @@ class MasterVendorController extends Controller
     }
 
     /**
-     * Halaman Tambah Vendor (1:1 PROFASKES /vendor/create)
+     * Halaman Tambah Vendor (1:1 KONHAKES /vendor/create)
      */
     public function create()
     {

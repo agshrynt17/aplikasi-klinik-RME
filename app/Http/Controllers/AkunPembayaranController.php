@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AkunPembayaranController extends Controller
 {
     /**
-     * Ensure initial seed data matching PROFASKES exists
+     * Ensure initial seed data matching KONHAKES exists
      */
     private function ensureInitialData()
     {

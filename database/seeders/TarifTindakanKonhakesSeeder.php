@@ -7,7 +7,7 @@ use App\Models\TarifTindakan;
 use App\Models\Tindakan;
 use App\Models\Penjamin;
 
-class TarifTindakanProfaskesSeeder extends Seeder
+class TarifTindakanKonhakesSeeder extends Seeder
 {
     public function run()
     {

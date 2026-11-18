@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\MasterGudang;
 
-class MasterGudangProfaskesSeeder extends Seeder
+class MasterGudangKonhakesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

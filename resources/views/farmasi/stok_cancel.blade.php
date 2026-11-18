@@ -2,42 +2,42 @@
 
 @section('content')
 <style>
-    /* 1:1 PROFASKES STOK CANCELS */
+    /* 1:1 KONHAKES STOK CANCELS */
     .stok-cancel-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 8px;
     }
-    .profaskes-page-title {
+    .konhakes-page-title {
         font-size: 24px;
         font-weight: 400;
         color: #333;
         margin: 0;
         line-height: 1.2;
     }
-    .profaskes-breadcrumb-nav {
+    .konhakes-breadcrumb-nav {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb-nav a {
+    .konhakes-breadcrumb-nav a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb-nav a:hover {
+    .konhakes-breadcrumb-nav a:hover {
         text-decoration: underline;
     }
-    .profaskes-summary-info {
+    .konhakes-summary-info {
         font-size: 13px;
         color: #333;
         margin-bottom: 8px;
     }
     /* Table Styling matching Yii2 GridView AdminLTE */
-    .table-profaskes-grid {
+    .table-konhakes-grid {
         background-color: transparent;
         width: auto;
         min-width: 850px;
@@ -46,7 +46,7 @@
         border: 1px solid #f4f4f4;
         border-collapse: collapse;
     }
-    .table-profaskes-grid th {
+    .table-konhakes-grid th {
         background-color: #ecf0f5 !important;
         border: 1px solid #f4f4f4 !important;
         font-size: 13px;
@@ -55,24 +55,24 @@
         vertical-align: middle;
         white-space: nowrap;
     }
-    .table-profaskes-grid th.col-hash {
+    .table-konhakes-grid th.col-hash {
         color: #333 !important;
         width: 100px;
     }
-    .table-profaskes-grid th a {
+    .table-konhakes-grid th a {
         color: #3c8dbc !important;
         text-decoration: none;
     }
-    .table-profaskes-grid th a:hover {
+    .table-konhakes-grid th a:hover {
         text-decoration: underline;
     }
-    .table-profaskes-grid tr.filters td {
+    .table-konhakes-grid tr.filters td {
         background-color: #ecf0f5 !important;
         border: 1px solid #f4f4f4 !important;
         padding: 4px 6px;
         vertical-align: middle;
     }
-    .table-profaskes-grid .grid-filter-input {
+    .table-konhakes-grid .grid-filter-input {
         background-color: #ffffff;
         border: 1px solid #d2d6de;
         border-radius: 0;
@@ -84,28 +84,28 @@
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
         color: #555;
     }
-    .table-profaskes-grid .grid-filter-input:focus {
+    .table-konhakes-grid .grid-filter-input:focus {
         border-color: #3c8dbc;
         outline: 0;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(60,141,188,.6);
     }
-    .table-profaskes-grid tbody td {
+    .table-konhakes-grid tbody td {
         border: 1px solid #f4f4f4 !important;
         font-size: 13px;
         padding: 8px 10px;
         vertical-align: middle;
         color: #333;
     }
-    .table-profaskes-grid tbody tr:nth-of-type(odd) td {
+    .table-konhakes-grid tbody tr:nth-of-type(odd) td {
         background-color: #f9f9f9;
     }
-    .table-profaskes-grid tbody tr:nth-of-type(even) td {
+    .table-konhakes-grid tbody tr:nth-of-type(even) td {
         background-color: #ffffff;
     }
-    .table-profaskes-grid tbody tr:hover td {
+    .table-konhakes-grid tbody tr:hover td {
         background-color: #f5f5f5;
     }
-    .profaskes-detail-link {
+    .konhakes-detail-link {
         color: #3c8dbc !important;
         text-decoration: none !important;
         font-size: 13px;
@@ -114,34 +114,34 @@
         gap: 4px;
         margin-left: 12px;
     }
-    .profaskes-detail-link:hover {
+    .konhakes-detail-link:hover {
         color: #23527c !important;
         text-decoration: underline !important;
     }
-    .profaskes-detail-link i {
+    .konhakes-detail-link i {
         color: #3c8dbc;
         font-size: 13px;
     }
 </style>
 
 <div class="stok-cancel-page">
-    <!-- Header Title & Breadcrumb (PROFASKES 1:1) -->
-    <div class="profaskes-header">
-        <h3 class="profaskes-page-title">Stok Cancels</h3>
-        <div class="profaskes-breadcrumb-nav">
+    <!-- Header Title & Breadcrumb (KONHAKES 1:1) -->
+    <div class="konhakes-header">
+        <h3 class="konhakes-page-title">Stok Cancels</h3>
+        <div class="konhakes-breadcrumb-nav">
             <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span> <span style="color: #777;">Stok Cancels</span>
         </div>
     </div>
 
-    <!-- Summary (PROFASKES 1:1) -->
-    <div class="profaskes-summary-info">
+    <!-- Summary (KONHAKES 1:1) -->
+    <div class="konhakes-summary-info">
         Menampilkan <b>{{ $cancels->total() > 0 ? $cancels->firstItem() : 0 }}-{{ $cancels->total() > 0 ? $cancels->lastItem() : 0 }}</b> dari <b>{{ $cancels->total() }}</b> item.
     </div>
 
-    <!-- GridView Table Form (PROFASKES 1:1) -->
+    <!-- GridView Table Form (KONHAKES 1:1) -->
     <form method="GET" action="{{ url('/stok-cancel/index') }}" id="gridFilterForm">
         <div class="table-responsive" style="border: none;">
-            <table class="table-profaskes-grid">
+            <table class="table-konhakes-grid">
                 <thead>
                     <!-- Header Labels Row -->
                     <tr>
@@ -162,7 +162,7 @@
                             <a href="{{ request()->fullUrlWithQuery(['sort' => (request('sort') == 'create_at' ? '-create_at' : 'create_at')]) }}">Create At</a>
                         </th>
                     </tr>
-                    <!-- Filter Row 2 (PROFASKES 1:1) -->
+                    <!-- Filter Row 2 (KONHAKES 1:1) -->
                     <tr class="filters">
                         <td>&nbsp;</td>
                         <td>
@@ -187,7 +187,7 @@
                     <tr>
                         <td style="white-space: nowrap;">
                             <span>{{ $cancels->firstItem() + $index }}</span>
-                            <a href="/stok-cancel/view?id={{ $item->id }}" class="profaskes-detail-link" onclick="openCancelDetail(event, {{ $item->id }})">
+                            <a href="/stok-cancel/view?id={{ $item->id }}" class="konhakes-detail-link" onclick="openCancelDetail(event, {{ $item->id }})">
                                 <i class="far fa-id-card"></i> Detail
                             </a>
                         </td>

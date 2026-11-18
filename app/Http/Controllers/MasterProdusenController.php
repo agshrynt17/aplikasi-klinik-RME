@@ -9,7 +9,7 @@ use App\Models\MasterProdusen;
 class MasterProdusenController extends Controller
 {
     /**
-     * Halaman Data Produsen (1:1 PROFASKES /produsen/index)
+     * Halaman Data Produsen (1:1 KONHAKES /produsen/index)
      */
     public function index(Request $request)
     {

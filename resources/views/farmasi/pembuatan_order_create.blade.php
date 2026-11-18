@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 PEMBUATANORDER CREATE */
+    /* KONHAKES 1:1 PEMBUATANORDER CREATE */
     .po-create-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .card-po-header {
@@ -149,10 +149,10 @@
 </style>
 
 <div class="po-create-page">
-    <!-- Header Title & Breadcrumb (PROFASKES 1:1) -->
-    <div class="profaskes-header">
-        <h3 class="profaskes-title">Pembuatanorder</h3>
-        <div class="profaskes-breadcrumb">
+    <!-- Header Title & Breadcrumb (KONHAKES 1:1) -->
+    <div class="konhakes-header">
+        <h3 class="konhakes-title">Pembuatanorder</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span>
             <a href="/pembuatanorder/index">Pembuatanorders</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span>
             <span style="color: #777;">Pembuatanorder</span>
@@ -162,7 +162,7 @@
     <form id="formPembuatanOrder" onsubmit="submitFormOrder(event)">
         @csrf
         
-        <!-- CARD 1: Header Form (PROFASKES 1:1) -->
+        <!-- CARD 1: Header Form (KONHAKES 1:1) -->
         <div class="card-po-header">
             <!-- Row 1: No PO, Tanggal, Vendor, Tgl Kirim, Pengiriman/Kurir -->
             <div class="row g-2 mb-3">
@@ -211,7 +211,7 @@
             </div>
         </div>
 
-        <!-- CARD 2: Input Detail Item (PROFASKES 1:1) -->
+        <!-- CARD 2: Input Detail Item (KONHAKES 1:1) -->
         <div class="card-detail-input">
             <div class="section-subtitle">Input Detail Item</div>
             <div class="row g-2 align-items-end">
@@ -262,7 +262,7 @@
             </div>
         </div>
 
-        <!-- CARD 3: Detail Item Transaksi (PROFASKES 1:1) -->
+        <!-- CARD 3: Detail Item Transaksi (KONHAKES 1:1) -->
         <div class="card-detail-table">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <div class="section-subtitle mb-0">Detail Item Transaksi</div>

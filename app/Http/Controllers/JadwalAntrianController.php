@@ -24,7 +24,7 @@ class JadwalAntrianController extends Controller
                             ?? $master_antrians->first();
         }
 
-        // Self-heal default schedule for POLI DOKTER if empty to match PROFASKES screenshot
+        // Self-heal default schedule for POLI DOKTER if empty to match KONHAKES screenshot
         if ($selectedAntrian && JadwalAntrian::where('master_antrian_id', $selectedAntrian->id)->count() === 0) {
             $this->seedDefaultSchedules($selectedAntrian->id);
         }

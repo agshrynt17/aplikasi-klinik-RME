@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Area (Title and Breadcrumbs 1:1 PROFASKES Screenshot 1) -->
+    <!-- Header Area (Title and Breadcrumbs 1:1 KONHAKES Screenshot 1) -->
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Data Barang
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <!-- Orange Accent Top Line (1:1 PROFASKES) -->
+    <!-- Orange Accent Top Line (1:1 KONHAKES) -->
     <div class="mb-3" style="border-top: 2px solid #f39c12;"></div>
 
     @if(session('success'))
@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <!-- Action Bar: Left (Cari, Reset, Tambah) & Right (Download, Import) 1:1 PROFASKES -->
+    <!-- Action Bar: Left (Cari, Reset, Tambah) & Right (Download, Import) 1:1 KONHAKES -->
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <div class="d-flex gap-1 align-items-center">
             <button type="button" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center" 
@@ -104,7 +104,7 @@
         </form>
     </div>
 
-    <!-- Data Table Card with Cyan Line (1:1 PROFASKES Screenshot 1) -->
+    <!-- Data Table Card with Cyan Line (1:1 KONHAKES Screenshot 1) -->
     <div class="card border rounded-1 shadow-none bg-white p-0 mb-3" style="border-top: 3px solid #00c0ef !important; border: 1px solid #d2d6de;">
         <!-- Header Jumlah Item -->
         <div style="padding: 10px 15px; font-size: 12px; color: #333; border-bottom: 1px solid #f0f0f0;">

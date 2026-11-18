@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     /**
-     * Ensure initial data matching PROFASKES users exists.
+     * Ensure initial data matching KONHAKES users exists.
      */
     private function ensureInitialData()
     {
@@ -42,7 +42,7 @@ class UserController extends Controller
                 'last_login_at' => Carbon::parse('2026-10-14 00:02:06'),
             ]);
 
-            // Sample PROFASKES user seeds mapped to pegawais
+            // Sample KONHAKES user seeds mapped to pegawais
             $userSeeds = [
                 [
                     'username'      => 'fahmirizal',

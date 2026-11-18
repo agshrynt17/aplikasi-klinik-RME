@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Seed 7 data status pulang standar PCare BPJS sesuai PROFASKES 1:1
+        // Seed 7 data status pulang standar PCare BPJS sesuai KONHAKES 1:1
         DB::table('pcare_status_pulangs')->insert([
             [
                 'kd_status_pulang'       => '0',

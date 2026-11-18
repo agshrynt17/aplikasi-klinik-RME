@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Modul PPA Medical Checkup
@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <!-- Filter Pencarian Card (1:1 PROFASKES) -->
+    <!-- Filter Pencarian Card (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; padding: 15px 15px 12px 15px; margin-bottom: 20px;">
         <div style="font-size: 12px; font-weight: 700; color: #337ab7; margin-bottom: 10px; letter-spacing: 0.3px;">
             FILTER PENCARIAN
@@ -139,7 +139,7 @@
         </form>
     </div>
 
-    <!-- Data Table Container (1:1 PROFASKES) -->
+    <!-- Data Table Container (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); margin-bottom: 20px;">
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0" style="font-size: 11.5px; border-collapse: collapse; width: 100%;">

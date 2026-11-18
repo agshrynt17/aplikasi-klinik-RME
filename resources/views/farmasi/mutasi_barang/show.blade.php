@@ -6,23 +6,23 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 8px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
@@ -59,9 +59,9 @@
 </style>
 
 <div class="mb-show-page">
-    <div class="profaskes-header">
-        <h1 class="profaskes-title">Detail Mutasi Barang Antar Gudang</h1>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h1 class="konhakes-title">Detail Mutasi Barang Antar Gudang</h1>
+        <div class="konhakes-breadcrumb">
             <a href="{{ url('/') }}">Beranda</a> &gt; 
             <a href="{{ url('/mutasibarang/index') }}">Mutasi Barang Antar Gudang</a> &gt; 
             <span>Detail {{ $mutasi->nomor_mutasi }}</span>

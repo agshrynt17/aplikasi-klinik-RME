@@ -314,7 +314,7 @@ class PcareController extends Controller
         }
 
         if (empty($dokterList)) {
-            // Data dokter standar PCare sesuai PROFASKES 1:1
+            // Data dokter standar PCare sesuai KONHAKES 1:1
             $dokterList = [
                 ['kode' => '343889', 'nama' => 'dr.HARUN AL RASYID', 'app_nama' => null],
                 ['kode' => '350699', 'nama' => 'RESI ANGRAINI, A.Md.keb', 'app_nama' => 'RESI ANGRAINI, A.md.Keb'],
@@ -768,7 +768,7 @@ class PcareController extends Controller
         }
 
         $sarana = $query->paginate(20)->withQueryString();
-        // Sesuai sistem PROFASKES 1:1 total 793 item referensi BPJS
+        // Sesuai sistem KONHAKES 1:1 total 793 item referensi BPJS
         $total = max(793, \App\Models\PcareSarana::count());
 
         return view('pcare.setting.sarana', compact('sarana', 'total'));

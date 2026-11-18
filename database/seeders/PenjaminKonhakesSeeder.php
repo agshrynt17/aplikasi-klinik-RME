@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Penjamin;
 
-class PenjaminProfaskesSeeder extends Seeder
+class PenjaminKonhakesSeeder extends Seeder
 {
     public function run()
     {

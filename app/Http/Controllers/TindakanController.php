@@ -13,7 +13,7 @@ class TindakanController extends Controller
     private function seedDefaultsIfNeeded()
     {
         if (Tindakan::count() < 14) {
-            \Artisan::call('db:seed', ['--class' => 'TindakanProfaskesSeeder']);
+            \Artisan::call('db:seed', ['--class' => 'TindakanKonhakesSeeder']);
         }
     }
 
@@ -65,7 +65,7 @@ class TindakanController extends Controller
             $query->where('is_ranap', (bool)$request->is_ranap);
         }
 
-        // Custom sort to match PROFASKES screenshot order (TK035 HECTING 2 first, etc.)
+        // Custom sort to match KONHAKES screenshot order (TK035 HECTING 2 first, etc.)
         $data = $query->orderBy('id', 'asc')->paginate(20)->withQueryString();
 
         return view('tindakan.master_tindakan', compact('data', 'profil', 'polikliniks'));

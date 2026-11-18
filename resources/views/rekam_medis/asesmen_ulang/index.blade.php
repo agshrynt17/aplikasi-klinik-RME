@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <!-- Orange Divider Line (1:1 PROFASKES) -->
+    <!-- Orange Divider Line (1:1 KONHAKES) -->
     <div style="height: 2px; background-color: #f39c12; margin-top: 8px; margin-bottom: 15px;"></div>
 
     @if(session('success'))
@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <!-- Table Container Card with Cyan Top Border (1:1 PROFASKES) -->
+    <!-- Table Container Card with Cyan Top Border (1:1 KONHAKES) -->
     <div style="border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; background: #fff; padding: 15px;">
         <!-- Item Count Indicator -->
         <div style="font-size: 12.5px; color: #333; margin-bottom: 12px;">

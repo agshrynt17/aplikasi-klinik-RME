@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class HutangController extends Controller
 {
     /**
-     * Display a listing of Pembayaran Hutang (PROFASKES 1:1).
+     * Display a listing of Pembayaran Hutang (KONHAKES 1:1).
      */
     public function index(Request $request)
     {

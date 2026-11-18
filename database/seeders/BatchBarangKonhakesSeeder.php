@@ -8,7 +8,7 @@ use App\Models\MasterBarang;
 use App\Models\MasterGudang;
 use Carbon\Carbon;
 
-class BatchBarangProfaskesSeeder extends Seeder
+class BatchBarangKonhakesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

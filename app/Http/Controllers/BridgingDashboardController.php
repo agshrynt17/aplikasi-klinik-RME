@@ -40,7 +40,7 @@ class BridgingDashboardController extends Controller
             $trend_labels = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
             $trend_data = [12, 18, 28, 35, 22, 16, 10];
         } else {
-            // Tampilan default 1:1 sesuai tangkapan layar PROFASKES ketika bridging belum aktif
+            // Tampilan default 1:1 sesuai tangkapan layar KONHAKES ketika bridging belum aktif
             $statusError = 'Gagal! Bridging Antrol belum aktif.';
 
             $tunggu_admisi  = 0;

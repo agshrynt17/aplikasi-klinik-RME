@@ -13,7 +13,7 @@ use Carbon\Carbon;
 
 class HasilRadiologiController extends Controller
 {
-    // 1. Menampilkan daftar order radiologi (index - PROFASKES /entryhasilrad/index)
+    // 1. Menampilkan daftar order radiologi (index - KONHAKES /entryhasilrad/index)
     public function index(Request $request)
     {
         $query = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin', 'transaksiRadiologis.masterRadiologi', 'transaksiRadiologis.hasilRadiologi'])
@@ -24,7 +24,7 @@ class HasilRadiologiController extends Controller
             $tanggal = $request->tanggal;
             $query->whereDate('tanggal_daftar', $tanggal);
         } else {
-            // Default 2026-10-14 sesuai konteks tanggal PROFASKES
+            // Default 2026-10-14 sesuai konteks tanggal KONHAKES
             $tanggal = '2026-10-14';
             $query->whereDate('tanggal_daftar', $tanggal);
         }

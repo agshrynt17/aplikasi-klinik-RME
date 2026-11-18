@@ -297,7 +297,7 @@ class SkriningController extends Controller
     }
 
     /**
-     * Halaman: Pengecekan Skrining Pasien (Screenshot PROFASKES: /skrining/index-cek)
+     * Halaman: Pengecekan Skrining Pasien (Screenshot KONHAKES: /skrining/index-cek)
      */
     public function indexCek(Request $request)
     {

@@ -9,7 +9,7 @@ use App\Models\MasterGudang;
 class MasterGudangController extends Controller
 {
     /**
-     * Halaman Data Gudang (1:1 PROFASKES /gudang/index)
+     * Halaman Data Gudang (1:1 KONHAKES /gudang/index)
      */
     public function index(Request $request)
     {
@@ -29,7 +29,7 @@ class MasterGudangController extends Controller
     }
 
     /**
-     * Halaman Tambah Gudang (1:1 PROFASKES /gudang/create)
+     * Halaman Tambah Gudang (1:1 KONHAKES /gudang/create)
      */
     public function create()
     {

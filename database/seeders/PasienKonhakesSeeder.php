@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Pasien;
 use Carbon\Carbon;
 
-class PasienProfaskesSeeder extends Seeder
+class PasienKonhakesSeeder extends Seeder
 {
     public function run(): void
     {

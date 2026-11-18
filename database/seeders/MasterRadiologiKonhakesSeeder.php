@@ -8,7 +8,7 @@ use App\Models\MasterRadiologi;
 use App\Models\TarifRadiologi;
 use App\Models\TransaksiRadiologi;
 
-class MasterRadiologiProfaskesSeeder extends Seeder
+class MasterRadiologiKonhakesSeeder extends Seeder
 {
     public function run()
     {
@@ -18,7 +18,7 @@ class MasterRadiologiProfaskesSeeder extends Seeder
 
         $now = now();
 
-        // 1. Top 10 Exact Rows from PROFASKES Screenshot
+        // 1. Top 10 Exact Rows from KONHAKES Screenshot
         $topRows = [
             [
                 'id' => 1,

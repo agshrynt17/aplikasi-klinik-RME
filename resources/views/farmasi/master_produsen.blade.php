@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Area (Title and Breadcrumbs 1:1 PROFASKES) -->
+    <!-- Header Area (Title and Breadcrumbs 1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Data Produsen
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <!-- Orange Accent Top Line (1:1 PROFASKES) -->
+    <!-- Orange Accent Top Line (1:1 KONHAKES) -->
     <div class="mb-3" style="border-top: 2px solid #f39c12;"></div>
 
     @if(session('success'))
@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <!-- Action Bar: Cari Data (Left) & Tambah Data (Right) 1:1 PROFASKES -->
+    <!-- Action Bar: Cari Data (Left) & Tambah Data (Right) 1:1 KONHAKES -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="d-flex gap-1 align-items-center">
             <button type="button" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center" 
@@ -80,7 +80,7 @@
         </form>
     </div>
 
-    <!-- Data Table Card with Cyan Line (1:1 PROFASKES) -->
+    <!-- Data Table Card with Cyan Line (1:1 KONHAKES) -->
     <div class="card border rounded-1 shadow-none bg-white p-0 mb-3" style="border-top: 3px solid #00c0ef !important; border: 1px solid #d2d6de;">
         <!-- Menampilkan item count header -->
         <div style="padding: 10px 15px; font-size: 12px; color: #333; border-bottom: 1px solid #f0f0f0;">
@@ -175,7 +175,7 @@
     </div>
 </div>
 
-<!-- Modal Detail Produsen (1:1 PROFASKES) -->
+<!-- Modal Detail Produsen (1:1 KONHAKES) -->
 <div class="modal fade" id="modalDetail" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 4px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">

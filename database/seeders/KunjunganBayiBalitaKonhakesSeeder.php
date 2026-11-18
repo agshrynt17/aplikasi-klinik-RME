@@ -11,7 +11,7 @@ use App\Models\Poliklinik;
 use App\Models\Penjamin;
 use Carbon\Carbon;
 
-class KunjunganBayiBalitaProfaskesSeeder extends Seeder
+class KunjunganBayiBalitaKonhakesSeeder extends Seeder
 {
     public function run(): void
     {

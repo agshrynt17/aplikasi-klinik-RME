@@ -31,7 +31,7 @@
                 </a>
             </div>
             <div>
-                <!-- Right side is intentionally empty to match PROFASKES screenshot -->
+                <!-- Right side is intentionally empty to match KONHAKES screenshot -->
             </div>
         </div>
 

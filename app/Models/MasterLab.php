@@ -24,7 +24,7 @@ class MasterLab extends Model
         'unitcost'  => 'decimal:2',
     ];
 
-    // Accessors for PROFASKES 1:1 view naming
+    // Accessors for KONHAKES 1:1 view naming
     public function getNamaLabAttribute()
     {
         return $this->nama_pemeriksaan;

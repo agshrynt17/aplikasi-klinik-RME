@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 TRANSAKSI PENJUALAN APOTEK */
+    /* KONHAKES 1:1 TRANSAKSI PENJUALAN APOTEK */
     .tpa-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 6px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 19px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .orange-divider {
@@ -110,12 +110,12 @@
         background-color: #00c0ef;
         margin-bottom: 0px;
     }
-    .table-profaskes {
+    .table-konhakes {
         width: 100%;
         border-collapse: collapse;
         font-size: 12px;
     }
-    .table-profaskes th {
+    .table-konhakes th {
         background-color: #ffffff;
         color: #337ab7;
         font-weight: 600;
@@ -125,13 +125,13 @@
         vertical-align: middle;
         text-align: left;
     }
-    .table-profaskes td {
+    .table-konhakes td {
         border: 1px solid #f4f4f4;
         padding: 8px 10px;
         vertical-align: middle;
         color: #333;
     }
-    .table-profaskes tbody tr:hover {
+    .table-konhakes tbody tr:hover {
         background-color: #f9f9f9;
     }
     .badge-lunas {
@@ -162,9 +162,9 @@
 
 <div class="tpa-page">
     {{-- Header --}}
-    <div class="profaskes-header">
-        <h1 class="profaskes-title">Transaksi Penjualan Apotek</h1>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h1 class="konhakes-title">Transaksi Penjualan Apotek</h1>
+        <div class="konhakes-breadcrumb">
             <a href="/dashboard"><i class="fa fa-dashboard"></i> Beranda</a> &gt; <span>Transaksi Penjualan Apotek</span>
         </div>
     </div>
@@ -213,7 +213,7 @@
         {{-- Table --}}
         <div class="cyan-table-top"></div>
         <div class="table-responsive">
-            <table class="table-profaskes">
+            <table class="table-konhakes">
                 <thead>
                     <tr>
                         <th style="width: 40px; text-align: center;">#</th>

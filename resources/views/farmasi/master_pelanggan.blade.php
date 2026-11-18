@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Data Pelanggan
@@ -30,7 +30,7 @@
     </div>
     @endif
 
-    <!-- Filter Bar (1:1 PROFASKES Screenshot 1) -->
+    <!-- Filter Bar (1:1 KONHAKES Screenshot 1) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; padding: 15px; margin-bottom: 20px;">
         <form method="GET" action="/pelanggan/index" class="d-flex flex-wrap align-items-end justify-content-between gap-2">
             <div class="d-flex flex-wrap align-items-end gap-2">
@@ -76,7 +76,7 @@
         </form>
     </div>
 
-    <!-- Data Table Container (1:1 PROFASKES Screenshot 1) -->
+    <!-- Data Table Container (1:1 KONHAKES Screenshot 1) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); margin-bottom: 20px;">
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0" style="font-size: 12px; border-collapse: collapse; width: 100%;">

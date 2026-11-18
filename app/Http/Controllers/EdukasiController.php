@@ -20,7 +20,7 @@ class EdukasiController extends Controller
         $poliklinikId = $request->input('poliklinik_id', '');
         $penjaminId = $request->input('penjamin_id', '');
 
-        // Secara default pada PROFASKES jika dibuka tanpa filter pencarian, tampil kosong
+        // Secara default pada KONHAKES jika dibuka tanpa filter pencarian, tampil kosong
         if (!$request->has('tanggal') && !$request->has('keyword') && !$request->has('poliklinik_id') && !$request->has('penjamin_id')) {
             $pendaftarans = Pendaftaran::whereRaw('1 = 0')->paginate(20);
             $edukasis = collect();

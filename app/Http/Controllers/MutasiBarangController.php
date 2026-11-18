@@ -17,7 +17,7 @@ use Carbon\Carbon;
 class MutasiBarangController extends Controller
 {
     /**
-     * Display a listing of Mutasi Barang Antar Gudang (PROFASKES 1:1).
+     * Display a listing of Mutasi Barang Antar Gudang (KONHAKES 1:1).
      */
     public function index(Request $request)
     {
@@ -330,7 +330,7 @@ class MutasiBarangController extends Controller
         return view('farmasi.mutasi_barang.cetak_single', compact('mutasi', 'profil'));
     }
 
-    // === TRANSAKSI PENERIMAAN MUTASI (PROFASKES 1:1) ===
+    // === TRANSAKSI PENERIMAAN MUTASI (KONHAKES 1:1) ===
     public function indexPenerimaan(Request $request)
     {
         $query = MutasiBarang::with(['gudangAsal', 'gudangTujuan', 'details.masterBarang'])
@@ -359,7 +359,7 @@ class MutasiBarangController extends Controller
             $query->where('gudang_tujuan_id', $request->gudang_tujuan_id);
         }
 
-        // Filter: Sudah Diterima? (Default 'Belum Terima' as shown in PROFASKES screenshot)
+        // Filter: Sudah Diterima? (Default 'Belum Terima' as shown in KONHAKES screenshot)
         $sudahDiterima = $request->has('sudah_diterima') ? $request->sudah_diterima : 'Belum Terima';
         if ($sudahDiterima && $sudahDiterima !== 'Semua') {
             $query->where('sudah_diterima', $sudahDiterima);

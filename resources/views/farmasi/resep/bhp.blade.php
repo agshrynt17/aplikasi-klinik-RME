@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 TRANSAKSI BAHAN HABIS PAKAI (BHP) */
+    /* KONHAKES 1:1 TRANSAKSI BAHAN HABIS PAKAI (BHP) */
     .bhp-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 8px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .orange-cyan-divider {
@@ -108,13 +108,13 @@
     .btn-bhp-xls:hover {
         background-color: #286090;
     }
-    .table-profaskes-bhp {
+    .table-konhakes-bhp {
         width: 100%;
         border-collapse: collapse;
         font-size: 12.5px;
         border: 1px solid #e1e1e1;
     }
-    .table-profaskes-bhp thead th {
+    .table-konhakes-bhp thead th {
         background-color: #e6e6e6;
         color: #555;
         font-weight: 600;
@@ -122,7 +122,7 @@
         border: 1px solid #dcdcdc;
         white-space: nowrap;
     }
-    .table-profaskes-bhp tbody td {
+    .table-konhakes-bhp tbody td {
         padding: 8px 10px;
         border: 1px solid #f0f0f0;
         vertical-align: middle;
@@ -142,9 +142,9 @@
 
 <div class="bhp-page">
     {{-- Header & Breadcrumbs --}}
-    <div class="profaskes-header">
-        <h1 class="profaskes-title">Transaksi Bahan Habis Pakai (BHP)</h1>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h1 class="konhakes-title">Transaksi Bahan Habis Pakai (BHP)</h1>
+        <div class="konhakes-breadcrumb">
             <a href="{{ url('/') }}">Beranda</a> &gt; <span>Transaksi Bahan Habis Pakai (BHP)</span>
         </div>
     </div>
@@ -207,7 +207,7 @@
 
         {{-- Table Transaksi BHP 1:1 --}}
         <div class="table-responsive">
-            <table class="table-profaskes-bhp">
+            <table class="table-konhakes-bhp">
                 <thead>
                     <tr>
                         <th style="width: 35px; text-align: center;">#</th>

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class StokAdjustmentController extends Controller
 {
     /**
-     * Display a listing of Histori Penyesuaian Stok (PROFASKES 1:1).
+     * Display a listing of Histori Penyesuaian Stok (KONHAKES 1:1).
      */
     public function index(Request $request)
     {

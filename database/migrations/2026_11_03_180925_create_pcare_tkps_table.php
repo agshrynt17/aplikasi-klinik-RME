@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Seed 3 data standar PCare sesuai PROFASKES 1:1
+        // Seed 3 data standar PCare sesuai KONHAKES 1:1
         DB::table('pcare_tkps')->insert([
             [
                 'kd_tkp'     => '10',

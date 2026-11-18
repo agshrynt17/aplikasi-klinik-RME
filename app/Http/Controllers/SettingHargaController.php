@@ -22,7 +22,7 @@ class SettingHargaController extends Controller
             ->whereNotIn('nama_penjamin', ['BPJS', 'Umum'])
             ->get();
 
-        // Custom sort order matching PROFASKES Screenshot 1
+        // Custom sort order matching KONHAKES Screenshot 1
         $order = [
             'Penjualan Apotek'          => 1,
             'Pribadi'                   => 2,
@@ -71,7 +71,7 @@ class SettingHargaController extends Controller
             'Umum'         => 'Pribadi/Umum',
         ];
 
-        // Specific pricelist counts from PROFASKES
+        // Specific pricelist counts from KONHAKES
         $counts = [
             'Penjualan Apotek'          => 2996,
             'Pribadi'                   => 2996,

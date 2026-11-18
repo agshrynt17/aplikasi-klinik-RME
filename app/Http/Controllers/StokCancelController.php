@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class StokCancelController extends Controller
 {
     /**
-     * Display a listing of Stok Cancels (PROFASKES Screenshot 1:1).
+     * Display a listing of Stok Cancels (KONHAKES Screenshot 1:1).
      */
     public function index(Request $request)
     {
@@ -66,7 +66,7 @@ class StokCancelController extends Controller
     }
 
     /**
-     * PROFASKES exact view alias (/stok-cancel/view?id=1).
+     * KONHAKES exact view alias (/stok-cancel/view?id=1).
      */
     public function view(Request $request)
     {

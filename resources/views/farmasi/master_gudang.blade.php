@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES Screenshot 1) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES Screenshot 1) -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Data Gudang
@@ -30,7 +30,7 @@
     </div>
     @endif
 
-    <!-- Filter Bar (1:1 PROFASKES Screenshot 1) -->
+    <!-- Filter Bar (1:1 KONHAKES Screenshot 1) -->
     <div class="mb-3">
         <form method="GET" action="/gudang/index" class="d-flex flex-wrap align-items-end gap-2">
             <div style="width: 180px;">
@@ -55,12 +55,12 @@
         </form>
     </div>
 
-    <!-- Menampilkan item count text (Right-aligned 1:1 PROFASKES Screenshot 1) -->
+    <!-- Menampilkan item count text (Right-aligned 1:1 KONHAKES Screenshot 1) -->
     <div class="text-end mb-2" style="font-size: 12px; color: #333;">
         Menampilkan <strong>{{ $gudangs->firstItem() ?? 0 }}-{{ $gudangs->lastItem() ?? 0 }}</strong> dari <strong>{{ $gudangs->total() }}</strong> item.
     </div>
 
-    <!-- Data Table Container (1:1 PROFASKES Screenshot 1) -->
+    <!-- Data Table Container (1:1 KONHAKES Screenshot 1) -->
     <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 3px; margin-bottom: 20px;">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" style="font-size: 12px; border-collapse: collapse; width: 100%;">

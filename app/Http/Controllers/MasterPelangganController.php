@@ -9,7 +9,7 @@ use App\Models\MasterPelanggan;
 class MasterPelangganController extends Controller
 {
     /**
-     * Halaman Data Pelanggan (1:1 PROFASKES /pelanggan/index)
+     * Halaman Data Pelanggan (1:1 KONHAKES /pelanggan/index)
      */
     public function index(Request $request)
     {
@@ -48,11 +48,11 @@ class MasterPelangganController extends Controller
     }
 
     /**
-     * Halaman Tambah Pelanggan (1:1 PROFASKES /pelanggan/create)
+     * Halaman Tambah Pelanggan (1:1 KONHAKES /pelanggan/create)
      */
     public function create()
     {
-        // Generate Auto Code PL + yymmdd + 00001 (1:1 PROFASKES)
+        // Generate Auto Code PL + yymmdd + 00001 (1:1 KONHAKES)
         $datePrefix = 'PL' . date('ymd');
         $last = MasterPelanggan::where('kode_pelanggan', 'like', $datePrefix . '%')->orderBy('kode_pelanggan', 'desc')->first();
         

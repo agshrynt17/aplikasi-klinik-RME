@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Data Pemeriksaan PPA</h4>
         <div style="font-size: 11.5px; color: #777;">
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <!-- Orange Divider Line (1:1 PROFASKES) -->
+    <!-- Orange Divider Line (1:1 KONHAKES) -->
     <div style="height: 2px; background-color: #f39c12; margin-top: 8px; margin-bottom: 15px;"></div>
 
     @if(session('success'))
@@ -24,7 +24,7 @@
     </div>
     @endif
 
-    <!-- Filter Box (FILTER PENCARIAN 1:1 PROFASKES) -->
+    <!-- Filter Box (FILTER PENCARIAN 1:1 KONHAKES) -->
     <div style="border: 1px solid #d2d6de; border-radius: 3px; background: #fff; padding: 12px 15px; margin-bottom: 20px;">
         <div style="font-size: 11.5px; font-weight: 700; color: #337ab7; margin-bottom: 10px; letter-spacing: 0.3px;">
             FILTER PENCARIAN
@@ -179,7 +179,7 @@
         </form>
     </div>
 
-    <!-- Table Container Card with Cyan Top Border (1:1 PROFASKES) -->
+    <!-- Table Container Card with Cyan Top Border (1:1 KONHAKES) -->
     <div style="border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; background: #fff; padding: 15px;">
         <!-- Card Header: Title & Action Buttons -->
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
@@ -199,7 +199,7 @@
             Menampilkan <strong>{{ $pendaftarans->firstItem() ?? 1 }}-{{ $pendaftarans->lastItem() ?? $pendaftarans->count() }}</strong> dari <strong>{{ $totalCount }}</strong> item.
         </div>
 
-        <!-- Table (13 Columns 1:1 PROFASKES) -->
+        <!-- Table (13 Columns 1:1 KONHAKES) -->
         <div class="table-responsive">
             <table class="table table-bordered table-hover align-middle mb-2" style="font-size: 12px; border-color: #d2d6de;">
                 <thead style="background-color: #eef5f9;">
@@ -232,7 +232,7 @@
                         
                         $namaDokter = $item->dokter->nama_pegawai ?? 'dr. Fahmi Rizal';
                         
-                        // Perawat specific handling matching PROFASKES
+                        // Perawat specific handling matching KONHAKES
                         $namaPerawat = $item->nama_perawat;
                         if (!$namaPerawat) {
                             if ($item->poliklinik && $item->poliklinik->nama_poli == 'Laboratorium') {

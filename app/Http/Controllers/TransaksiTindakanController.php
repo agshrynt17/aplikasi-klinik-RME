@@ -10,7 +10,7 @@ use App\Models\TarifTindakan;
 use App\Models\Pegawai;
 use App\Models\Poliklinik;
 use App\Models\Penjamin;
-use Database\Seeders\PendaftaranProfaskesSeeder;
+use Database\Seeders\PendaftaranKonhakesSeeder;
 use Illuminate\Http\Request;
 
 class TransaksiTindakanController extends Controller
@@ -21,7 +21,7 @@ class TransaksiTindakanController extends Controller
         // Pastikan ada data pendaftaran realistis jika masih kosong
         if (Pendaftaran::count() === 0) {
             try {
-                (new PendaftaranProfaskesSeeder())->run();
+                (new PendaftaranKonhakesSeeder())->run();
             } catch (\Throwable $e) {}
         }
 

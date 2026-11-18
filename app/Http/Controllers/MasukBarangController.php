@@ -19,7 +19,7 @@ use Carbon\Carbon;
 class MasukBarangController extends Controller
 {
     /**
-     * Display a listing of Penerimaan Barang (PROFASKES 1:1).
+     * Display a listing of Penerimaan Barang (KONHAKES 1:1).
      */
     public function index(Request $request)
     {

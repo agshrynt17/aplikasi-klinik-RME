@@ -15,7 +15,7 @@ class TarifTindakanController extends Controller
     private function seedDefaultsIfNeeded()
     {
         if (TarifTindakan::count() < 14) {
-            \Artisan::call('db:seed', ['--class' => 'TarifTindakanProfaskesSeeder']);
+            \Artisan::call('db:seed', ['--class' => 'TarifTindakanKonhakesSeeder']);
         }
     }
 

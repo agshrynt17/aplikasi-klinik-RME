@@ -26,7 +26,7 @@
         text-decoration: none;
     }
 
-    /* Container Box with Blue Top Border matching PROFASKES */
+    /* Container Box with Blue Top Border matching KONHAKES */
     .box-setting-container {
         background: #ffffff;
         border: 1px solid #d2d6de;

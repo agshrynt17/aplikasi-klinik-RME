@@ -23,7 +23,7 @@
         <div class="card card-custom p-4 shadow-sm" style="border-top: 3px solid #00c0ef;">
             <!-- Header Surat -->
             <div class="text-center border-bottom pb-3 mb-4">
-                <h4 class="fw-bold mb-1">KLINIK PRATAMA RAWAT INAP PROFASKES</h4>
+                <h4 class="fw-bold mb-1">KLINIK PRATAMA RAWAT INAP KONHAKES</h4>
                 <p class="text-muted mb-1" style="font-size: 12px;">Jl. Raya Telagasari No. 123, Karawang | Telp: (0267) 123456</p>
                 <div style="height: 2px; background: #333; margin: 10px auto 0; width: 100%;"></div>
             </div>
@@ -54,7 +54,7 @@
 
             <!-- Isi Surat -->
             <div style="font-size: 13.5px; line-height: 1.8; color: #333;">
-                <p>Yang bertanda tangan di bawah ini, Dokter Pemeriksa pada Klinik Pratama Rawat Inap Profaskes menerangkan bahwa:</p>
+                <p>Yang bertanda tangan di bawah ini, Dokter Pemeriksa pada Klinik Pratama Rawat Inap Konhakes menerangkan bahwa:</p>
                 
                 <table class="table table-borderless table-sm ms-3 mb-3" style="width: 85%;">
                     <tr>

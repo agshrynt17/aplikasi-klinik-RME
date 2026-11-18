@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class PembuatanOrderController extends Controller
 {
     /**
-     * Display a listing of Transaksi Pemesanan Barang (PO) (PROFASKES 1:1).
+     * Display a listing of Transaksi Pemesanan Barang (PO) (KONHAKES 1:1).
      */
     public function index(Request $request)
     {
@@ -54,7 +54,7 @@ class PembuatanOrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new PO (PROFASKES 1:1).
+     * Show the form for creating a new PO (KONHAKES 1:1).
      */
     public function create()
     {

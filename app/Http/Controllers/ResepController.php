@@ -20,7 +20,7 @@ use Carbon\Carbon;
 class ResepController extends Controller
 {
     /**
-     * Display a listing of Transaksi Resep (PROFASKES 1:1).
+     * Display a listing of Transaksi Resep (KONHAKES 1:1).
      */
     public function index(Request $request)
     {
@@ -96,7 +96,7 @@ class ResepController extends Controller
     }
 
     /**
-     * Display Transaksi Bahan Habis Pakai (BHP) (PROFASKES 1:1).
+     * Display Transaksi Bahan Habis Pakai (BHP) (KONHAKES 1:1).
      */
     public function indexBhp(Request $request)
     {

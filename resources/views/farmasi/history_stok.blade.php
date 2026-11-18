@@ -2,29 +2,29 @@
 
 @section('content')
 <style>
-    /* 1:1 PROFASKES HISTORI PENYESUAIAN STOK */
-    .profaskes-title-box {
+    /* 1:1 KONHAKES HISTORI PENYESUAIAN STOK */
+    .konhakes-title-box {
         padding-bottom: 6px;
         margin-bottom: 6px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 500;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #777;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
-    .profaskes-orange-line {
+    .konhakes-orange-line {
         height: 2px;
         background-color: #f39c12;
         width: 100%;
@@ -137,14 +137,14 @@
 </style>
 
 <div class="container-fluid px-3 py-2">
-    <!-- Header Title & Breadcrumb (PROFASKES 1:1) -->
-    <div class="d-flex justify-content-between align-items-center profaskes-title-box">
-        <h3 class="profaskes-title">Histori Penyesuaian Stok</h3>
-        <div class="profaskes-breadcrumb">
+    <!-- Header Title & Breadcrumb (KONHAKES 1:1) -->
+    <div class="d-flex justify-content-between align-items-center konhakes-title-box">
+        <h3 class="konhakes-title">Histori Penyesuaian Stok</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <span>Histori Penyesuaian Stok</span>
         </div>
     </div>
-    <div class="profaskes-orange-line"></div>
+    <div class="konhakes-orange-line"></div>
 
     <!-- Alert Box -->
     @if(session('success'))
@@ -160,7 +160,7 @@
     </div>
     @endif
 
-    <!-- Toolbar Buttons (PROFASKES 1:1) -->
+    <!-- Toolbar Buttons (KONHAKES 1:1) -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="d-flex align-items-center gap-2">
             <button type="button" class="btn btn-prof-orange" id="btnToggleCari">
@@ -220,7 +220,7 @@
         </div>
     </div>
 
-    <!-- Table Box with Cyan Top Line (PROFASKES 1:1) -->
+    <!-- Table Box with Cyan Top Line (KONHAKES 1:1) -->
     <div class="table-box-cyan">
         <div class="table-responsive">
             <table class="table-histori-grid">

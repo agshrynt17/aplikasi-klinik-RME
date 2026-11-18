@@ -7,7 +7,7 @@ use App\Models\Pendaftaran;
 use App\Models\GeneralConsent;
 use App\Models\Poliklinik;
 use App\Models\Penjamin;
-use Database\Seeders\PendaftaranProfaskesSeeder;
+use Database\Seeders\PendaftaranKonhakesSeeder;
 use Illuminate\Http\Request;
 
 class GeneralConsentController extends Controller
@@ -18,7 +18,7 @@ class GeneralConsentController extends Controller
         // Pastikan ada data pendaftaran jika kosong
         if (Pendaftaran::count() === 0) {
             try {
-                (new PendaftaranProfaskesSeeder())->run();
+                (new PendaftaranKonhakesSeeder())->run();
             } catch (\Throwable $e) {}
         }
 

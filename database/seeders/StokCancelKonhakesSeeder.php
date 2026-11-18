@@ -9,7 +9,7 @@ use App\Models\MasterBarang;
 use App\Models\MasterGudang;
 use Carbon\Carbon;
 
-class StokCancelProfaskesSeeder extends Seeder
+class StokCancelKonhakesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -42,7 +42,7 @@
         margin-bottom: 4px;
         display: block;
     }
-    .form-control-profaskes {
+    .form-control-konhakes {
         font-size: 12.5px;
         height: 32px;
         border: 1px solid #d2d6de;
@@ -51,7 +51,7 @@
         color: #333;
         width: 100%;
     }
-    .form-control-profaskes:focus {
+    .form-control-konhakes:focus {
         border-color: #3c8dbc;
         outline: none;
     }
@@ -196,13 +196,13 @@
                 <!-- 1. Tanggal -->
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <label class="filter-label">Tanggal</label>
-                    <input type="text" name="tanggal" class="form-control form-control-profaskes" value="{{ request('tanggal', $filterTanggal) }}" placeholder="14-10-2026">
+                    <input type="text" name="tanggal" class="form-control form-control-konhakes" value="{{ request('tanggal', $filterTanggal) }}" placeholder="14-10-2026">
                 </div>
 
                 <!-- 2. Poliklinik -->
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <label class="filter-label">Poliklinik</label>
-                    <select name="poliklinik" class="form-select form-control-profaskes">
+                    <select name="poliklinik" class="form-select form-control-konhakes">
                         <option value="">--Pilih--</option>
                         <option value="Klinik Umum 1" {{ request('poliklinik') == 'Klinik Umum 1' ? 'selected' : '' }}>Klinik Umum 1</option>
                         <option value="Klinik Gigi" {{ request('poliklinik') == 'Klinik Gigi' ? 'selected' : '' }}>Klinik Gigi</option>
@@ -216,25 +216,25 @@
                 <!-- 3. Kode Reg. -->
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <label class="filter-label">Kode Reg.</label>
-                    <input type="text" name="kode_reg" class="form-control form-control-profaskes" value="{{ request('kode_reg') }}" placeholder="">
+                    <input type="text" name="kode_reg" class="form-control form-control-konhakes" value="{{ request('kode_reg') }}" placeholder="">
                 </div>
 
                 <!-- 4. Nomor Kartu -->
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <label class="filter-label">Nomor Kartu</label>
-                    <input type="text" name="nomor_kartu" class="form-control form-control-profaskes" value="{{ request('nomor_kartu') }}" placeholder="">
+                    <input type="text" name="nomor_kartu" class="form-control form-control-konhakes" value="{{ request('nomor_kartu') }}" placeholder="">
                 </div>
 
                 <!-- 5. No Antrian -->
                 <div class="col-lg-1 col-md-2 col-sm-4">
                     <label class="filter-label">No Antrian</label>
-                    <input type="text" name="no_antrian" class="form-control form-control-profaskes" value="{{ request('no_antrian') }}" placeholder="">
+                    <input type="text" name="no_antrian" class="form-control form-control-konhakes" value="{{ request('no_antrian') }}" placeholder="">
                 </div>
 
                 <!-- 6. Status Antrian -->
                 <div class="col-lg-2 col-md-4 col-sm-4">
                     <label class="filter-label">Status Antrian</label>
-                    <select name="status_antrian" class="form-select form-control-profaskes">
+                    <select name="status_antrian" class="form-select form-control-konhakes">
                         <option value="">--Semua--</option>
                         <option value="Terkirim" {{ request('status_antrian') == 'Terkirim' ? 'selected' : '' }}>Terkirim</option>
                         <option value="Gagal" {{ request('status_antrian') == 'Gagal' ? 'selected' : '' }}>Gagal</option>

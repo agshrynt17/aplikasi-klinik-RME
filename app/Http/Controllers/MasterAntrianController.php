@@ -11,7 +11,7 @@ class MasterAntrianController extends Controller
 {
     public function index()
     {
-        // Self-heal initial data if empty to match PROFASKES default
+        // Self-heal initial data if empty to match KONHAKES default
         if (MasterAntrian::count() === 0) {
             $poliUmum = Poliklinik::where('nama_poli', 'Klinik Umum 1')->first() 
                      ?? Poliklinik::where('nama_poli', 'LIKE', '%Umum%')->first();

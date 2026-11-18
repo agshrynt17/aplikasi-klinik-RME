@@ -26,7 +26,7 @@ class LogPasienBaruMjkn extends Model
         'tanggal_lahir' => 'date',
     ];
 
-    // Accessors for PROFASKES field names
+    // Accessors for KONHAKES field names
     public function getNomorkartuAttribute()
     {
         return $this->attributes['no_kartu'] ?? null;

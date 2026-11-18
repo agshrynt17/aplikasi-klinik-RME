@@ -10,7 +10,7 @@ use App\Models\Penjamin;
 use App\Models\Pendaftaran;
 use Carbon\Carbon;
 
-class PendaftaranProfaskesSeeder extends Seeder
+class PendaftaranKonhakesSeeder extends Seeder
 {
     public function run(): void
     {

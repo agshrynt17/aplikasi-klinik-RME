@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class PengaturanController extends Controller
 {
     /**
-     * Ensure initial settings matching PROFASKES exist
+     * Ensure initial settings matching KONHAKES exist
      */
     private function ensureInitialData()
     {

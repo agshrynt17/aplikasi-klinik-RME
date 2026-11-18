@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Seed 4 data kesadaran standar PCare BPJS sesuai PROFASKES 1:1
+        // Seed 4 data kesadaran standar PCare BPJS sesuai KONHAKES 1:1
         DB::table('pcare_kesadarans')->insert([
             [
                 'kd_sadar'      => '01',

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Seed data 16 setting PCare sesuai sistem PROFASKES
+        // Seed data 16 setting PCare sesuai sistem KONHAKES
         $settings = [
             ['nama_setting' => 'base_url',            'nilai_setting' => 'https://apijkn.bpjs-kesehatan.go.id',          'deskripsi' => null,                                                                                       'can_edit' => false, 'is_secret' => false],
             ['nama_setting' => 'base_url_rbk',        'nilai_setting' => 'https://apijkn.bpjs-kesehatan.go.id',          'deskripsi' => 'Khusus untuk rujukan RBK',                                                                 'can_edit' => false, 'is_secret' => false],

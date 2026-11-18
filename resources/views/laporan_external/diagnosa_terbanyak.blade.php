@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Laporan Data Kesakitan Terbanyak</h4>
         <div style="font-size: 11.5px; color: #777;">
@@ -14,15 +14,15 @@
         </div>
     </div>
 
-    <!-- Cyan Divider Line (1:1 PROFASKES) -->
+    <!-- Cyan Divider Line (1:1 KONHAKES) -->
     <div style="height: 2px; background-color: #00c0ef; margin-top: 8px; margin-bottom: 15px;"></div>
 
-    <!-- Filter Pencarian Card (1:1 PROFASKES) -->
+    <!-- Filter Pencarian Card (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; padding: 15px 20px; margin-bottom: 20px;">
         <div style="font-size: 13px; font-weight: 600; color: #333; margin-bottom: 12px;">Filter Pencarian</div>
         
         <form method="GET" action="/laporan-eksternal/laporan-diagnosa-terbanyak" id="filterForm">
-            <!-- Row 1: Tanggal, Opsi Tampilan & Action Buttons (1:1 PROFASKES) -->
+            <!-- Row 1: Tanggal, Opsi Tampilan & Action Buttons (1:1 KONHAKES) -->
             <div class="d-flex align-items-end flex-wrap gap-2 mb-1">
                 <div>
                     <label style="font-size: 11.5px; font-weight: 600; color: #333; margin-bottom: 4px; display: block;">Tgl Awal</label>
@@ -66,12 +66,12 @@
         </form>
     </div>
 
-    <!-- Summary Total (1:1 PROFASKES) -->
+    <!-- Summary Total (1:1 KONHAKES) -->
     <div style="font-size: 12.5px; font-weight: 700; color: #222; margin-top: 20px; margin-bottom: 12px;">
         Total Kunjungan Pasien : {{ number_format($total_kunjungan) }} , Total Diagnosa Pasien : {{ number_format($total_diagnosa) }}
     </div>
 
-    <!-- Table Container Card (1:1 PROFASKES) -->
+    <!-- Table Container Card (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; padding: 15px;">
         <div class="table-responsive">
             <table class="table table-bordered align-middle mb-0" style="font-size: 11.5px; border-color: #d2d6de; width: 100%;">

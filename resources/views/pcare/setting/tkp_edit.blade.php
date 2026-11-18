@@ -6,38 +6,38 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover { text-decoration: underline; }
-    .form-group-profaskes {
+    .konhakes-breadcrumb a:hover { text-decoration: underline; }
+    .form-group-konhakes {
         margin-bottom: 15px;
     }
-    .form-group-profaskes label {
+    .form-group-konhakes label {
         display: block;
         font-size: 13px;
         font-weight: 600;
         color: #333;
         margin-bottom: 5px;
     }
-    .form-control-profaskes {
+    .form-control-konhakes {
         width: 100%;
         height: 34px;
         padding: 6px 12px;
@@ -50,11 +50,11 @@
         outline: none;
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     }
-    .form-control-profaskes:focus {
+    .form-control-konhakes:focus {
         border-color: #3c8dbc;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(60,141,188,.6);
     }
-    .btn-save-profaskes {
+    .btn-save-konhakes {
         background-color: #00a65a;
         border: 1px solid #008d4c;
         color: #ffffff !important;
@@ -65,14 +65,14 @@
         display: inline-block;
         font-weight: 400;
     }
-    .btn-save-profaskes:hover { background-color: #008d4c; }
+    .btn-save-konhakes:hover { background-color: #008d4c; }
 </style>
 
 <div class="pcare-page">
     {{-- Header & Breadcrumb --}}
-    <div class="profaskes-header">
-        <h3 class="profaskes-title">Update Tkp</h3>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h3 class="konhakes-title">Update Tkp</h3>
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a>
             <span style="color:#777; margin:0 5px;">&nbsp;</span>
             <a href="/pcare-tkp/index">Pcare Tkps</a>
@@ -94,18 +94,18 @@
 
     <form action="/pcare-tkp/{{ $tkp->id }}/update" method="POST">
         @csrf
-        <div class="form-group-profaskes">
+        <div class="form-group-konhakes">
             <label for="kd_tkp">Kd Tkp</label>
-            <input type="text" name="kd_tkp" id="kd_tkp" class="form-control-profaskes" value="{{ old('kd_tkp', $tkp->kd_tkp) }}" required autofocus>
+            <input type="text" name="kd_tkp" id="kd_tkp" class="form-control-konhakes" value="{{ old('kd_tkp', $tkp->kd_tkp) }}" required autofocus>
         </div>
 
-        <div class="form-group-profaskes">
+        <div class="form-group-konhakes">
             <label for="nm_tkp">Nm Tkp</label>
-            <input type="text" name="nm_tkp" id="nm_tkp" class="form-control-profaskes" value="{{ old('nm_tkp', $tkp->nm_tkp) }}" required>
+            <input type="text" name="nm_tkp" id="nm_tkp" class="form-control-konhakes" value="{{ old('nm_tkp', $tkp->nm_tkp) }}" required>
         </div>
 
         <div style="margin-top: 15px;">
-            <button type="submit" class="btn-save-profaskes">Update</button>
+            <button type="submit" class="btn-save-konhakes">Update</button>
             <a href="/pcare-tkp/index" class="btn btn-default btn-sm ms-2" style="background:#e7e7e7; border:1px solid #ccc; font-size:13px; padding:6px 14px;">Batal</a>
         </div>
     </form>

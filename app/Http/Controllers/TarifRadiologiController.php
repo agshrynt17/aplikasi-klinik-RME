@@ -24,7 +24,7 @@ class TarifRadiologiController extends Controller
         }
 
         $totalCount = $query->count();
-        // Urutkan persis sesuai PROFASKES screenshot (00000, P0000, P0001, dst)
+        // Urutkan persis sesuai KONHAKES screenshot (00000, P0000, P0001, dst)
         $data = $query->orderBy('kode_penjamin', 'asc')->get();
 
         // Cek penjamin mana yang sudah diset tarif radiologinya

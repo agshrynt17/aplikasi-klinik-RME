@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES Screenshot 3) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES Screenshot 3) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Pilih Peserta Skrining
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <!-- Filter Pencarian Card (1:1 PROFASKES Screenshot 3) -->
+    <!-- Filter Pencarian Card (1:1 KONHAKES Screenshot 3) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; margin-top: 15px; margin-bottom: 20px;">
         <div class="d-flex justify-content-between align-items-center" style="padding: 9px 15px; border-bottom: 1px solid #f4f4f4;">
             <span style="font-size: 12.5px; font-weight: 600; color: #333;">Filter Pencarian</span>
@@ -110,7 +110,7 @@
         </div>
     </div>
 
-    <!-- Data Table Container (1:1 PROFASKES Screenshot 3) -->
+    <!-- Data Table Container (1:1 KONHAKES Screenshot 3) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); margin-bottom: 20px;">
         <div style="padding: 9px 15px; font-size: 12px; color: #444; font-weight: 600; border-bottom: 1px solid #eef2f5;">
             Menampilkan {{ $pendaftarans->firstItem() ?? 0 }}-{{ $pendaftarans->lastItem() ?? 0 }} dari {{ $pendaftarans->total() }} item.

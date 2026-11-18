@@ -73,7 +73,7 @@
     $item = $pasien ?? null;
 @endphp
 
-<!-- Header Area Sesuai PROFASKES -->
+<!-- Header Area Sesuai KONHAKES -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="fw-bold mb-0 text-dark" style="font-size: 1.5rem;">
         {{ $isEdit ? 'Edit Data Pasien' : 'Tambah Pasien' }}

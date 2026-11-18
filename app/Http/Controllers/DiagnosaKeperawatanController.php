@@ -8,7 +8,7 @@ use App\Models\DiagnosaKeperawatan;
 
 class DiagnosaKeperawatanController extends Controller
 {
-    // Menampilkan daftar diagnosa keperawatan (PROFASKES /diagnosa-keperawatan/index)
+    // Menampilkan daftar diagnosa keperawatan (KONHAKES /diagnosa-keperawatan/index)
     public function index(Request $request)
     {
         $query = DiagnosaKeperawatan::query();

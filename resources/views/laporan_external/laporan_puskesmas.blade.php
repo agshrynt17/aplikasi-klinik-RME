@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0; text-transform: uppercase;">LAPORAN PUSKESMAS</h4>
         <div style="font-size: 11.5px; color: #777;">
@@ -14,10 +14,10 @@
         </div>
     </div>
 
-    <!-- Cyan Divider Line (1:1 PROFASKES) -->
+    <!-- Cyan Divider Line (1:1 KONHAKES) -->
     <div style="height: 2px; background-color: #00c0ef; margin-top: 8px; margin-bottom: 15px;"></div>
 
-    <!-- Filter Pencarian Card (1:1 PROFASKES) -->
+    <!-- Filter Pencarian Card (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; padding: 15px 20px; margin-bottom: 20px;">
         <div style="font-size: 13px; font-weight: 600; color: #333; margin-bottom: 12px;">Filter Pencarian</div>
         
@@ -130,7 +130,7 @@
         </form>
     </div>
 
-    <!-- Data Table Container (1:1 PROFASKES) -->
+    <!-- Data Table Container (1:1 KONHAKES) -->
     <div class="table-responsive" style="border: 1px solid #d2d6de; background: #fff; border-radius: 3px; overflow-x: auto; box-shadow: 0 1px 1px rgba(0,0,0,0.05);">
         <table class="table table-bordered table-hover mb-0" style="font-size: 11.5px; white-space: nowrap; border-collapse: collapse; width: 100%;">
             <thead style="background-color: #e4e7ea; color: #333; font-weight: 600; font-size: 11.5px; border-bottom: 2px solid #d2d6de;">

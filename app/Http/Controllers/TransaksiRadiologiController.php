@@ -24,7 +24,7 @@ class TransaksiRadiologiController extends Controller
             $tanggal = $request->tanggal;
             $query->whereDate('tanggal_daftar', $tanggal);
         } else {
-            // Default tanggal 2026-10-14 sesuai screenshot PROFASKES (8 pasien)
+            // Default tanggal 2026-10-14 sesuai screenshot KONHAKES (8 pasien)
             $hasDate = Pendaftaran::whereDate('tanggal_daftar', '2026-10-14')->exists();
             if ($hasDate) {
                 $tanggal = '2026-10-14';

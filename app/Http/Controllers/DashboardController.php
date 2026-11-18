@@ -11,6 +11,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
         $hariIni = Carbon::today();
         $kemarin = Carbon::yesterday();
         $bulanIni = $hariIni->month;

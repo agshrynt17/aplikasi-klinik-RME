@@ -10,7 +10,7 @@ use App\Models\MasterProdusen;
 class MasterBarangController extends Controller
 {
     /**
-     * Halaman Data Barang (1:1 PROFASKES /barang/index)
+     * Halaman Data Barang (1:1 KONHAKES /barang/index)
      */
     public function index(Request $request)
     {
@@ -52,7 +52,7 @@ class MasterBarangController extends Controller
     }
 
     /**
-     * Halaman Tambah Barang (1:1 PROFASKES /barang/create)
+     * Halaman Tambah Barang (1:1 KONHAKES /barang/create)
      */
     public function create()
     {

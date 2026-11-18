@@ -5,12 +5,12 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\MasterProsedur;
 
-class MasterProsedurProfaskesSeeder extends Seeder
+class MasterProsedurKonhakesSeeder extends Seeder
 {
     public function run(): void
     {
         $prosedurs = [
-            // Exact rows 1-20 matching PROFASKES media_17925597xx
+            // Exact rows 1-20 matching KONHAKES media_17925597xx
             [
                 'kode_prosedur' => '21',
                 'nama_prosedur' => 'Operations on nose',

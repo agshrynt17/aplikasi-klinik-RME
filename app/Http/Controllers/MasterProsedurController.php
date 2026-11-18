@@ -8,7 +8,7 @@ use App\Models\MasterProsedur;
 
 class MasterProsedurController extends Controller
 {
-    // Menampilkan daftar data prosedur (PROFASKES /prosedur/index)
+    // Menampilkan daftar data prosedur (KONHAKES /prosedur/index)
     public function index(Request $request)
     {
         $query = MasterProsedur::query();

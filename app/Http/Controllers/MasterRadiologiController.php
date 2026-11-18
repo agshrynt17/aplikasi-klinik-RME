@@ -47,7 +47,7 @@ class MasterRadiologiController extends Controller
         } elseif ($sortBy === 'kode') {
             $query->orderBy('kode_rad', $sortDir);
         } else {
-            // Default PROFASKES sort: Aktif first, then ID / creation order
+            // Default KONHAKES sort: Aktif first, then ID / creation order
             $query->orderBy('is_active', 'desc')->orderBy('id', 'asc');
         }
 

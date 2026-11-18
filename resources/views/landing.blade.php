@@ -68,7 +68,7 @@
         }
 
         /* ============================================================
-           HEADER & NAVIGATION (Persis seperti profaskes.id di screenshot)
+           HEADER & NAVIGATION (Persis seperti konhakes.id di screenshot)
            ============================================================ */
         .header {
             position: sticky;
@@ -233,7 +233,7 @@
 
 
         /* ============================================================
-           HERO BANNER AREA (PERSIS SEPERTI DI SCREENSHOT PROFASKES.ID)
+           HERO BANNER AREA (PERSIS SEPERTI DI SCREENSHOT KONHAKES.ID)
            ============================================================ */
         .banner-area {
             position: relative;
@@ -354,6 +354,65 @@
             color: #ffffff !important;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 74, 173, 0.4);
+        }
+
+        /* 5. BUTTON MASUK HERO & NAVBAR */
+        .btn-secondary-login {
+            background-color: transparent !important;
+            color: var(--primary-blue) !important;
+            border: 2px solid var(--primary-blue) !important;
+            border-radius: 10px !important;
+            padding: 11px 26px;
+            font-size: 15.5px;
+            font-weight: 700;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary-login:hover {
+            background-color: var(--primary-light) !important;
+            color: var(--primary-blue) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 74, 173, 0.2);
+        }
+
+        .btn-nav-login {
+            background-color: var(--primary-blue);
+            color: #ffffff !important;
+            padding: 8px 22px;
+            border-radius: 6px;
+            font-size: 14.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 74, 173, 0.25);
+            margin-left: 20px;
+        }
+        .btn-nav-login:hover {
+            background-color: var(--primary-dark);
+            color: #ffffff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(0, 74, 173, 0.35);
+        }
+
+        .btn-nav-dashboard {
+            background-color: var(--primary-green);
+            box-shadow: 0 2px 8px rgba(0, 166, 90, 0.25);
+        }
+        .btn-nav-dashboard:hover {
+            background-color: #008d4c;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(0, 166, 90, 0.35);
         }
 
 
@@ -917,8 +976,8 @@
 </head>
 <body>
 
-    <!-- Floating WhatsApp Button (Persis di Screenshot Pojok Kanan Bawah) -->
-    <a href="https://api.whatsapp.com/send/?phone=62812258080&text=Halo%20Klinik%20Telagasari%2024%20Jam%2C%20saya%20ingin%20informasi%20pelayanan%20dan%20RME" target="_blank" class="floating-whatsapp" aria-label="Hubungi WhatsApp Klinik Telagasari 24 Jam">
+    <!-- Floating WhatsApp Button -->
+    <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Tim%20Konhakes%2C%20saya%20ingin%20informasi%20pelayanan%20dan%20RME%20Konhakes" target="_blank" class="floating-whatsapp" aria-label="Hubungi WhatsApp Konhakes">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path fill="white" d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01m-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18l-3.12.82l.83-3.04l-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23m4.52-6.16c-.25-.12-1.47-.72-1.69-.81c-.23-.08-.39-.12-.56.12c-.17.25-.64.81-.78.97c-.14.17-.29.19-.54.06c-.25-.12-1.05-.39-1.99-1.23c-.74-.66-1.23-1.47-1.38-1.72c-.14-.25-.02-.38.11-.51c.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31c-.22.25-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74c.59.26 1.05.41 1.41.52c.59.19 1.13.16 1.56.1c.48-.07 1.47-.6 1.67-1.18c.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28" />
         </svg>
@@ -927,7 +986,7 @@
     <div class="site-wrapper">
 
         <!-- ========================================================
-             HEADER / NAVBAR (PERSIS PROFASKES.ID DI SCREENSHOT)
+             HEADER / NAVBAR (PERSIS KONHAKES.ID DI SCREENSHOT)
              ======================================================== -->
         <header class="header sticky-header">
             <div class="header-middle-area">
@@ -954,8 +1013,8 @@
                             </div>
                         </a>
 
-                        <!-- Navigation Menu (HOME, FITUR ∨, BERLANGGANAN, ARTIKEL, KONTAK) -->
-                        <nav class="bk-navigation d-none d-lg-block">
+                        <!-- Navigation Menu (HOME, FITUR ∨, BERLANGGANAN, ARTIKEL, KONTAK, MASUK) -->
+                        <nav class="bk-navigation d-none d-lg-flex align-items-center">
                             <ul class="bk-nav-list">
                                 <li class="bk-nav-item">
                                     <a href="/" class="bk-nav-link active">HOME</a>
@@ -1007,7 +1066,30 @@
                                     <a href="#kontak-area" class="bk-nav-link">KONTAK</a>
                                 </li>
                             </ul>
+
+                            @if(auth()->check())
+                                <a href="/dashboard" class="btn-nav-login btn-nav-dashboard" title="Menuju Dashboard">
+                                    <i class="fas fa-desktop"></i> DASHBOARD
+                                </a>
+                            @else
+                                <a href="/login" class="btn-nav-login" title="Masuk ke Aplikasi">
+                                    <i class="fas fa-sign-in-alt"></i> MASUK
+                                </a>
+                            @endif
                         </nav>
+
+                        <!-- Mobile Header Button (d-lg-none) -->
+                        <div class="d-flex d-lg-none align-items-center gap-2">
+                            @if(auth()->check())
+                                <a href="/dashboard" class="btn btn-sm btn-success fw-bold px-3 py-1" style="font-size: 13px;">
+                                    <i class="fas fa-desktop"></i> Dashboard
+                                </a>
+                            @else
+                                <a href="/login" class="btn btn-sm btn-primary fw-bold px-3 py-1" style="background-color: var(--primary-blue); border-color: var(--primary-blue); font-size: 13px;">
+                                    <i class="fas fa-sign-in-alt"></i> Masuk
+                                </a>
+                            @endif
+                        </div>
 
                     </div>
                 </div>
@@ -1046,10 +1128,13 @@
                             </button>
                         </div>
 
-                        <!-- 4. ACTION BUTTON: COBA GRATIS (PERSIS SCREENSHOT) -->
-                        <div class="banner-action mt-2">
-                            <a href="/dashboard" class="modal-button">
-                                Coba Gratis
+                        <!-- 4. ACTION BUTTONS: COBA GRATIS & MASUK APLIKASI -->
+                        <div class="banner-action mt-2 d-flex flex-wrap align-items-center gap-3">
+                            <button type="button" class="modal-button" data-bs-toggle="modal" data-bs-target="#modalCobaGratis">
+                                <i class="fas fa-play-circle me-1"></i> Coba Gratis
+                            </button>
+                            <a href="/login" class="btn-secondary-login">
+                                <i class="fas fa-sign-in-alt me-1"></i> Masuk Aplikasi
                             </a>
                         </div>
 
@@ -1085,7 +1170,7 @@
                                 </tr>
                                 <tr>
                                     <td>Whatsapp</td>
-                                    <td class="w-75 fw-bold text-success">0812-2580-80</td>
+                                    <td class="w-75 fw-bold text-success">0812-8888-2026 (Konhakes)</td>
                                 </tr>
                                 <tr>
                                     <td>Alamat</td>
@@ -1095,7 +1180,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="pt-2">
-                                        Punya Pertanyaan Lain? <a href="https://api.whatsapp.com/send/?phone=62812258080" target="_blank" style="color: #004aad; font-weight: 700;">Hubungi Kami Langsung</a>
+                                        Punya Pertanyaan Lain? <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Tim%20Konhakes%2C%20saya%20ingin%20konsultasi%20layanan" target="_blank" style="color: #004aad; font-weight: 700;">Hubungi Tim Konhakes</a>
                                     </td>
                                 </tr>
                             </table>
@@ -1448,9 +1533,12 @@
             <div class="container">
                 <h2>SIAP DIGITALISASI FASKES BERSAMA KLINIK TELAGASARI 24 JAM?</h2>
                 <p>Tingkatkan mutu pelayanan klinik, pangkas waktu administrasi medis, dan raih Akreditasi Paripurna tanpa beban.</p>
-                <div>
-                    <a href="/dashboard" class="btn-cta-white">
-                        <i class="fas fa-stethoscope"></i> Coba Gratis Sekarang
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <button type="button" class="btn-cta-white border-0" data-bs-toggle="modal" data-bs-target="#modalCobaGratis">
+                        <i class="fas fa-stethoscope me-1"></i> Coba Gratis Sekarang
+                    </button>
+                    <a href="/login" class="btn btn-outline-light fw-bold px-4 py-3" style="font-size: 15px; border-radius: 6px; letter-spacing: 0.3px;">
+                        <i class="fas fa-sign-in-alt me-1"></i> Masuk Aplikasi
                     </a>
                 </div>
             </div>
@@ -1525,7 +1613,7 @@
                                 <i class="fas fa-phone-alt text-success me-2"></i> IGD / Call Center: (0267) 845-xxxx
                             </p>
                             <p style="font-size: 14px; color: #9ca3af; margin-bottom: 8px;">
-                                <i class="fab fa-whatsapp text-success me-2"></i> WhatsApp: 0812-2580-80
+                                <i class="fab fa-whatsapp text-success me-2"></i> WhatsApp: 0812-8888-2026 (Konhakes)
                             </p>
                             <p style="font-size: 14px; color: #9ca3af;">
                                 <i class="fas fa-envelope text-primary me-2"></i> info@kliniktelagasari.com
@@ -1545,6 +1633,87 @@
 
         </footer>
 
+        <!-- Modal Coba Gratis & Akses Demo -->
+        <div class="modal fade" id="modalCobaGratis" tabindex="-1" aria-labelledby="modalCobaGratisLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+                    <div class="modal-header text-white p-4" style="background: linear-gradient(135deg, #004aad 0%, #0077b6 100%);">
+                        <div>
+                            <h4 class="modal-title fw-bold mb-1" id="modalCobaGratisLabel" style="font-size: 1.35rem;">
+                                <i class="fas fa-stethoscope me-2"></i> Coba Gratis & Akses Demo RME
+                            </h4>
+                            <p class="mb-0 opacity-75" style="font-size: 13.5px;">
+                                Pilih cara untuk mencoba fitur lengkap Rekam Medis Elektronik Klinik Telagasari 24 Jam
+                            </p>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4 bg-light">
+                        <div class="row g-3">
+                            <!-- Opsi 1: Akses Demo Langsung -->
+                            <div class="col-md-6 col-12">
+                                <div class="card h-100 border-0 shadow-sm p-3 bg-white" style="border-radius: 10px; border-top: 4px solid #004aad !important;">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-primary px-2 py-1"><i class="fas fa-laptop-medical"></i> Akun Demo</span>
+                                        <span class="badge bg-success-subtle text-success fw-bold">Siap Pakai</span>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-2" style="font-size: 1.1rem;">Eksplorasi Demo SIMRS</h5>
+                                    <p class="text-muted small mb-3" style="font-size: 13px; line-height: 1.45;">
+                                        Langsung uji coba semua fitur klinik (Pendaftaran, RME Dokter, Farmasi, Kasir, Lab, Radiologi) menggunakan akun demo gratis.
+                                    </p>
+                                    <div class="bg-light p-2 rounded border mb-3" style="font-size: 12px;">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted">Username:</span>
+                                            <strong class="text-dark">admin / fahmirizal / lusi</strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-muted">Password:</span>
+                                            <strong class="text-primary font-monospace">password123</strong>
+                                        </div>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <a href="/login" class="btn btn-primary w-100 fw-bold py-2" style="background-color: #004aad; border-color: #004aad; border-radius: 6px; font-size: 14px;">
+                                            <i class="fas fa-sign-in-alt me-1"></i> Masuk ke Demo Aplikasi
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Opsi 2: Daftarkan Klinik Baru -->
+                            <div class="col-md-6 col-12">
+                                <div class="card h-100 border-0 shadow-sm p-3 bg-white" style="border-radius: 10px; border-top: 4px solid #00a65a !important;">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-success px-2 py-1"><i class="fas fa-clinic-medical"></i> Faskes Baru</span>
+                                        <span class="badge bg-warning-subtle text-dark fw-bold">Trial 14 Hari</span>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-2" style="font-size: 1.1rem;">Daftarkan Klinik Anda</h5>
+                                    <p class="text-muted small mb-3" style="font-size: 13px; line-height: 1.45;">
+                                        Ingin mencoba sistem ini dengan nama faskes, data tindakan, dan tim dokter klinik Anda sendiri? Hubungi kami untuk aktivasi trial.
+                                    </p>
+                                    <ul class="list-unstyled mb-3" style="font-size: 12.5px; color: #444;">
+                                        <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i> Gratis setup database klinik sendiri</li>
+                                        <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i> Panduan & pendampingan tim IT</li>
+                                        <li><i class="fas fa-check-circle text-success me-2"></i> Uji coba integrasi BPJS & SATUSEHAT</li>
+                                    </ul>
+                                    <div class="mt-auto">
+                                        <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Tim%20Konhakes%2C%20saya%20tertarik%20mencoba%20gratis%20sistem%20RME%20Konhakes%20untuk%20klinik%20saya" target="_blank" class="btn btn-success w-100 fw-bold py-2" style="background-color: #00a65a; border-color: #00a65a; border-radius: 6px; font-size: 14px;">
+                                            <i class="fab fa-whatsapp me-1"></i> Aktivasi via WhatsApp Konhakes
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-white border-top py-2 px-4 d-flex justify-content-between align-items-center">
+                        <span class="text-muted" style="font-size: 12px;">
+                            <i class="fas fa-info-circle me-1 text-primary"></i> Dukungan Teknis Hotline Konhakes: <strong>(+62)812-8888-2026</strong>
+                        </span>
+                        <button type="button" class="btn btn-sm btn-outline-secondary px-3" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Bootstrap 5 Bundle JS -->
@@ -1562,7 +1731,7 @@
                 {
                     badge: "AKREDITASI PARIPURNA",
                     subtitle: "Persiapan Cepat, Bukti Telusur Tinggal Download",
-                    bg: "https://profaskes.id/panel/uploads/695d1771d0fd5.jpg"
+                    bg: "/landing_assets/hero-doctor.jpg"
                 },
                 {
                     badge: "PELAYANAN MEDIS 24 JAM",

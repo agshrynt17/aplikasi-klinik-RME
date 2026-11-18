@@ -64,7 +64,7 @@
     }
 </style>
 
-<!-- Header & Breadcrumbs (Sesuai PROFASKES) -->
+<!-- Header & Breadcrumbs (Sesuai KONHAKES) -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="fw-bold mb-0 text-dark" style="font-size: 1.5rem;">Data Pasien</h3>
     <nav aria-label="breadcrumb">

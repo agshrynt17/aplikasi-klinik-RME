@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 FORM PENERIMAAN BARANG & OBAT */
+    /* KONHAKES 1:1 FORM PENERIMAAN BARANG & OBAT */
     .bm-create-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .card-prof-box {
@@ -158,9 +158,9 @@
 
 <div class="bm-create-page">
     {{-- Header & Breadcrumbs --}}
-    <div class="profaskes-header">
-        <h1 class="profaskes-title">Form Penerimaan Barang & Obat</h1>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h1 class="konhakes-title">Form Penerimaan Barang & Obat</h1>
+        <div class="konhakes-breadcrumb">
             <a href="{{ url('/') }}">Beranda</a> &gt; 
             <a href="{{ url('/barangmasuk/index') }}">Barangmasukheaders</a> &gt; 
             <span>Tambah Barang Masuk</span>
@@ -528,7 +528,7 @@
             return String(it.master_barang_id) === String(barangId);
         });
         if (existing) {
-            alert('Barang ini sudah ada di daftar input. Sesuai aturan PROFASKES, barang harus berbeda di setiap baris input. Silakan edit atau sesuaikan jumlah baris yang ada.');
+            alert('Barang ini sudah ada di daftar input. Sesuai aturan KONHAKES, barang harus berbeda di setiap baris input. Silakan edit atau sesuaikan jumlah baris yang ada.');
             return;
         }
 

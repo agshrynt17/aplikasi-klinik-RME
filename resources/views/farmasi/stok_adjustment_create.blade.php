@@ -2,26 +2,26 @@
 
 @section('content')
 <style>
-    .profaskes-title-box {
+    .konhakes-title-box {
         padding-bottom: 8px;
         margin-bottom: 12px;
         position: relative;
     }
-    .profaskes-title-box h3 {
+    .konhakes-title-box h3 {
         font-size: 20px;
         font-weight: 500;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #777;
         text-decoration: none;
     }
-    .profaskes-orange-line {
+    .konhakes-orange-line {
         height: 2px;
         background-color: #f39c12;
         width: 100%;
@@ -70,13 +70,13 @@
 
 <div class="container-fluid px-3 py-2">
     <!-- Header Title & Breadcrumb -->
-    <div class="d-flex justify-content-between align-items-center profaskes-title-box">
+    <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Transaksi Penyesuaian Barang</h3>
-        <div class="profaskes-breadcrumb">
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stok Adjustments</a> <span class="mx-1">&gt;</span> <span>Transaksi Penyesuaian Barang</span>
         </div>
     </div>
-    <div class="profaskes-orange-line"></div>
+    <div class="konhakes-orange-line"></div>
 
     <!-- Error Alerts -->
     @if($errors->any())

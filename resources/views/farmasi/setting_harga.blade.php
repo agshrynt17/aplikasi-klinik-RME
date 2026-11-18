@@ -2,26 +2,26 @@
 
 @section('content')
 <style>
-    .profaskes-title-box {
+    .konhakes-title-box {
         padding-bottom: 8px;
         margin-bottom: 12px;
         position: relative;
     }
-    .profaskes-title-box h3 {
+    .konhakes-title-box h3 {
         font-size: 20px;
         font-weight: 500;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #777;
         text-decoration: none;
     }
-    .profaskes-cyan-line {
+    .konhakes-cyan-line {
         height: 2px;
         background-color: #00c0ef;
         width: 100%;
@@ -128,13 +128,13 @@
 
 <div class="container-fluid px-3 py-2">
     <!-- Header Title & Breadcrumb -->
-    <div class="d-flex justify-content-between align-items-center profaskes-title-box">
+    <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Setting Harga Barang / Obat & Biaya Racik</h3>
-        <div class="profaskes-breadcrumb">
+        <div class="konhakes-breadcrumb">
             <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <span>Setting Harga Barang / Obat & Biaya Racik</span>
         </div>
     </div>
-    <div class="profaskes-cyan-line"></div>
+    <div class="konhakes-cyan-line"></div>
 
     <div id="alertFeedback" class="alert d-none py-2 px-3 small mb-3"></div>
 
@@ -192,7 +192,7 @@
     </div>
 </div>
 
-<!-- Modal Setting Biaya Racik Penjamin (1:1 Match PROFASKES Screenshot 2) -->
+<!-- Modal Setting Biaya Racik Penjamin (1:1 Match KONHAKES Screenshot 2) -->
 <div class="modal fade" id="modalBiayaRacik" tabindex="-1" aria-labelledby="modalRacikTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow modal-cyan-top">

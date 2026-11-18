@@ -16,14 +16,14 @@ use App\Models\Poliklinik;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class LaboratoriumProfaskesSeeder extends Seeder
+class LaboratoriumKonhakesSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Bersihkan kode lama LAB-% agar tampilan 1:1 sesuai PROFASKES
+        // 1. Bersihkan kode lama LAB-% agar tampilan 1:1 sesuai KONHAKES
         MasterLab::where('kode_lab', 'like', 'LAB-%')->delete();
 
-        // 14 item pertama tepat sesuai Screenshot 1 PROFASKES
+        // 14 item pertama tepat sesuai Screenshot 1 KONHAKES
         $first14 = [
             ['kode' => 'TLAB0001', 'gol' => 'Hematologi', 'nama' => 'Darah Rutin', 'kel' => 'Paket', 'unitcost' => 0, 'aktif' => true],
             ['kode' => 'TLAB0003', 'gol' => 'Hematologi', 'nama' => 'Darah Lengkap', 'kel' => 'Paket', 'unitcost' => 0, 'aktif' => true],
@@ -120,7 +120,7 @@ class LaboratoriumProfaskesSeeder extends Seeder
             );
         }
 
-        // Add additional normal values to reach 1,321 items matching PROFASKES
+        // Add additional normal values to reach 1,321 items matching KONHAKES
         $details = ['Eritrosit', 'Basofil', 'Eosinofil', 'Batang', 'Segmen', 'Limfosit', 'Monosit', 'Ureum', 'Kreatinin', 'SGOT', 'SGPT', 'Bilirubin Total', 'Kolesterol Total', 'Trigliserida', 'Asam Urat', 'Glukosa Puasa'];
         $batch = [];
         $now = now();

@@ -363,36 +363,107 @@
         }
 
         /* Print Media Query for Thermal 80mm / 58mm Printer */
+        @page {
+            size: 80mm auto;
+            margin: 0;
+        }
+
         @media print {
-            body {
-                background: #fff !important;
+            html, body {
+                width: 80mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                background: #ffffff !important;
             }
+
+            /* Sembunyikan semua elemen kiosk, header, footer, dan modal dialog */
             .kiosk-header,
             .kiosk-main,
             .kiosk-footer,
+            .modal,
             .modal-backdrop,
+            .modal-dialog,
+            .modal-content,
+            .fade,
             .no-print {
                 display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
             }
+
+            /* Tampilkan HANYA area struk thermal */
             #printTicketArea {
                 display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 78mm;
-                padding: 5mm;
-                margin: 0;
-                font-family: 'Courier New', Courier, monospace;
-                text-align: center;
-                color: #000;
+                visibility: visible !important;
+                position: relative !important;
+                width: 72mm !important;
+                max-width: 72mm !important;
+                margin: 0 auto !important;
+                padding: 6mm 3mm !important;
+                box-sizing: border-box !important;
+                font-family: 'Courier New', Courier, monospace !important;
+                text-align: center !important;
+                color: #000000 !important;
+                background: #ffffff !important;
             }
-            #printTicketArea .t-clinic { font-size: 15px; font-weight: bold; }
-            #printTicketArea .t-number { font-size: 44px; font-weight: bold; margin: 8px 0; }
-            #printTicketArea .t-poli { font-size: 16px; font-weight: bold; }
-            #printTicketArea .t-divider { border-top: 1px dashed #000; margin: 6px 0; }
-            #printTicketArea .t-detail-row { display: flex; justify-content: space-between; font-size: 12px; }
+
+            #printTicketArea .t-clinic {
+                font-size: 15px !important;
+                font-weight: 900 !important;
+                text-transform: uppercase !important;
+                line-height: 1.2 !important;
+                margin-bottom: 2px !important;
+            }
+            #printTicketArea .t-address {
+                font-size: 10px !important;
+                line-height: 1.25 !important;
+                text-transform: uppercase !important;
+            }
+            #printTicketArea .t-phone {
+                font-size: 10px !important;
+                margin-bottom: 4px !important;
+            }
+            #printTicketArea .t-divider {
+                border-top: 1px dashed #000000 !important;
+                margin: 6px 0 !important;
+            }
+            #printTicketArea .t-header-label {
+                font-size: 12px !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+                text-transform: uppercase !important;
+                margin: 3px 0 !important;
+            }
+            #printTicketArea .t-number {
+                font-size: 46px !important;
+                font-weight: 900 !important;
+                letter-spacing: 2px !important;
+                line-height: 1.1 !important;
+                margin: 6px 0 !important;
+            }
+            #printTicketArea .t-poli {
+                font-size: 16px !important;
+                font-weight: 900 !important;
+                text-transform: uppercase !important;
+                margin-bottom: 2px !important;
+            }
+            #printTicketArea .t-doctor {
+                font-size: 12px !important;
+                font-weight: bold !important;
+                margin-bottom: 4px !important;
+            }
+            #printTicketArea .t-detail-row {
+                display: flex !important;
+                justify-content: space-between !important;
+                font-size: 11px !important;
+                line-height: 1.35 !important;
+                margin: 1px 0 !important;
+            }
+            #printTicketArea .t-footer-msg {
+                font-size: 10.5px !important;
+                margin-top: 6px !important;
+                line-height: 1.3 !important;
+            }
         }
 
         #printTicketArea {
@@ -492,15 +563,15 @@
     <!-- Footer Section -->
     <footer class="kiosk-footer">
         <div>
-            Copyright &copy; 2026 <a href="https://profaskes.id" target="_blank">Profaskes.id</a>
+            Copyright &copy; 2026 <a href="https://konhakes.id" target="_blank">Konhakes.id</a>
         </div>
         <div>
             Waktu Server: <span id="clockDisplay">{{ date('d-m-Y H:i:s') }}</span> | Asia/Jakarta | Auto Reload : <span id="countdownDisplay">20</span> Detik
         </div>
     </footer>
 
-    <!-- Ticket Popup Modal (Onsite Preview) -->
-    <div class="modal fade" id="modalTiketSukses" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <!-- Ticket Popup Modal (Onsite Preview - Screen Only) -->
+    <div class="modal fade no-print" id="modalTiketSukses" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-ticket">
             <div class="modal-content border-0 bg-transparent">
                 <div class="ticket-box">
@@ -551,13 +622,13 @@
     <!-- Hidden Printable Ticket Template for Thermal Printer -->
     <div id="printTicketArea">
         <div class="t-clinic" id="pTicketClinic">{{ $namaFaskes ?? 'KLINIK TELAGASARI 24 JAM' }}</div>
-        <div style="font-size: 11px;" id="pTicketAddress">{{ $alamatFaskes ?? 'JLN. RAYA TELAGASARI NO. 24, KEC. TELAGASARI, KAB. KARAWANG' }}</div>
-        <div style="font-size: 10px;" id="pTicketPhone">Telp {{ $teleponFaskes ?? '(0264) 8303763' }}</div>
+        <div class="t-address" id="pTicketAddress">{{ $alamatFaskes ?? 'JLN. RAYA TELAGASARI NO. 24, KEC. TELAGASARI, KAB. KARAWANG' }}</div>
+        <div class="t-phone" id="pTicketPhone">Telp {{ $teleponFaskes ?? '(0264) 8303763' }}</div>
         <div class="t-divider"></div>
-        <div style="font-size: 12px; font-weight: bold;">NOMOR ANTRIAN</div>
+        <div class="t-header-label">NOMOR ANTRIAN</div>
         <div class="t-number" id="pTicketCode">A058</div>
         <div class="t-poli" id="pTicketPoli">POLI DOKTER</div>
-        <div style="font-size: 12px; font-weight: bold;" id="pTicketDoctor">dr. VIERTA AJI NUR YASIN</div>
+        <div class="t-doctor" id="pTicketDoctor">dr. VIERTA AJI NUR YASIN</div>
         <div class="t-divider"></div>
         <div class="t-detail-row">
             <span>Ruangan:</span>
@@ -568,7 +639,7 @@
             <span id="pTicketHours">06:00-22:00</span>
         </div>
         <div class="t-detail-row">
-            <span>Waktu:</span>
+            <span>Waktu Cetak:</span>
             <span id="pTicketTime">{{ date('d-m-Y H:i:s') }}</span>
         </div>
         <div class="t-detail-row">
@@ -576,8 +647,8 @@
             <span id="pTicketRemaining">0 Orang</span>
         </div>
         <div class="t-divider"></div>
-        <div style="font-size: 11px; margin-top: 5px;">
-            Simpan nomor antrian ini<br>
+        <div class="t-footer-msg">
+            <div>Simpan nomor antrian ini</div>
             <strong>Terima Kasih Atas Kunjungan Anda</strong>
         </div>
     </div>

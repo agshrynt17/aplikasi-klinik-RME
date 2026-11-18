@@ -60,7 +60,7 @@ class SatuSehatSettingController extends Controller
     }
 
     // =====================================
-    // 2. DATA NAKES (PROFASKES 1:1)
+    // 2. DATA NAKES (KONHAKES 1:1)
     // =====================================
     public function nakes(Request $request)
     {

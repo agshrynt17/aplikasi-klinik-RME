@@ -102,7 +102,7 @@ class LogAntrianMjknController extends Controller
 
         $targetDate = '2026-10-14';
 
-        // 10 Specific records from PROFASKES Screenshot
+        // 10 Specific records from KONHAKES Screenshot
         $baseItems = [
             [
                 'status_antrian' => 'Menunggu',

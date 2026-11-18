@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">OHIS</h4>
         <div style="font-size: 11.5px; color: #777;">
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <!-- Orange Divider Line (1:1 PROFASKES) -->
+    <!-- Orange Divider Line (1:1 KONHAKES) -->
     <div style="height: 2px; background-color: #f39c12; margin-top: 8px; margin-bottom: 15px;"></div>
 
     @if(session('success'))
@@ -24,7 +24,7 @@
     </div>
     @endif
 
-    <!-- Action Bar (Left: Cari Data & Reset, Right: Empty as in PROFASKES) -->
+    <!-- Action Bar (Left: Cari Data & Reset, Right: Empty as in KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
         <div class="d-flex align-items-center gap-2">
             <button type="button" class="btn text-white btn-sm" data-bs-toggle="collapse" data-bs-target="#filterCollapse" style="background-color: #f39c12; border-color: #e08e0b; font-size: 12px; font-weight: 500; border-radius: 3px; padding: 5px 14px;">
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <!-- Table Container Card with Cyan Top Border (1:1 PROFASKES) -->
+    <!-- Table Container Card with Cyan Top Border (1:1 KONHAKES) -->
     <div style="border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; background: #fff; padding: 15px;">
         <!-- Item Count Indicator -->
         <div style="font-size: 12.5px; color: #333; margin-bottom: 12px;">

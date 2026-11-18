@@ -205,7 +205,7 @@
             transition: 0.3s;
         }
 
-        /* Main Footer - PROFASKES 1:1 */
+        /* Main Footer - KONHAKES 1:1 */
         .main-footer {
             background: #fff;
             padding: 10px 20px;
@@ -301,32 +301,38 @@
                 </div>
             </a>
         </div>
-        <div class="navbar-user d-flex align-items-center gap-3">
+        @php
+            $u = auth()->user();
+            $userName = $u ? $u->name : 'Admin Klinik';
+            $userRole = $u ? $u->role_name : 'Administrator';
+            $avatarName = urlencode($userName);
+        @endphp
+        <div class="navbar-user d-flex align-items-center">
             <div class="dropdown">
                 <a class="text-white text-decoration-none dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; font-size: 12.5px; font-weight: 600;">
-                    <i class="fas fa-user-md" style="font-size: 13px;"></i>
-                    <span>Admin</span>
+                    <i class="fas fa-user-circle" style="font-size: 16px;"></i>
+                    <span>{{ $userName }} <span class="badge bg-light text-dark ms-1" style="font-size: 10px; font-weight: 700;">{{ $userRole }}</span></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="position: absolute;">
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-muted"></i> Profil Saya</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-muted"></i> Pengaturan</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i> Keluar (Logout)</a></li>
+                    <li><div class="dropdown-header text-dark fw-bold py-1">{{ $userName }}</div></li>
+                    <li><div class="dropdown-item-text text-muted small pb-2"><i class="fas fa-shield-alt text-primary me-1"></i> Role: {{ $userRole }}</div></li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li><a class="dropdown-item" href="/user/admin"><i class="fas fa-user fa-sm fa-fw me-2 text-muted"></i> Profil Saya</a></li>
+                    <li><a class="dropdown-item" href="/setting-user"><i class="fas fa-cogs fa-sm fa-fw me-2 text-muted"></i> Ganti Password</a></li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li><a class="dropdown-item text-danger fw-bold" href="/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i> Keluar (Logout)</a></li>
                 </ul>
             </div>
-            <a href="/logout" class="text-white text-decoration-none" title="Keluar / Share" style="font-size: 13px; opacity: 0.9;">
-                <i class="fas fa-share-alt"></i>
-            </a>
         </div>
     </nav>
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="user-panel d-flex align-items-center gap-3 p-3 border-bottom">
-            <img src="https://ui-avatars.com/api/?name=Admin&background=00a65a&color=fff&rounded=true" alt="Admin" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #e2e8f0;">
-            <div class="info">
-                <p style="margin: 0; font-weight: 700; font-size: 13px; color: #2d3748;">Admin</p>
-                <small style="color: #28a745; font-size: 11px; font-weight: 500;"><i class="fas fa-circle" style="font-size: 7px; vertical-align: middle;"></i> Layanan Aktif</small>
+            <img src="https://ui-avatars.com/api/?name={{ $avatarName }}&background=00a65a&color=fff&rounded=true" alt="{{ $userName }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #e2e8f0;">
+            <div class="info" style="overflow: hidden; max-width: 170px;">
+                <p style="margin: 0; font-weight: 700; font-size: 13px; color: #2d3748; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $userName }}">{{ $userName }}</p>
+                <small style="color: #007bff; font-size: 11px; font-weight: 600;"><i class="fas fa-circle text-success" style="font-size: 7px; vertical-align: middle;"></i> {{ $userRole }}</small>
             </div>
         </div>
 
@@ -341,6 +347,7 @@
                     <span><i class="fas fa-chart-bar menu-icon"></i> Grafik & Pencapaian</span>
                 </a>
             </li>
+            @if(!$u || $u->hasPermission(['profil_faskes', 'master_poliklinik', 'lokasi', 'sdm_pegawai', 'master_penjamin', 'master_tpa', 'master_tindakan', 'master_tarif_tindakan', 'manajemen_user', 'setting_hak_akses', 'akun_pembayaran', 'setting_lainnya']))
             <li class="{{ request()->is('profil-faskes*') || request()->is('profil-bisnis*') || request()->is('master-poliklinik*') || request()->is('klinik*') || request()->is('master-unit-layanan*') || request()->is('unit*') || request()->is('master-gedung*') || request()->is('master-lantai*') || request()->is('master-ruang*') || request()->is('master-pegawai*') || request()->is('pegawai*') || request()->is('master-penjamin*') || request()->is('penjamin*') || request()->is('master-tpa*') || request()->is('tpa*') || request()->is('master-tindakan*') || request()->is('tindakan*') || request()->is('master-tarif-tindakan*') || request()->is('tariftindakan*') || request()->is('setting-*') || request()->is('user/admin*') || request()->is('payment-account*') || request()->is('master-akun-pembayaran*') || request()->is('general-setting*') ? 'open' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-wrench menu-icon"></i> Setting Awal</span>
@@ -396,6 +403,7 @@
                     <li><a href="/general-setting/index" class="{{ request()->is('general-setting*') || request()->is('setting-lainnya*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Setting Lainnya</a></li>
                 </ul>
             </li>
+            @endif
             @php
                 $isFoActive = request()->is('master-pasien*') || 
                               request()->is('pasien*') || 
@@ -412,6 +420,7 @@
                               request()->is('modul-kasir*');
                 $isTindakanActive = request()->is('transaksi-tindakan*') || request()->is('transaksitindakan*') || request()->is('tindakan-medis*');
             @endphp
+            @if(!$u || $u->hasPermission(['master_pasien', 'pendaftaran_rajal', 'antrian', 'general_consent']))
             <li class="{{ $isFoActive ? 'open' : '' }}" id="menuFrontOffice">
                 <a href="#" class="toggle-submenu {{ $isFoActive ? 'active' : '' }}">
                     <span><i class="fas fa-desktop menu-icon"></i> Front Office</span>
@@ -434,6 +443,7 @@
                     <li><a href="/transaksi-kasir" class="{{ request()->is('transaksi-kasir*') || request()->is('modul-kasir*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Transaksi Kasir</a></li>
                 </ul>
             </li>
+            @endif
             @php
                 $isAntrianActive = request()->is('master-antrian*') || 
                                    request()->is('jadwal-antrian*') || 
@@ -450,6 +460,7 @@
                                    request()->is('pcare-pasien-baru*') || 
                                    request()->is('antrian-bpjs-log*');
             @endphp
+            @if(!$u || $u->hasPermission(['antrian', 'pendaftaran_rajal', 'bridging_bpjs']))
             <li class="{{ $isAntrianActive ? 'open' : '' }}">
                 <a href="#" class="toggle-submenu {{ $isAntrianActive ? 'active' : '' }}">
                     <span><i class="fas fa-bullhorn menu-icon"></i> Antrian</span>
@@ -477,6 +488,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             @php
                 $isLabActive = request()->is('laboratorium*') || 
                                request()->is('lab*') || 
@@ -487,6 +499,7 @@
                                 request()->is('laporan/laporan-jasa-lab*') ||
                                 request()->is('perujuk-eksternal*');
             @endphp
+            @if(!$u || $u->hasPermission('laboratorium'))
             <li class="{{ $isLabActive ? 'open' : '' }}">
                 <a href="#" class="toggle-submenu {{ $isLabActive ? 'active' : '' }}">
                     <span><i class="fas fa-flask menu-icon"></i> Laboratorium</span>
@@ -502,9 +515,11 @@
                     <li><a href="/perujuk-eksternal/index" class="{{ request()->is('laboratorium/perujuk-eksternal*') || request()->is('perujuk-eksternal*') ? 'active' : '' }}"><i class="fas fa-bars menu-icon"></i> Data Perujuk Eksternal</a></li>
                 </ul>
             </li>
+            @endif
             @php
                 $isRadActive = request()->is('radiologi*') || request()->is('rad*') || request()->is('tarifrad*') || request()->is('transaksirad*') || request()->is('entryhasilrad*');
             @endphp
+            @if(!$u || $u->hasPermission('radiologi'))
             <li class="{{ $isRadActive ? 'open' : '' }}">
                 <a href="#" class="toggle-submenu {{ $isRadActive ? 'active' : '' }}">
                     <span><i class="fas fa-heartbeat menu-icon"></i> Radio-Diagnostik</span>
@@ -517,6 +532,7 @@
                     <li><a href="/entryhasilrad/index" class="{{ request()->is('radiologi/hasil*') || request()->is('entryhasilrad*') ? 'active' : '' }}"><i class="fas fa-bars menu-icon"></i> Hasil Radiologi</a></li>
                 </ul>
             </li>
+            @endif
             @php
                 $isRekamMedisActive = request()->is('rekam-medis*') || request()->is('diagnosa*') || request()->is('diagnosa-keperawatan*') || request()->is('prosedur*') || request()->is('asrajal*') || request()->is('asul*') || request()->is('asgizi*') || request()->is('asigd*') || request()->is('consent*') || request()->is('odon*') || request()->is('triase*') || request()->is('prabedah*') || request()->is('praanestesi*') || request()->is('laptindakan*') || request()->is('monitoring*') || request()->is('ohis*') || request()->is('surgical*') || request()->is('anc*') || request()->is('partograf*') || request()->is('moduldokter*') || request()->is('ppa*') || request()->is('skb*') || request()->is('skd*') || request()->is('sks*') || request()->is('skh*') || request()->is('skm*') || request()->is('sre*') || request()->is('skbn*') || request()->is('surat-keterangan*') || request()->is('inc*') || request()->is('laporan-external*') || request()->is('laporan-eksternal*');
                 $isMasterDiagnosaActive = request()->is('diagnosa*') || request()->is('diagnosa-keperawatan*') || request()->is('rekam-medis/master-diagnosa*') || request()->is('rekam-medis/diagnosa-keperawatan*');
@@ -541,6 +557,7 @@
                 $isIncActive = request()->is('inc*') || request()->is('rekam-medis/inc*');
                 $isLaporanExternalActive = request()->is('laporan-external*') || request()->is('laporan-eksternal*');
             @endphp
+            @if(!$u || $u->hasPermission(['rekam_medis', 'asesmen_rajal', 'asesmen_igd', 'odontogram', 'kebidanan', 'skrining']))
             <li class="{{ $isRekamMedisActive ? 'open' : '' }}">
                 <a href="#" class="toggle-submenu {{ $isRekamMedisActive ? 'active' : '' }}">
                     <span><i class="fas fa-folder-open menu-icon"></i> Rekam Medis</span>
@@ -782,6 +799,8 @@
                     <li><a href="/dokumen-pasien/index" class="{{ request()->is('*dokumen*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Dokumen Pelayanan Pasien</a></li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission('skrining'))
             <li class="{{ request()->is('*skrining*') ? 'open active' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-diagnoses menu-icon"></i> Skrining Pasien</span>
@@ -801,6 +820,8 @@
                     <li><a href="/moduldokter/index-mcu" class="{{ request()->is('*mcu*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> PPA MCU</a></li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission(['farmasi_resep', 'master_obat']))
             <li class="{{ request()->is('*farmasi*') || request()->is('*pelanggan*') || request()->is('*produsen*') || request()->is('*vendor*') || request()->is('*gudang*') || request()->is('*barang*') || request()->is('*batch*') || request()->is('*hargaobat*') || request()->is('*stok*') || request()->is('*cancel*') || request()->is('*pembuatanorder*') || request()->is('*order*') ? 'open active' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-thermometer-half menu-icon"></i> Farmasi</span>
@@ -865,11 +886,15 @@
                     <li><a href="/transaksiresep/index" class="{{ request()->is('*transaksiresep*') || request()->is('*resep*') || request()->is('*transaksibhp*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Resep Dokter</a></li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission('penjualan_apotek'))
             <li class="{{ request()->is('*penjualan*') || request()->is('*transaksipenjualan*') ? 'active' : '' }}">
                 <a href="/transaksipenjualan/index" class="{{ request()->is('*penjualan*') || request()->is('*transaksipenjualan*') ? 'active' : '' }}">
                     <span><i class="fas fa-plus-square menu-icon"></i> Penjualan Apotek</span>
                 </a>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission('bridging_bpjs'))
             <li class="{{ request()->is('bridging/pcare*') || request()->is('pcare/*') || request()->is('icare/*') || request()->is('pcare-*') ? 'open active' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-rss menu-icon"></i> Bridging PCare & i-Care</span>
@@ -925,6 +950,8 @@
                     </li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission('bridging_satusehat'))
             <li class="{{ request()->is('*satusehat*') || request()->is('*satu-sehat*') ? 'open active' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-hospital menu-icon"></i> Bridging Satu Sehat</span>
@@ -948,6 +975,8 @@
                     <li><a href="/bridging/satusehat/kunjungan" class="{{ request()->is('*satusehat/kunjungan*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Data Kunjungan</a></li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission(['laporan_keuangan', 'profil_faskes', 'manajemen_user']))
             <li>
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-chart-line menu-icon"></i> Laporan PMKP</span>
@@ -960,6 +989,8 @@
                     <li><a href="/laporan-pmkp/waktu-tunggu-racik"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Obat Racik</a></li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->hasPermission(['kasir', 'laporan_keuangan', 'manajemen_user']))
             <li>
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-briefcase menu-icon"></i> Back Office</span>
@@ -975,28 +1006,43 @@
                     <li><a href="/farmasi/order-pembelian"><i class="fas fa-list menu-icon"></i> Pengadaan & OP Obat</a></li>
                 </ul>
             </li>
+            @endif
+            @if(!$u || $u->isAdministrator())
             <li>
                 <a href="/backup-data">
                     <span><i class="fas fa-cog menu-icon"></i> Backup Data</span>
                 </a>
             </li>
+            @endif
         </ul>
     </aside>
 
     <!-- Main Content -->
     <div class="content-wrapper" id="contentWrapper">
         <div id="main-content-body">
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" style="font-size: 13px; border-radius: 4px;">
+                    <i class="fas fa-exclamation-triangle me-2"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" style="font-size: 13px; border-radius: 4px;">
+                    <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             @yield('content')
         </div>
     </div>
 
-    <!-- Main Footer - PROFASKES 1:1 -->
+    <!-- Main Footer - KONHAKES 1:1 -->
     <footer class="main-footer" id="mainFooter">
         <div class="pull-left">
-            <strong>Copyright &copy; 2026 <a href="https://profaskes.id" target="_blank">Profaskes.id</a></strong>
+            <strong>Copyright &copy; 2026 <a href="https://konhakes.id" target="_blank">Konhakes.id</a></strong>
         </div>
         <div class="pull-right" style="color: #337ab7;">
-            <span>Waktu Server: <span id="footerServerTime">{{ date('d m Y H:i:s') }}</span> Zone : Asia/Jakarta <b>Version</b> 2.0</span>
+            <span>Waktu Server: <span id="footerServerTime">{{ date('d m Y H:i:s') }}</span> Zone : Asia/Jakarta <b>Version</b> 1.0</span>
         </div>
     </footer>
 

@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class DashboardAntrianController extends Controller
 {
     // ==========================================
-    // 1. SETTING SLIDE DASHBOARD (PROFASKES 1:1)
+    // 1. SETTING SLIDE DASHBOARD (KONHAKES 1:1)
     // ==========================================
     public function settingSlide(Request $request)
     {
@@ -193,7 +193,7 @@ class DashboardAntrianController extends Controller
     }
 
     // ==========================================
-    // 2. TAMPILAN LAYAR TV DASHBOARD ANTRIAN (PROFASKES 1:1)
+    // 2. TAMPILAN LAYAR TV DASHBOARD ANTRIAN (KONHAKES 1:1)
     // ==========================================
     public function pilihLayanan(Request $request)
     {

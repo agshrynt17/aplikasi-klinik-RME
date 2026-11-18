@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\UnitLayananController;
 use App\Http\Controllers\GedungController;
@@ -73,7 +74,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\ProfilFaskesController;
 
-// === Landing Page (profaskes.id) ===
+// === Landing Page (konhakes.id) ===
 Route::get('/', function () {
     return view('landing');
 });
@@ -104,7 +105,7 @@ Route::get('/master-poliklinik/{id}/edit',        [PoliklinikController::class, 
 Route::put('/master-poliklinik/{id}',             [PoliklinikController::class, 'update'])->name('poliklinik.update');
 Route::delete('/master-poliklinik/{id}',          [PoliklinikController::class, 'destroy'])->name('poliklinik.destroy');
 
-// PROFASKES exact aliases
+// KONHAKES exact aliases
 Route::get('/klinik/index',                       [PoliklinikController::class, 'index']);
 Route::get('/klinik',                             [PoliklinikController::class, 'index']);
 Route::get('/klinik/create',                      [PoliklinikController::class, 'create']);
@@ -123,17 +124,10 @@ Route::get('/backup-data', function () {
     return view('backup_data');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/login', function () {
-    return redirect('/dashboard');
-});
-
-Route::get('/logout', function () {
-    return redirect('/login');
-});
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout']);
 
 // === LOKASI: Master Unit Layanan ===
 Route::get('/master-unit-layanan',           [UnitLayananController::class, 'index']);
@@ -259,7 +253,7 @@ Route::get('/setting-role/{id}/edit',        [RoleController::class, 'edit'])->n
 Route::put('/setting-role/{id}',             [RoleController::class, 'update'])->name('role.update');
 Route::delete('/setting-role/{id}',          [RoleController::class, 'destroy'])->name('role.destroy');
 
-// Aliases matching PROFASKES exact role URLs
+// Aliases matching KONHAKES exact role URLs
 Route::get('/user/role/index',               [RoleController::class, 'index']);
 Route::get('/user/role/create',              [RoleController::class, 'create']);
 Route::post('/user/role/store',              [RoleController::class, 'store']);
@@ -277,7 +271,7 @@ Route::get('/setting-user/{id}/edit',        [UserController::class, 'edit'])->n
 Route::put('/setting-user/{id}',             [UserController::class, 'update'])->name('user.update');
 Route::delete('/setting-user/{id}',          [UserController::class, 'destroy'])->name('user.destroy');
 
-// Aliases matching PROFASKES exact URLs
+// Aliases matching KONHAKES exact URLs
 Route::get('/user/admin/index',              [UserController::class, 'index']);
 Route::get('/user/admin/create',             [UserController::class, 'create']);
 Route::post('/user/admin/store',             [UserController::class, 'store']);
@@ -295,7 +289,7 @@ Route::get('/master-akun-pembayaran/{id}/edit',        [AkunPembayaranController
 Route::put('/master-akun-pembayaran/{id}',             [AkunPembayaranController::class, 'update'])->name('payment_account.update');
 Route::delete('/master-akun-pembayaran/{id}',          [AkunPembayaranController::class, 'destroy'])->name('payment_account.destroy');
 
-// Aliases matching PROFASKES exact URLs
+// Aliases matching KONHAKES exact URLs
 Route::get('/payment-account/index',                   [AkunPembayaranController::class, 'index']);
 Route::get('/payment-account',                         [AkunPembayaranController::class, 'index']);
 Route::get('/payment-account/create',                  [AkunPembayaranController::class, 'create']);
@@ -312,7 +306,7 @@ Route::get('/setting-lainnya/{id}',             [PengaturanController::class, 's
 Route::put('/setting-lainnya/{id}',             [PengaturanController::class, 'update']);
 Route::post('/setting-lainnya/{id}',            [PengaturanController::class, 'update']);
 
-// Aliases matching PROFASKES exact URLs
+// Aliases matching KONHAKES exact URLs
 Route::get('/general-setting/index',            [PengaturanController::class, 'index']);
 Route::get('/general-setting',                  [PengaturanController::class, 'index']);
 Route::get('/general-setting/{id}',             [PengaturanController::class, 'show']);
@@ -323,7 +317,7 @@ Route::post('/general-setting/{id}',            [PengaturanController::class, 'u
 // 2. FRONT OFFICE
 // ==============================================
 
-// === Master Pasien & Data Pasien (PROFASKES 1:1) ===
+// === Master Pasien & Data Pasien (KONHAKES 1:1) ===
 Route::get('/master-pasien',                 [PasienController::class, 'index']);
 Route::get('/pasien/index',                  [PasienController::class, 'index']);
 Route::get('/pasien',                        [PasienController::class, 'index']);
@@ -350,7 +344,7 @@ Route::post('/pasien/pcare-check',           [PasienController::class, 'checkPca
 Route::get('/pasien/export-csv',             [PasienController::class, 'exportCsv']);
 Route::post('/pasien/import-csv',            [PasienController::class, 'importCsv']);
 
-// === Pendaftaran Rawat Jalan (PROFASKES 1:1) ===
+// === Pendaftaran Rawat Jalan (KONHAKES 1:1) ===
 Route::get('/pendaftaran',                      [PendaftaranController::class, 'index']);
 Route::get('/pendaftaran/index',                [PendaftaranController::class, 'index']);
 Route::get('/pendaftaran-rajal',                [PendaftaranController::class, 'index']);
@@ -475,7 +469,7 @@ Route::get('/antrian/cetak-tiket',             [AntrianController::class, 'kiosk
 Route::post('/cetak-tiket',                    [AntrianController::class, 'cetakTiket'])->name('cetak-tiket.store');
 Route::post('/antrian/tiket-antrian-v2',       [AntrianController::class, 'cetakTiket']);
 
-// === Dashboard Antrian (TV & Slide Antrian - PROFASKES 1:1) ===
+// === Dashboard Antrian (TV & Slide Antrian - KONHAKES 1:1) ===
 Route::get('/setting-slide',               [DashboardAntrianController::class, 'settingSlide'])->name('setting-slide.index');
 Route::get('/slide-antrian',               [DashboardAntrianController::class, 'settingSlide'])->name('slide-antrian.index');
 Route::get('/slide-antrian/index',         [DashboardAntrianController::class, 'settingSlide']);
@@ -491,7 +485,7 @@ Route::post('/setting-slide/{id}/update',  [DashboardAntrianController::class, '
 Route::post('/slide-antrian/{id}/update',  [DashboardAntrianController::class, 'updateSlide']);
 Route::delete('/setting-slide/{id}',       [DashboardAntrianController::class, 'destroySlide'])->name('slide-antrian.destroy');
 Route::delete('/slide-antrian/{id}',       [DashboardAntrianController::class, 'destroySlide']);
-// === Dashboard Antrian (Layar TV & Layanan - PROFASKES 1:1) ===
+// === Dashboard Antrian (Layar TV & Layanan - KONHAKES 1:1) ===
 Route::get('/dashboard-antrian',                 [DashboardAntrianController::class, 'pilihLayanan'])->name('dashboard-antrian.index');
 Route::get('/dashboard-antrian/index',           [DashboardAntrianController::class, 'pilihLayanan']);
 Route::get('/dashboard-antrian/view-all',         [DashboardAntrianController::class, 'viewAll'])->name('dashboard-antrian.view-all');
@@ -572,12 +566,12 @@ Route::get('/antrian-bpjs-log/index',             [LogKirimAntrianController::cl
 Route::get('/bridging-log-kirim-antrian/{id}',     [LogKirimAntrianController::class, 'detail']);
 Route::get('/bridging-log-kirim-antrian/{id}/detail', [LogKirimAntrianController::class, 'detail']);
 
-// === Dashboard Waktu Pelayanan (dashboard-task-fktl - PROFASKES 1:1) ===
+// === Dashboard Waktu Pelayanan (dashboard-task-fktl - KONHAKES 1:1) ===
 Route::get('/dashboard-antrian/dashboard-task-fktl', [BridgingDashboardController::class, 'index'])->name('bridging.dashboard-task-fktl');
 Route::get('/bridging-dashboard-waktu',              [BridgingDashboardController::class, 'index'])->name('bridging.dashboard-waktu');
 
 // ==========================================
-// MODUL LABORATORIUM (PROFASKES 1:1)
+// MODUL LABORATORIUM (KONHAKES 1:1)
 // ==========================================
 // Master Lab (Unit Cost Lab)
 Route::get('/laboratorium/master-lab',          [MasterLabController::class, 'index'])->name('laboratorium.master-lab');
@@ -627,7 +621,7 @@ Route::post('/transaksilab/{id}/status',                         [TransaksiLabCo
 Route::delete('/laboratorium/transaksi-lab/{id}',                [TransaksiLabController::class, 'destroy']);
 Route::delete('/transaksilab/{id}',                             [TransaksiLabController::class, 'destroy']);
 
-// === Hasil Pemeriksaan Lab (Daftar Order Lab - PROFASKES 1:1) ===
+// === Hasil Pemeriksaan Lab (Daftar Order Lab - KONHAKES 1:1) ===
 Route::get('/laboratorium/hasil-lab',                 [HasilLabController::class, 'index'])->name('laboratorium.hasil-lab');
 Route::get('/entryhasillab/index',                    [HasilLabController::class, 'index'])->name('entryhasillab.index');
 Route::get('/entryhasillab',                          [HasilLabController::class, 'index']);
@@ -640,7 +634,7 @@ Route::post('/entryhasillab/simpan',                  [HasilLabController::class
 Route::post('/laboratorium/hasil-lab/{id}/verifikasi',[HasilLabController::class, 'verifikasi']);
 Route::delete('/laboratorium/hasil-lab/{id}/hapus',   [HasilLabController::class, 'hapus']);
 
-// === Laporan Jasa Medis Lab (Laporan Insentif Lab - PROFASKES 1:1) ===
+// === Laporan Jasa Medis Lab (Laporan Insentif Lab - KONHAKES 1:1) ===
 Route::get('/laboratorium/lap-jasmed-lab',     [LapJasMedLabController::class, 'index'])->name('laboratorium.lap-jasmed-lab');
 Route::get('/laporan/laporan-jasa-lab',         [LapJasMedLabController::class, 'index'])->name('laporan.laporan-jasa-lab');
 Route::get('/laporan/laporan-jasa-lab/pdf',     [LapJasMedLabController::class, 'exportPdf']);
@@ -648,7 +642,7 @@ Route::get('/laporan/laporan-jasa-lab/xls',     [LapJasMedLabController::class, 
 Route::get('/laboratorium/lap-jasmed-lab/pdf', [LapJasMedLabController::class, 'exportPdf']);
 Route::get('/laboratorium/lap-jasmed-lab/xls', [LapJasMedLabController::class, 'exportXls']);
 
-// === Data Perujuk Eksternal (PROFASKES 1:1) ===
+// === Data Perujuk Eksternal (KONHAKES 1:1) ===
 Route::get('/perujuk-eksternal/index',           [PerujukEksternalController::class, 'index'])->name('perujuk-eksternal.index');
 Route::get('/perujuk-eksternal',                 [PerujukEksternalController::class, 'index']);
 Route::get('/perujuk-eksternal/create',          [PerujukEksternalController::class, 'create'])->name('perujuk-eksternal.create');
@@ -669,7 +663,7 @@ Route::delete('/laboratorium/perujuk-eksternal/{id}',   [PerujukEksternalControl
 // === MODUL RADIOLOGI =====================================
 // =========================================================
 
-// === Master Radiologi (PROFASKES /rad/index) ===
+// === Master Radiologi (KONHAKES /rad/index) ===
 Route::get('/rad/index',                  [MasterRadiologiController::class, 'index']);
 Route::get('/rad',                        [MasterRadiologiController::class, 'index']);
 Route::get('/radiologi/master',           [MasterRadiologiController::class, 'index']);
@@ -681,7 +675,7 @@ Route::get('/rad/{id}/edit',              [MasterRadiologiController::class, 'ed
 Route::put('/rad/{id}',                   [MasterRadiologiController::class, 'update']);
 Route::delete('/rad/{id}',                [MasterRadiologiController::class, 'destroy']);
 
-// === Setting Tarif Radiologi (PROFASKES /tarifrad/index) ===
+// === Setting Tarif Radiologi (KONHAKES /tarifrad/index) ===
 Route::get('/tarifrad/index',                        [TarifRadiologiController::class, 'index']);
 Route::get('/tarifrad',                              [TarifRadiologiController::class, 'index']);
 Route::get('/radiologi/tarif',                       [TarifRadiologiController::class, 'index']);
@@ -693,7 +687,7 @@ Route::get('/radiologi/tarif/{id}/edit',             [TarifRadiologiController::
 Route::put('/radiologi/tarif/{id}',                  [TarifRadiologiController::class, 'update']);
 Route::delete('/radiologi/tarif/{id}',               [TarifRadiologiController::class, 'destroy']);
 
-// === Transaksi Radiologi (PROFASKES /transaksirad/index) ===
+// === Transaksi Radiologi (KONHAKES /transaksirad/index) ===
 Route::get('/transaksirad/index',                         [TransaksiRadiologiController::class, 'index']);
 Route::get('/transaksirad',                               [TransaksiRadiologiController::class, 'index']);
 Route::get('/transaksirad/export-xls',                    [TransaksiRadiologiController::class, 'exportXls']);
@@ -706,7 +700,7 @@ Route::post('/radiologi/transaksi/{id}/status',           [TransaksiRadiologiCon
 Route::put('/radiologi/transaksi/{id}',                   [TransaksiRadiologiController::class, 'update']);
 Route::delete('/radiologi/transaksi/{id}',                [TransaksiRadiologiController::class, 'destroy']);
 
-// === Hasil Radiologi (PROFASKES /entryhasilrad/index) ===
+// === Hasil Radiologi (KONHAKES /entryhasilrad/index) ===
 Route::get('/entryhasilrad/index',                  [HasilRadiologiController::class, 'index']);
 Route::get('/entryhasilrad',                        [HasilRadiologiController::class, 'index']);
 Route::get('/entryhasilrad/export-xls',             [HasilRadiologiController::class, 'exportXls']);
@@ -724,7 +718,7 @@ Route::delete('/radiologi/hasil/{id}/hapus',        [HasilRadiologiController::c
 // === MODUL REKAM MEDIS ===================================
 // =========================================================
 
-// === Master Diagnosa (PROFASKES /diagnosa/index) ===
+// === Master Diagnosa (KONHAKES /diagnosa/index) ===
 Route::get('/diagnosa/index',                        [MasterDiagnosaController::class, 'index']);
 Route::get('/diagnosa',                              [MasterDiagnosaController::class, 'index']);
 Route::get('/diagnosa/{id}/edit',                    [MasterDiagnosaController::class, 'edit']);
@@ -738,7 +732,7 @@ Route::get('/rekam-medis/master-diagnosa/{id}/edit', [MasterDiagnosaController::
 Route::put('/rekam-medis/master-diagnosa/{id}',      [MasterDiagnosaController::class, 'update']);
 Route::delete('/rekam-medis/master-diagnosa/{id}',   [MasterDiagnosaController::class, 'destroy']);
 
-// === Diagnosa Keperawatan (PROFASKES /diagnosa-keperawatan/index) ===
+// === Diagnosa Keperawatan (KONHAKES /diagnosa-keperawatan/index) ===
 Route::get('/diagnosa-keperawatan/index',                  [DiagnosaKeperawatanController::class, 'index']);
 Route::get('/diagnosa-keperawatan',                        [DiagnosaKeperawatanController::class, 'index']);
 Route::get('/diagnosa-keperawatan/{id}/edit',              [DiagnosaKeperawatanController::class, 'edit']);
@@ -752,7 +746,7 @@ Route::get('/rekam-medis/diagnosa-keperawatan/{id}/edit', [DiagnosaKeperawatanCo
 Route::put('/rekam-medis/diagnosa-keperawatan/{id}',      [DiagnosaKeperawatanController::class, 'update']);
 Route::delete('/rekam-medis/diagnosa-keperawatan/{id}',   [DiagnosaKeperawatanController::class, 'destroy']);
 
-// === Master Prosedur (PROFASKES /prosedur/index) ===
+// === Master Prosedur (KONHAKES /prosedur/index) ===
 Route::get('/prosedur/index',                        [MasterProsedurController::class, 'index']);
 Route::get('/prosedur',                              [MasterProsedurController::class, 'index']);
 Route::get('/prosedur/{id}/edit',                    [MasterProsedurController::class, 'edit']);
@@ -766,7 +760,7 @@ Route::get('/rekam-medis/master-prosedur/{id}/edit', [MasterProsedurController::
 Route::put('/rekam-medis/master-prosedur/{id}',      [MasterProsedurController::class, 'update']);
 Route::delete('/rekam-medis/master-prosedur/{id}',   [MasterProsedurController::class, 'destroy']);
 
-// === Asesmen Awal Rajal (PROFASKES /asrajal/index) ===
+// === Asesmen Awal Rajal (KONHAKES /asrajal/index) ===
 Route::get('/asrajal/index',                            [AsesmenAwalRajalController::class, 'index']);
 Route::get('/asrajal',                                  [AsesmenAwalRajalController::class, 'index']);
 Route::get('/asrajal/create/{pendaftaran_id}',          [AsesmenAwalRajalController::class, 'create']);
@@ -781,7 +775,7 @@ Route::get('/rekam-medis/asesmen-awal-rajal/{id}/edit', [AsesmenAwalRajalControl
 Route::put('/rekam-medis/asesmen-awal-rajal/{id}',      [AsesmenAwalRajalController::class, 'update']);
 Route::delete('/rekam-medis/asesmen-awal-rajal/{id}',   [AsesmenAwalRajalController::class, 'destroy']);
 
-// === Asesmen Ulang (PROFASKES /asul/index) ===
+// === Asesmen Ulang (KONHAKES /asul/index) ===
 Route::get('/asul/index',                           [AsesmenUlangController::class, 'index']);
 Route::get('/asul',                                 [AsesmenUlangController::class, 'index']);
 Route::get('/asul/{pendaftaran_id}',                [AsesmenUlangController::class, 'show']);
@@ -796,7 +790,7 @@ Route::get('/rekam-medis/asesmen-ulang/edit/{id}', [AsesmenUlangController::clas
 Route::put('/rekam-medis/asesmen-ulang/{id}',      [AsesmenUlangController::class, 'update']);
 Route::delete('/rekam-medis/asesmen-ulang/{id}',   [AsesmenUlangController::class, 'destroy']);
 
-// === Asesmen Gizi (PROFASKES /asgizi/index) ===
+// === Asesmen Gizi (KONHAKES /asgizi/index) ===
 Route::get('/asgizi/index',                           [AsesmenGiziController::class, 'index']);
 Route::get('/asgizi',                                 [AsesmenGiziController::class, 'index']);
 Route::get('/asgizi/create-asgizi',                   [AsesmenGiziController::class, 'createAsgizi']);
@@ -812,7 +806,7 @@ Route::get('/rekam-medis/asesmen-gizi/{id}/edit',     [AsesmenGiziController::cl
 Route::put('/rekam-medis/asesmen-gizi/{id}',          [AsesmenGiziController::class, 'update']);
 Route::delete('/rekam-medis/asesmen-gizi/{id}',       [AsesmenGiziController::class, 'destroy']);
 
-// === Asesmen IGD (PROFASKES /asigd/index) ===
+// === Asesmen IGD (KONHAKES /asigd/index) ===
 Route::get('/asigd/index',                            [AsesmenIgdController::class, 'index']);
 Route::get('/asigd',                                  [AsesmenIgdController::class, 'index']);
 Route::get('/asigd/create/{pendaftaran_id}',          [AsesmenIgdController::class, 'create']);
@@ -827,7 +821,7 @@ Route::get('/rekam-medis/asesmen-igd/{id}/edit',     [AsesmenIgdController::clas
 Route::put('/rekam-medis/asesmen-igd/{id}',          [AsesmenIgdController::class, 'update']);
 Route::delete('/rekam-medis/asesmen-igd/{id}',       [AsesmenIgdController::class, 'destroy']);
 
-// === Informed Consent (PROFASKES /consent/index) ===
+// === Informed Consent (KONHAKES /consent/index) ===
 Route::get('/consent/index',                              [InformedConsentController::class, 'index']);
 Route::get('/consent',                                    [InformedConsentController::class, 'index']);
 Route::get('/consent/create',                             [InformedConsentController::class, 'create']);
@@ -845,7 +839,7 @@ Route::get('/rekam-medis/informed-consent/edit/{id}',      [InformedConsentContr
 Route::put('/rekam-medis/informed-consent/{id}',           [InformedConsentController::class, 'update']);
 Route::delete('/rekam-medis/informed-consent/{id}',        [InformedConsentController::class, 'destroy']);
 
-// === Odontogram (PROFASKES /odon/index) ===
+// === Odontogram (KONHAKES /odon/index) ===
 Route::get('/odon/index',                               [OdontogramController::class, 'index']);
 Route::get('/odon',                                     [OdontogramController::class, 'index']);
 Route::get('/odon/create',                              [OdontogramController::class, 'create']);
@@ -858,7 +852,7 @@ Route::get('/rekam-medis/odontogram/create',            [OdontogramController::c
 Route::get('/rekam-medis/odontogram/show/{pendaftaran_id}', [OdontogramController::class, 'show']);
 Route::post('/rekam-medis/odontogram',                  [OdontogramController::class, 'store']);
 
-// === Triase (PROFASKES /triase/index) ===
+// === Triase (KONHAKES /triase/index) ===
 Route::get('/triase/index',                             [TriaseController::class, 'index']);
 Route::get('/triase',                                   [TriaseController::class, 'index']);
 Route::get('/triase/create',                            [TriaseController::class, 'createTriase']);
@@ -876,7 +870,7 @@ Route::get('/rekam-medis/triase/{id}/edit',             [TriaseController::class
 Route::put('/rekam-medis/triase/{id}',                  [TriaseController::class, 'update']);
 Route::delete('/rekam-medis/triase/{id}',               [TriaseController::class, 'destroy']);
 
-// === Pengkajian Pra Bedah (PROFASKES /prabedah/index) ===
+// === Pengkajian Pra Bedah (KONHAKES /prabedah/index) ===
 Route::get('/prabedah/index',                               [PraBedahController::class, 'index']);
 Route::get('/prabedah',                                     [PraBedahController::class, 'index']);
 Route::get('/prabedah/create',                              [PraBedahController::class, 'createPrabedah']);
@@ -894,7 +888,7 @@ Route::get('/rekam-medis/pra-bedah/{id}/edit',              [PraBedahController:
 Route::put('/rekam-medis/pra-bedah/{id}',                   [PraBedahController::class, 'update']);
 Route::delete('/rekam-medis/pra-bedah/{id}',                [PraBedahController::class, 'destroy']);
 
-// === Pengkajian Pra Anestesi (PROFASKES /praanestesi/index) ===
+// === Pengkajian Pra Anestesi (KONHAKES /praanestesi/index) ===
 Route::get('/praanestesi/index',                            [PraAnestesiController::class, 'index']);
 Route::get('/praanestesi',                                  [PraAnestesiController::class, 'index']);
 Route::get('/praanestesi/create',                           [PraAnestesiController::class, 'createPraAnestesi']);
@@ -912,7 +906,7 @@ Route::get('/rekam-medis/pra-anestesi/{id}/edit',           [PraAnestesiControll
 Route::put('/rekam-medis/pra-anestesi/{id}',                [PraAnestesiController::class, 'update']);
 Route::delete('/rekam-medis/pra-anestesi/{id}',             [PraAnestesiController::class, 'destroy']);
 
-// === Laporan Tindakan / Operasi (PROFASKES /laptindakan/index) ===
+// === Laporan Tindakan / Operasi (KONHAKES /laptindakan/index) ===
 Route::get('/laptindakan/index',                            [LaporanOperasiController::class, 'index']);
 Route::get('/laptindakan',                                  [LaporanOperasiController::class, 'index']);
 Route::get('/laptindakan/create',                           [LaporanOperasiController::class, 'createLapTindakan']);
@@ -930,7 +924,7 @@ Route::get('/rekam-medis/laporan-operasi/{id}/edit',        [LaporanOperasiContr
 Route::put('/rekam-medis/laporan-operasi/{id}',             [LaporanOperasiController::class, 'update']);
 Route::delete('/rekam-medis/laporan-operasi/{id}',          [LaporanOperasiController::class, 'destroy']);
 
-// === Monitoring Durante Bedah (PROFASKES /monitoring/index) ===
+// === Monitoring Durante Bedah (KONHAKES /monitoring/index) ===
 Route::get('/monitoring/index',                            [MonitoringBedahController::class, 'index']);
 Route::get('/monitoring',                                  [MonitoringBedahController::class, 'index']);
 Route::get('/monitoring/create',                           [MonitoringBedahController::class, 'createMonitoring']);
@@ -948,7 +942,7 @@ Route::get('/rekam-medis/monitoring-bedah/{id}/edit',      [MonitoringBedahContr
 Route::put('/rekam-medis/monitoring-bedah/{id}',           [MonitoringBedahController::class, 'update']);
 Route::delete('/rekam-medis/monitoring-bedah/{id}',        [MonitoringBedahController::class, 'destroy']);
 
-// === OHI-S (PROFASKES /ohis/index) ===
+// === OHI-S (KONHAKES /ohis/index) ===
 Route::get('/ohis/index',                            [OhisController::class, 'index']);
 Route::get('/ohis',                                  [OhisController::class, 'index']);
 Route::get('/ohis/create',                           [OhisController::class, 'createOhis']);
@@ -964,7 +958,7 @@ Route::get('/rekam-medis/ohis/{id}/edit',            [OhisController::class, 'ed
 Route::put('/rekam-medis/ohis/{id}',                 [OhisController::class, 'update']);
 Route::delete('/rekam-medis/ohis/{id}',              [OhisController::class, 'destroy']);
 
-// === Surgical Safety Checklist (PROFASKES /surgical/index) ===
+// === Surgical Safety Checklist (KONHAKES /surgical/index) ===
 Route::get('/surgical/index',                            [SscController::class, 'index']);
 Route::get('/surgical',                                  [SscController::class, 'index']);
 Route::get('/surgical/create',                           [SscController::class, 'createSurgical']);
@@ -982,7 +976,7 @@ Route::get('/rekam-medis/ssc/{id}/edit',                 [SscController::class, 
 Route::put('/rekam-medis/ssc/{id}',                      [SscController::class, 'update']);
 Route::delete('/rekam-medis/ssc/{id}',                   [SscController::class, 'destroy']);
 
-// === Ante Natal Care (ANC) (PROFASKES /anc/index) ===
+// === Ante Natal Care (ANC) (KONHAKES /anc/index) ===
 Route::get('/anc/index',                            [AncController::class, 'index']);
 Route::get('/anc',                                  [AncController::class, 'index']);
 Route::get('/anc/create',                           [AncController::class, 'createAnc']);
@@ -998,7 +992,7 @@ Route::get('/rekam-medis/anc/{id}/edit',            [AncController::class, 'edit
 Route::put('/rekam-medis/anc/{id}',                 [AncController::class, 'update']);
 Route::delete('/rekam-medis/anc/{id}',              [AncController::class, 'destroy']);
 
-// === PPA (Modul Dokter / Data Pemeriksaan PPA - PROFASKES /moduldokter/index) ===
+// === PPA (Modul Dokter / Data Pemeriksaan PPA - KONHAKES /moduldokter/index) ===
 Route::get('/moduldokter/index',                     [PpaController::class, 'index']);
 Route::get('/moduldokter',                           [PpaController::class, 'index']);
 Route::get('/ppa',                                   [PpaController::class, 'index']);
@@ -1010,7 +1004,7 @@ Route::get('/rekam-medis/ppa/edit/{id}',             [PpaController::class, 'edi
 Route::put('/rekam-medis/ppa/{id}',                  [PpaController::class, 'update']);
 Route::delete('/rekam-medis/ppa/{id}',               [PpaController::class, 'destroy']);
 
-// === Surat Keterangan (PROFASKES /skb, /skd, /sks, /sre, /skbn) ===
+// === Surat Keterangan (KONHAKES /skb, /skd, /sks, /sre, /skbn) ===
 Route::get('/skb/index',                                  [SuratKeteranganController::class, 'skb']);
 Route::get('/skb',                                        [SuratKeteranganController::class, 'skb']);
 Route::get('/skb/create/{pendaftaran_id}',                [SuratKeteranganController::class, 'createSkb']);
@@ -1053,7 +1047,7 @@ Route::get('/rekam-medis/surat-keterangan/edit/{id}',       [SuratKeteranganCont
 Route::put('/rekam-medis/surat-keterangan/{id}',            [SuratKeteranganController::class, 'update']);
 Route::delete('/rekam-medis/surat-keterangan/{id}',         [SuratKeteranganController::class, 'destroy']);
 
-// === Partograf (PROFASKES /partograf/index) ===
+// === Partograf (KONHAKES /partograf/index) ===
 Route::get('/partograf/index',                            [\App\Http\Controllers\PartografController::class, 'index']);
 Route::get('/partograf',                                  [\App\Http\Controllers\PartografController::class, 'index']);
 Route::get('/partograf/create',                           [\App\Http\Controllers\PartografController::class, 'createPartograf']);
@@ -1070,7 +1064,7 @@ Route::get('/rekam-medis/partograf/edit/{id}',            [\App\Http\Controllers
 Route::put('/rekam-medis/partograf/{id}',                 [\App\Http\Controllers\PartografController::class, 'update']);
 Route::delete('/rekam-medis/partograf/{id}',              [\App\Http\Controllers\PartografController::class, 'destroy']);
 
-// === INC (Intra Natal Care - PROFASKES /inc/index) ===
+// === INC (Intra Natal Care - KONHAKES /inc/index) ===
 Route::get('/inc/index',                            [App\Http\Controllers\IncController::class, 'index']);
 Route::get('/inc',                                  [App\Http\Controllers\IncController::class, 'index']);
 Route::get('/inc/create/{pendaftaran_id}',          [App\Http\Controllers\IncController::class, 'create']);
@@ -1100,7 +1094,7 @@ Route::get('/rekam-medis/dokumen/{pendaftaran_id}', [App\Http\Controllers\Dokume
 Route::post('/rekam-medis/dokumen',                [App\Http\Controllers\DokumenPelayananController::class, 'store']);
 Route::delete('/rekam-medis/dokumen/{id}',         [App\Http\Controllers\DokumenPelayananController::class, 'destroy']);
 
-// === Skrining Pasien (PROFASKES 1:1) ===
+// === Skrining Pasien (KONHAKES 1:1) ===
 Route::get('/skrining/index',                         [App\Http\Controllers\SkriningController::class, 'index'])->name('skrining.index');
 Route::get('/skrining',                               [App\Http\Controllers\SkriningController::class, 'index']);
 Route::get('/rekam-medis/skrining',                   [App\Http\Controllers\SkriningController::class, 'index']);
@@ -1121,7 +1115,7 @@ Route::get('/skrining/index-cek',                     [App\Http\Controllers\Skri
 Route::get('/skrining/status',                        [App\Http\Controllers\SkriningController::class, 'indexCek']);
 Route::get('/rekam-medis/skrining/status',            [App\Http\Controllers\SkriningController::class, 'indexCek']);
 
-// === PPA MCU (Medical Checkup - PROFASKES 1:1) ===
+// === PPA MCU (Medical Checkup - KONHAKES 1:1) ===
 Route::get('/moduldokter/index-mcu',                 [App\Http\Controllers\McuController::class, 'index'])->name('mcu.index');
 Route::get('/mcu/index',                            [App\Http\Controllers\McuController::class, 'index']);
 Route::get('/mcu',                                  [App\Http\Controllers\McuController::class, 'index']);
@@ -1204,7 +1198,7 @@ Route::get('/laporan-eksternal/laporan-puskesmas/export-pdf',   [App\Http\Contro
 Route::get('/laporan-external/laporan-puskesmas/export-excel',  [App\Http\Controllers\LaporanExternalController::class, 'exportLaporanPuskesmasExcel']);
 Route::get('/laporan-external/laporan-puskesmas/export-pdf',    [App\Http\Controllers\LaporanExternalController::class, 'exportLaporanPuskesmasPdf']);
 
-// === Post Natal Care (PNC) - PROFASKES 1:1 ===
+// === Post Natal Care (PNC) - KONHAKES 1:1 ===
 Route::get('/pnc',                          [\App\Http\Controllers\PncController::class, 'index'])->name('pnc.index');
 Route::get('/pnc/index',                    [\App\Http\Controllers\PncController::class, 'index']);
 Route::get('/rekam-medis/pnc',              [\App\Http\Controllers\PncController::class, 'index']);
@@ -1222,7 +1216,7 @@ Route::put('/rekam-medis/pnc/{id}',         [\App\Http\Controllers\PncController
 Route::delete('/pnc/{id}',                  [\App\Http\Controllers\PncController::class, 'destroy'])->name('pnc.destroy');
 Route::delete('/rekam-medis/pnc/{id}',      [\App\Http\Controllers\PncController::class, 'destroy']);
 
-// === Edukasi Terintegrasi Rawat Jalan - PROFASKES 1:1 ===
+// === Edukasi Terintegrasi Rawat Jalan - KONHAKES 1:1 ===
 Route::get('/edukasi',                          [\App\Http\Controllers\EdukasiController::class, 'index'])->name('edukasi.index');
 Route::get('/edukasi/index',                    [\App\Http\Controllers\EdukasiController::class, 'index']);
 Route::get('/rekam-medis/edukasi',              [\App\Http\Controllers\EdukasiController::class, 'index']);
@@ -1240,7 +1234,7 @@ Route::put('/rekam-medis/edukasi/{id}',         [\App\Http\Controllers\EdukasiCo
 Route::delete('/edukasi/{id}',                  [\App\Http\Controllers\EdukasiController::class, 'destroy'])->name('edukasi.destroy');
 Route::delete('/rekam-medis/edukasi/{id}',      [\App\Http\Controllers\EdukasiController::class, 'destroy']);
 
-// === Asesmen Imunisasi Rawat Jalan - PROFASKES 1:1 ===
+// === Asesmen Imunisasi Rawat Jalan - KONHAKES 1:1 ===
 Route::get('/imunisasi',                          [\App\Http\Controllers\ImunisasiController::class, 'index'])->name('imunisasi.index');
 Route::get('/imunisasi/index',                    [\App\Http\Controllers\ImunisasiController::class, 'index']);
 Route::get('/rekam-medis/imunisasi',              [\App\Http\Controllers\ImunisasiController::class, 'index']);
@@ -1258,7 +1252,7 @@ Route::put('/rekam-medis/imunisasi/{id}',         [\App\Http\Controllers\Imunisa
 Route::delete('/imunisasi/{id}',                  [\App\Http\Controllers\ImunisasiController::class, 'destroy'])->name('imunisasi.destroy');
 Route::delete('/rekam-medis/imunisasi/{id}',      [\App\Http\Controllers\ImunisasiController::class, 'destroy']);
 
-// === Data Dokumen Pelayanan Pasien - PROFASKES 1:1 ===
+// === Data Dokumen Pelayanan Pasien - KONHAKES 1:1 ===
 Route::get('/dokumen-pasien',                          [\App\Http\Controllers\DokumenPelayananController::class, 'index'])->name('dokumen-pasien.index');
 Route::get('/dokumen-pasien/index',                    [\App\Http\Controllers\DokumenPelayananController::class, 'index']);
 Route::get('/rekam-medis/dokumen',                     [\App\Http\Controllers\DokumenPelayananController::class, 'index']);
@@ -1286,7 +1280,7 @@ Route::delete('/master-pegawai/{id}',   [PegawaiController::class, 'destroy']);
 // === MODUL FARMASI =======================================
 // =========================================================
 
-// === Master Pelanggan (PROFASKES 1:1) ===
+// === Master Pelanggan (KONHAKES 1:1) ===
 Route::get('/pelanggan/index',                    [MasterPelangganController::class, 'index'])->name('pelanggan.index');
 Route::get('/pelanggan',                          [MasterPelangganController::class, 'index']);
 Route::get('/pelanggan/create',                   [MasterPelangganController::class, 'create'])->name('pelanggan.create');
@@ -1303,7 +1297,7 @@ Route::get('/farmasi/master-pelanggan/{id}/edit', [MasterPelangganController::cl
 Route::put('/farmasi/master-pelanggan/{id}',      [MasterPelangganController::class, 'update']);
 Route::delete('/farmasi/master-pelanggan/{id}',   [MasterPelangganController::class, 'destroy']);
 
-// === Master Produsen (PROFASKES 1:1) ===
+// === Master Produsen (KONHAKES 1:1) ===
 Route::get('/produsen/index',                    [MasterProdusenController::class, 'index'])->name('produsen.index');
 Route::get('/produsen',                          [MasterProdusenController::class, 'index']);
 Route::get('/produsen/create',                   [MasterProdusenController::class, 'create'])->name('produsen.create');
@@ -1321,7 +1315,7 @@ Route::get('/farmasi/master-produsen/{id}/edit', [MasterProdusenController::clas
 Route::put('/farmasi/master-produsen/{id}',      [MasterProdusenController::class, 'update']);
 Route::delete('/farmasi/master-produsen/{id}',   [MasterProdusenController::class, 'destroy']);
 
-// === Master Vendor (PROFASKES 1:1) ===
+// === Master Vendor (KONHAKES 1:1) ===
 Route::get('/vendor/index',                    [MasterVendorController::class, 'index'])->name('vendor.index');
 Route::get('/vendor',                          [MasterVendorController::class, 'index']);
 Route::get('/vendor/create',                   [MasterVendorController::class, 'create'])->name('vendor.create');
@@ -1340,7 +1334,7 @@ Route::get('/farmasi/master-vendor/{id}/edit', [MasterVendorController::class, '
 Route::put('/farmasi/master-vendor/{id}',      [MasterVendorController::class, 'update']);
 Route::delete('/farmasi/master-vendor/{id}',   [MasterVendorController::class, 'destroy']);
 
-// === Master Gudang (PROFASKES 1:1) ===
+// === Master Gudang (KONHAKES 1:1) ===
 Route::get('/gudang/index',                    [MasterGudangController::class, 'index'])->name('gudang.index');
 Route::get('/gudang',                          [MasterGudangController::class, 'index']);
 Route::get('/gudang/create',                   [MasterGudangController::class, 'create'])->name('gudang.create');
@@ -1359,7 +1353,7 @@ Route::get('/farmasi/master-gudang/{id}/edit', [MasterGudangController::class, '
 Route::put('/farmasi/master-gudang/{id}',      [MasterGudangController::class, 'update']);
 Route::delete('/farmasi/master-gudang/{id}',   [MasterGudangController::class, 'destroy']);
 
-// === Master Barang (PROFASKES 1:1) ===
+// === Master Barang (KONHAKES 1:1) ===
 Route::get('/barang/index',                    [MasterBarangController::class, 'index'])->name('barang.index');
 Route::get('/barang',                          [MasterBarangController::class, 'index']);
 Route::get('/barang/create',                   [MasterBarangController::class, 'create'])->name('barang.create');
@@ -1380,7 +1374,7 @@ Route::get('/farmasi/master-barang/{id}/edit', [MasterBarangController::class, '
 Route::put('/farmasi/master-barang/{id}',      [MasterBarangController::class, 'update']);
 Route::delete('/farmasi/master-barang/{id}',   [MasterBarangController::class, 'destroy']);
 
-// === Daftar Batch (PROFASKES 1:1) ===
+// === Daftar Batch (KONHAKES 1:1) ===
 Route::get('/batch/index',                    [\App\Http\Controllers\BatchBarangController::class, 'index'])->name('batch.index');
 Route::get('/batch',                          [\App\Http\Controllers\BatchBarangController::class, 'index']);
 Route::get('/batch/create',                   [\App\Http\Controllers\BatchBarangController::class, 'create'])->name('batch.create');
@@ -1397,7 +1391,7 @@ Route::get('/farmasi/daftar-batch/{id}/edit', [\App\Http\Controllers\BatchBarang
 Route::put('/farmasi/daftar-batch/{id}',      [\App\Http\Controllers\BatchBarangController::class, 'update']);
 Route::delete('/farmasi/daftar-batch/{id}',   [\App\Http\Controllers\BatchBarangController::class, 'destroy']);
 
-// === Setting Harga Barang & Biaya Racik (PROFASKES 1:1) ===
+// === Setting Harga Barang & Biaya Racik (KONHAKES 1:1) ===
 Route::get('/hargaobat/index',                                  [\App\Http\Controllers\SettingHargaController::class, 'index'])->name('hargaobat.index');
 Route::get('/hargaobat',                                        [\App\Http\Controllers\SettingHargaController::class, 'index']);
 Route::get('/hargaobat/biaya-racik',                            [\App\Http\Controllers\SettingHargaController::class, 'biayaRacikIndex'])->name('hargaobat.biaya_racik.page');
@@ -1415,7 +1409,7 @@ Route::post('/farmasi/setting-harga/{penjaminId}/pricelist',    [\App\Http\Contr
 Route::get('/farmasi/setting-harga/{id}/edit',                  [\App\Http\Controllers\SettingHargaController::class, 'edit']);
 Route::put('/farmasi/setting-harga/{id}',                       [\App\Http\Controllers\SettingHargaController::class, 'update']);
 
-// === Stok Barang Per-Gudang (PROFASKES 1:1) ===
+// === Stok Barang Per-Gudang (KONHAKES 1:1) ===
 Route::get('/stok/index',                        [\App\Http\Controllers\StokBarangController::class, 'index'])->name('stok.index');
 Route::get('/stok',                              [\App\Http\Controllers\StokBarangController::class, 'index']);
 Route::get('/stok/create',                       [\App\Http\Controllers\StokBarangController::class, 'createStokAwal'])->name('stok.create');
@@ -1427,7 +1421,7 @@ Route::post('/stok/upload',                      [\App\Http\Controllers\StokBara
 Route::get('/stok/template-upload',              [\App\Http\Controllers\StokBarangController::class, 'downloadTemplate'])->name('stok.template');
 Route::get('/stok/kartu-stok/{id}',              [\App\Http\Controllers\StokBarangController::class, 'kartuStok'])->name('stok.kartu_stok');
 
-// === Histori Penyesuaian Stok (PROFASKES 1:1) ===
+// === Histori Penyesuaian Stok (KONHAKES 1:1) ===
 Route::get('/stok-adjustment/index',             [\App\Http\Controllers\StokAdjustmentController::class, 'index'])->name('stok_adjustment.index');
 Route::get('/stok-adjustment',                   [\App\Http\Controllers\StokAdjustmentController::class, 'index']);
 Route::get('/stok-adjustment/create',            [\App\Http\Controllers\StokAdjustmentController::class, 'create'])->name('stok_adjustment.create');
@@ -1439,7 +1433,7 @@ Route::get('/stok-adjustment/export-xls',        [\App\Http\Controllers\StokAdju
 Route::get('/stok-adjustment/{id}',              [\App\Http\Controllers\StokAdjustmentController::class, 'show'])->name('stok_adjustment.show');
 
 Route::get('/farmasi/stok-barang',               [\App\Http\Controllers\StokBarangController::class, 'indexStok']);
-// === Stok Cancels (Pembatalan Stok PROFASKES 1:1) ===
+// === Stok Cancels (Pembatalan Stok KONHAKES 1:1) ===
 Route::get('/stok-cancel/index',                 [\App\Http\Controllers\StokCancelController::class, 'index'])->name('stok_cancel.index');
 Route::get('/stok-cancel',                       [\App\Http\Controllers\StokCancelController::class, 'index']);
 Route::get('/stok-cancel/view',                  [\App\Http\Controllers\StokCancelController::class, 'view'])->name('stok_cancel.view');
@@ -1458,7 +1452,7 @@ Route::post('/farmasi/order-pembelian',          [\App\Http\Controllers\OrderPem
 Route::get('/farmasi/order-pembelian/{id}',      [\App\Http\Controllers\OrderPembelianController::class, 'show']);
 Route::delete('/farmasi/order-pembelian/{id}',   [\App\Http\Controllers\OrderPembelianController::class, 'destroy']);
 
-// === Transaksi Penerimaan Barang / Barang Masuk (PROFASKES 1:1) ===
+// === Transaksi Penerimaan Barang / Barang Masuk (KONHAKES 1:1) ===
 Route::get('/barangmasuk/index',              [\App\Http\Controllers\MasukBarangController::class, 'index'])->name('barangmasuk.index');
 Route::get('/barangmasuk',                    [\App\Http\Controllers\MasukBarangController::class, 'index']);
 Route::get('/barangmasuk/create',             [\App\Http\Controllers\MasukBarangController::class, 'create'])->name('barangmasuk.create');
@@ -1479,7 +1473,7 @@ Route::post('/farmasi/masuk-barang',          [\App\Http\Controllers\MasukBarang
 Route::get('/farmasi/masuk-barang/{id}',      [\App\Http\Controllers\MasukBarangController::class, 'show']);
 Route::delete('/farmasi/masuk-barang/{id}',   [\App\Http\Controllers\MasukBarangController::class, 'destroy']);
 
-// === Data Pembayaran Hutang (PROFASKES 1:1) ===
+// === Data Pembayaran Hutang (KONHAKES 1:1) ===
 Route::get('/pembayaran-hutang/index',        [\App\Http\Controllers\HutangController::class, 'index'])->name('pembayaran_hutang.index');
 Route::get('/pembayaran-hutang',              [\App\Http\Controllers\HutangController::class, 'index']);
 Route::get('/pembayaran-hutang/export-excel', [\App\Http\Controllers\HutangController::class, 'exportExcel'])->name('pembayaran_hutang.export_excel');
@@ -1492,7 +1486,7 @@ Route::get('/farmasi/hutang/export-excel',    [\App\Http\Controllers\HutangContr
 Route::get('/farmasi/hutang/{id}',            [\App\Http\Controllers\HutangController::class, 'show']);
 Route::post('/farmasi/hutang/{id}/bayar',     [\App\Http\Controllers\HutangController::class, 'bayar']);
 
-// === Mutasi Barang Antar Gudang (PROFASKES 1:1) ===
+// === Mutasi Barang Antar Gudang (KONHAKES 1:1) ===
 Route::get('/mutasibarang/index',             [\App\Http\Controllers\MutasiBarangController::class, 'index'])->name('mutasibarang.index');
 Route::get('/mutasibarang',                   [\App\Http\Controllers\MutasiBarangController::class, 'index']);
 Route::get('/mutasibarang/create',            [\App\Http\Controllers\MutasiBarangController::class, 'create'])->name('mutasibarang.create');
@@ -1510,7 +1504,7 @@ Route::post('/farmasi/mutasi-barang',          [\App\Http\Controllers\MutasiBara
 Route::get('/farmasi/mutasi-barang/{id}',      [\App\Http\Controllers\MutasiBarangController::class, 'show']);
 Route::delete('/farmasi/mutasi-barang/{id}',   [\App\Http\Controllers\MutasiBarangController::class, 'destroy']);
 
-// === Transaksi Penerimaan Mutasi Barang Antar Gudang (PROFASKES 1:1) ===
+// === Transaksi Penerimaan Mutasi Barang Antar Gudang (KONHAKES 1:1) ===
 Route::get('/penerimaanmutasibarang/index',             [\App\Http\Controllers\MutasiBarangController::class, 'indexPenerimaan'])->name('penerimaanmutasibarang.index');
 Route::get('/penerimaanmutasibarang',                   [\App\Http\Controllers\MutasiBarangController::class, 'indexPenerimaan']);
 Route::get('/penerimaanmutasibarang/create',            [\App\Http\Controllers\MutasiBarangController::class, 'create'])->name('penerimaanmutasibarang.create');
@@ -1518,7 +1512,7 @@ Route::post('/penerimaanmutasibarang/{id}/terima',      [\App\Http\Controllers\M
 Route::get('/farmasi/penerimaan-mutasi',                [\App\Http\Controllers\MutasiBarangController::class, 'indexPenerimaan']);
 Route::post('/farmasi/penerimaan-mutasi/{id}',          [\App\Http\Controllers\MutasiBarangController::class, 'terimaMutasi']);
 
-// === Transaksi Pembuatan Order / Pemesanan Barang (PO) (PROFASKES 1:1) ===
+// === Transaksi Pembuatan Order / Pemesanan Barang (PO) (KONHAKES 1:1) ===
 Route::get('/pembuatanorder/index',              [\App\Http\Controllers\PembuatanOrderController::class, 'index'])->name('pembuatanorder.index');
 Route::get('/pembuatanorder',                    [\App\Http\Controllers\PembuatanOrderController::class, 'index']);
 Route::get('/pembuatanorder/create',             [\App\Http\Controllers\PembuatanOrderController::class, 'create'])->name('pembuatanorder.create');
@@ -1534,7 +1528,7 @@ Route::get('/farmasi/order-pembelian',           [\App\Http\Controllers\Pembuata
 Route::get('/farmasi/order-pembelian/create',    [\App\Http\Controllers\PembuatanOrderController::class, 'create']);
 Route::post('/farmasi/order-pembelian',          [\App\Http\Controllers\PembuatanOrderController::class, 'store']);
 
-// === Transaksi Resep & Transaksi BHP (PROFASKES 1:1) ===
+// === Transaksi Resep & Transaksi BHP (KONHAKES 1:1) ===
 Route::get('/transaksiresep/index',             [\App\Http\Controllers\ResepController::class, 'index'])->name('transaksiresep.index');
 Route::get('/transaksiresep',                   [\App\Http\Controllers\ResepController::class, 'index']);
 Route::get('/transaksiresep/cetak-pdf',          [\App\Http\Controllers\ResepController::class, 'cetakPdf'])->name('transaksiresep.cetak_pdf');
@@ -1556,7 +1550,7 @@ Route::post('/farmasi/resep',                   [\App\Http\Controllers\ResepCont
 Route::get('/farmasi/resep/{id}',               [\App\Http\Controllers\ResepController::class, 'show']);
 Route::post('/farmasi/resep/{id}/layani',       [\App\Http\Controllers\ResepController::class, 'layani']);
 
-// === Transaksi Penjualan Apotek (PROFASKES 1:1) ===
+// === Transaksi Penjualan Apotek (KONHAKES 1:1) ===
 Route::get('/transaksipenjualan/index',             [\App\Http\Controllers\PenjualanApotekController::class, 'index'])->name('transaksipenjualan.index');
 Route::get('/transaksipenjualan',                   [\App\Http\Controllers\PenjualanApotekController::class, 'index']);
 Route::get('/transaksipenjualan/create',            [\App\Http\Controllers\PenjualanApotekController::class, 'create'])->name('transaksipenjualan.create');
@@ -1665,7 +1659,7 @@ Route::get('/icare/cek-riwayat-kunjungan',   [\App\Http\Controllers\IcareControl
 Route::get('/icare/update-password',         [\App\Http\Controllers\IcareController::class, 'updatePassword'])->name('icare.update-password');
 Route::post('/icare/update-password',        [\App\Http\Controllers\IcareController::class, 'storeUpdatePassword'])->name('icare.update-password.store');
 
-// === Bridging Satu Sehat (PROFASKES 1:1) ===
+// === Bridging Satu Sehat (KONHAKES 1:1) ===
 Route::get('/satu-sehat/index',             [\App\Http\Controllers\BridgingConfigController::class, 'configSatuSehat'])->name('satusehat.index');
 Route::get('/satu-sehat',                   [\App\Http\Controllers\BridgingConfigController::class, 'configSatuSehat']);
 Route::post('/satu-sehat/update-key',       [\App\Http\Controllers\BridgingConfigController::class, 'updateSettingKey'])->name('satusehat.update_key');
@@ -1710,7 +1704,7 @@ Route::get('/backoffice/pendapatan',       [\App\Http\Controllers\BackOfficeCont
 Route::get('/backoffice/laporan-kasir',    [\App\Http\Controllers\BackOfficeController::class, 'lapTransaksiKasir']);
 Route::get('/backoffice/transaksi-kasir',  [\App\Http\Controllers\BackOfficeController::class, 'transaksiKasir']);
 
-// === Transaksi Penjualan Apotek (PROFASKES 1:1) ===
+// === Transaksi Penjualan Apotek (KONHAKES 1:1) ===
 Route::get('/transaksipenjualan/index',         [\App\Http\Controllers\PenjualanApotekController::class, 'index'])->name('transaksipenjualan.index');
 Route::get('/transaksipenjualan',               [\App\Http\Controllers\PenjualanApotekController::class, 'index']);
 Route::get('/transaksipenjualan/create',        [\App\Http\Controllers\PenjualanApotekController::class, 'create'])->name('transaksipenjualan.create');

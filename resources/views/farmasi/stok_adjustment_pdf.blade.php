@@ -58,7 +58,7 @@
 
     <div class="header">
         <h2>Laporan Histori Penyesuaian Stok</h2>
-        <p>Klinik RME / PROFASKES</p>
+        <p>Klinik RME / KONHAKES</p>
         <p>Tanggal Cetak: {{ date('d/m/Y H:i:s') }}</p>
     </div>
 

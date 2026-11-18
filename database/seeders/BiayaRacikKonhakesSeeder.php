@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Penjamin;
 use App\Models\BiayaRacik;
 
-class BiayaRacikProfaskesSeeder extends Seeder
+class BiayaRacikKonhakesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

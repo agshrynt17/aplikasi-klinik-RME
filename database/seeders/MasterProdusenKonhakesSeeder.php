@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\MasterProdusen;
 
-class MasterProdusenProfaskesSeeder extends Seeder
+class MasterProdusenKonhakesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

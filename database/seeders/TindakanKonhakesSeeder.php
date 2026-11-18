@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Tindakan;
 use App\Models\Poliklinik;
 
-class TindakanProfaskesSeeder extends Seeder
+class TindakanKonhakesSeeder extends Seeder
 {
     public function run()
     {

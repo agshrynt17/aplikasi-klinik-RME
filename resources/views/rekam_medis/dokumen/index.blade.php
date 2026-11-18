@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES) -->
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             Data Dokumen Pelayanan Pasien {{ $mode == 'rawat_inap' ? 'Rawat Inap' : 'Rawat Jalan' }}
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <!-- Mode Switcher Buttons (1:1 PROFASKES) -->
+    <!-- Mode Switcher Buttons (1:1 KONHAKES) -->
     <div class="d-flex justify-content-center gap-2 mb-3 mt-2">
         <a href="/dokumen-pasien/index?mode=rawat_jalan" class="btn btn-sm" style="{{ $mode != 'rawat_inap' ? 'background-color: #337ab7; color: #fff; border-color: #2e6da4;' : 'background-color: #fff; color: #337ab7; border: 1px solid #337ab7;' }} padding: 6px 16px; font-size: 12px; font-weight: 500; border-radius: 4px; text-decoration: none;">
             Dokumen Pasien Rawat Jalan
@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <!-- Filter Bar Card with Cyan Top Border (1:1 PROFASKES) -->
+    <!-- Filter Bar Card with Cyan Top Border (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-top: 3px solid #00c0ef; border-radius: 3px; padding: 15px 15px; margin-bottom: 20px;">
         <form method="GET" action="/dokumen-pasien/index" id="filterForm">
             <input type="hidden" name="mode" value="{{ $mode }}">
@@ -88,7 +88,7 @@
         </form>
     </div>
 
-    <!-- Data Table Container (1:1 PROFASKES) -->
+    <!-- Data Table Container (1:1 KONHAKES) -->
     <div style="background: #fff; border: 1px solid #d2d6de; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); margin-bottom: 20px;">
         <div style="padding: 9px 15px; font-size: 12px; color: #444; font-weight: 600; border-bottom: 1px solid #eef2f5;">
             Menampilkan {{ $pendaftarans->firstItem() ?? 0 }}-{{ $pendaftarans->lastItem() ?? 0 }} dari {{ $pendaftarans->total() }} item.

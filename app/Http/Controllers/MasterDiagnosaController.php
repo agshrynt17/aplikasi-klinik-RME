@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class MasterDiagnosaController extends Controller
 {
-    // Menampilkan daftar data diagnosa (PROFASKES /diagnosa/index)
+    // Menampilkan daftar data diagnosa (KONHAKES /diagnosa/index)
     public function index(Request $request)
     {
         $query = MasterDiagnosa::query();

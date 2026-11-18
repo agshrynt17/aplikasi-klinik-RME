@@ -2,32 +2,32 @@
 
 @section('content')
 <style>
-    /* PROFASKES 1:1 TRANSAKSI RESEP */
+    /* KONHAKES 1:1 TRANSAKSI RESEP */
     .resep-page {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #333;
     }
-    .profaskes-header {
+    .konhakes-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 8px;
     }
-    .profaskes-title {
+    .konhakes-title {
         font-size: 20px;
         font-weight: 400;
         color: #333;
         margin: 0;
     }
-    .profaskes-breadcrumb {
+    .konhakes-breadcrumb {
         font-size: 12px;
         color: #777;
     }
-    .profaskes-breadcrumb a {
+    .konhakes-breadcrumb a {
         color: #444;
         text-decoration: none;
     }
-    .profaskes-breadcrumb a:hover {
+    .konhakes-breadcrumb a:hover {
         text-decoration: underline;
     }
     .cyan-divider {
@@ -158,13 +158,13 @@
         background-color: #286090;
     }
     /* Table */
-    .table-profaskes {
+    .table-konhakes {
         width: 100%;
         border-collapse: collapse;
         font-size: 12px;
         border: 1px solid #e1e1e1;
     }
-    .table-profaskes thead th {
+    .table-konhakes thead th {
         background-color: #ffffff;
         color: #337ab7;
         font-weight: 600;
@@ -174,7 +174,7 @@
         white-space: nowrap;
         vertical-align: middle;
     }
-    .table-profaskes tbody td {
+    .table-konhakes tbody td {
         padding: 8px 8px;
         border-bottom: 1px solid #f0f0f0;
         border-right: 1px solid #f9f9f9;
@@ -182,7 +182,7 @@
         font-size: 12px;
         line-height: 1.4;
     }
-    .table-profaskes tbody tr:hover {
+    .table-konhakes tbody tr:hover {
         background-color: #fdfdfd;
     }
     .badge-rekam-medis {
@@ -223,9 +223,9 @@
 
 <div class="resep-page">
     {{-- Header & Breadcrumbs --}}
-    <div class="profaskes-header">
-        <h1 class="profaskes-title">Transaksi Resep</h1>
-        <div class="profaskes-breadcrumb">
+    <div class="konhakes-header">
+        <h1 class="konhakes-title">Transaksi Resep</h1>
+        <div class="konhakes-breadcrumb">
             <a href="{{ url('/') }}">Beranda</a> &gt; <span>Transaksi Resep</span>
         </div>
     </div>
@@ -321,7 +321,7 @@
 
         {{-- Table Transaksi Resep 1:1 --}}
         <div class="table-responsive">
-            <table class="table-profaskes">
+            <table class="table-konhakes">
                 <thead>
                     <tr>
                         <th style="width: 30px; text-align: center;">#</th>

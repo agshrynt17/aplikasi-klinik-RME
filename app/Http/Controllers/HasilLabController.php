@@ -16,7 +16,7 @@ class HasilLabController extends Controller
     // 1. Index: daftar kunjungan yang punya transaksi lab (Daftar Order Lab)
     public function index(Request $request)
     {
-        // Default tanggal ke hari ini jika ada data, atau fallback ke 2026-10-14 sesuai dataset demo PROFASKES
+        // Default tanggal ke hari ini jika ada data, atau fallback ke 2026-10-14 sesuai dataset demo KONHAKES
         if ($request->filled('tanggal')) {
             $tanggal = $request->tanggal;
         } else {

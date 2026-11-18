@@ -17,6 +17,7 @@
 
 --
 -- Table structure for table `akun_pembayarans`
+
 --
 
 DROP TABLE IF EXISTS `akun_pembayarans`;

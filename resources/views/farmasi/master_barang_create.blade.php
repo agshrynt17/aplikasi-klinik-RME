@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="background: #ffffff; margin: -20px; padding: 20px 25px; min-height: calc(100vh - 56px);">
-    <!-- Header Title & Breadcrumb (1:1 PROFASKES Screenshot 2) -->
+    <!-- Header Title & Breadcrumb (1:1 KONHAKES Screenshot 2) -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">
             {{ isset($barang) ? 'Edit Barang' : 'Tambah Barang' }}
@@ -36,7 +36,7 @@
     </div>
     @endif
 
-    <!-- Form Container (1:1 PROFASKES Screenshot 2) -->
+    <!-- Form Container (1:1 KONHAKES Screenshot 2) -->
     <form action="{{ isset($barang) ? url('/barang/' . $barang->id) : url('/barang/store') }}" method="POST">
         @csrf
         @if(isset($barang))
@@ -244,7 +244,7 @@
                     </select>
                 </div>
 
-                <!-- Box MAPPING BARANG SESUAI KODE KFA SATU SEHAT (1:1 PROFASKES Screenshot 2) -->
+                <!-- Box MAPPING BARANG SESUAI KODE KFA SATU SEHAT (1:1 KONHAKES Screenshot 2) -->
                 <div style="background: #ffffff; border: 1px solid #d2d6de; border-radius: 3px; padding: 15px;">
                     <div style="color: #337ab7; font-weight: 700; font-size: 12px; margin-bottom: 4px;">
                         MAPPING BARANG SESUAI KODE KFA SATU SEHAT
@@ -291,7 +291,7 @@
             </div>
         </div>
 
-        <!-- Action Buttons (Simpan & Batal 1:1 PROFASKES Screenshot 2) -->
+        <!-- Action Buttons (Simpan & Batal 1:1 KONHAKES Screenshot 2) -->
         <div class="d-flex align-items-center gap-1">
             <button type="submit" class="btn text-white" style="background-color: #00a65a; border-color: #008d4c; height: 34px; padding: 0 18px; font-size: 12.5px; border-radius: 3px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center;">
                 <i class="fas fa-save me-1"></i> Simpan

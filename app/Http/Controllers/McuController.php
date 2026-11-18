@@ -15,7 +15,7 @@ use Carbon\Carbon;
 class McuController extends Controller
 {
     /**
-     * Halaman Modul PPA Medical Checkup (1:1 PROFASKES /moduldokter/index-mcu)
+     * Halaman Modul PPA Medical Checkup (1:1 KONHAKES /moduldokter/index-mcu)
      */
     public function index(Request $request)
     {

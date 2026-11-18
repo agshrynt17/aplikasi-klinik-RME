@@ -21,7 +21,7 @@ class AsesmenUlangController extends Controller
             $tanggal = $request->tanggal;
             $query->whereDate('tanggal_daftar', $tanggal);
         } else {
-            // Default tanggal 2026-10-14 sesuai context PROFASKES
+            // Default tanggal 2026-10-14 sesuai context KONHAKES
             $hasDate = Pendaftaran::whereDate('tanggal_daftar', '2026-10-14')->exists();
             if ($hasDate) {
                 $tanggal = '2026-10-14';

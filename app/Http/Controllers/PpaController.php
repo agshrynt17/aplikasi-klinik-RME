@@ -40,7 +40,7 @@ class PpaController extends Controller
             $tgl_akhir = $tgl_awal;
         }
 
-        // 2. Dokter Filter (Default ke dr. Fahmi Rizal sesuai screenshot PROFASKES)
+        // 2. Dokter Filter (Default ke dr. Fahmi Rizal sesuai screenshot KONHAKES)
         $defaultDokter = Pegawai::where('nama_pegawai', 'like', '%Fahmi%')->first();
         if ($request->has('dokter_id')) {
             $selectedDokterId = $request->dokter_id;
