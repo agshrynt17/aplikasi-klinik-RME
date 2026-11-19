@@ -748,7 +748,13 @@ class PcareController extends Controller
     public function subSpesialis(Request $request)
     {
         $kd = $request->query('kd_spesialis');
-        $spesialis = \App\Models\PcareSpesialis::where('kd_spesialis', $kd)->firstOrFail();
+        $spesialis = $kd ? \App\Models\PcareSpesialis::where('kd_spesialis', $kd)->first() : null;
+        if (!$spesialis) {
+            $spesialis = \App\Models\PcareSpesialis::first();
+        }
+        if (!$spesialis) {
+            return redirect('/pcare-spesialis/index')->with('warning', 'Pilih spesialis terlebih dahulu.');
+        }
 
         return view('pcare.setting.sub_spesialis', compact('spesialis'));
     }
@@ -1776,7 +1782,10 @@ class PcareController extends Controller
     public function viewKunjunganPendaftaran(Request $request)
     {
         $id = $request->get('id');
-        $pendaftaran = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])->findOrFail($id);
+        $pendaftaran = $id ? Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])->find($id) : null;
+        if (!$pendaftaran) {
+            return redirect('/pcare-kunjungan/index')->with('warning', 'Pilih data pendaftaran terlebih dahulu.');
+        }
 
         return view('pcare.view_kunjungan_pendaftaran', [
             'title' => 'Bridging PCare - Detail Pelayanan Peserta PCare',
@@ -1847,7 +1856,10 @@ class PcareController extends Controller
     public function viewHistoriPendaftaranLog(Request $request)
     {
         $id = $request->get('id');
-        $pendaftaran = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])->findOrFail($id);
+        $pendaftaran = $id ? Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])->find($id) : null;
+        if (!$pendaftaran) {
+            return redirect('/pcare-pendaftaran/index-log')->with('warning', 'Pilih data pendaftaran terlebih dahulu.');
+        }
 
         return view('pcare.view_histori_pendaftaran_log', [
             'title' => 'Histori Pendaftaran Data Ke Pcare - Detail',

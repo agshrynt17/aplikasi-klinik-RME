@@ -164,30 +164,31 @@ class TransaksiLabController extends Controller
 
         $filename = "Laporan_Transaksi_Laboratorium_" . date('Ymd_His') . ".xls";
 
-        header("Content-Type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-
-        echo "<table border='1'>";
-        echo "<tr style='background:#f2f2f2; font-weight:bold;'>";
-        echo "<th>No</th><th>No Registrasi</th><th>No RM</th><th>Nama Pasien</th><th>JK</th><th>Tgl Lahir</th><th>Penjamin</th><th>Poli</th><th>Status</th>";
-        echo "</tr>";
+        $html = "<table border='1'>";
+        $html .= "<tr style='background:#f2f2f2; font-weight:bold;'>";
+        $html .= "<th>No</th><th>No Registrasi</th><th>No RM</th><th>Nama Pasien</th><th>JK</th><th>Tgl Lahir</th><th>Penjamin</th><th>Poli</th><th>Status</th>";
+        $html .= "</tr>";
 
         foreach ($pendaftarans as $idx => $p) {
-            echo "<tr>";
-            echo "<td>" . ($idx + 1) . "</td>";
-            echo "<td>" . ($p->nomor_registrasi ?: $p->no_rawat) . "</td>";
-            echo "<td>" . ($p->pasien ? $p->pasien->no_rm : '-') . "</td>";
-            echo "<td>" . ($p->pasien ? $p->pasien->nama_pasien : '-') . "</td>";
-            echo "<td>" . ($p->pasien ? $p->pasien->jenis_kelamin : '-') . "</td>";
-            echo "<td>" . ($p->pasien && $p->pasien->tanggal_lahir ? date('d M Y', strtotime($p->pasien->tanggal_lahir)) : '-') . "</td>";
-            echo "<td>" . ($p->penjamin ? $p->penjamin->nama_penjamin : 'Pribadi') . "</td>";
-            echo "<td>" . ($p->poliklinik ? $p->poliklinik->nama_poli : '-') . "</td>";
-            echo "<td>" . $p->status_periksa . "</td>";
-            echo "</tr>";
+            $html .= "<tr>";
+            $html .= "<td>" . ($idx + 1) . "</td>";
+            $html .= "<td>" . ($p->nomor_registrasi ?: $p->no_rawat) . "</td>";
+            $html .= "<td>" . ($p->pasien ? $p->pasien->no_rm : '-') . "</td>";
+            $html .= "<td>" . ($p->pasien ? $p->pasien->nama_pasien : '-') . "</td>";
+            $html .= "<td>" . ($p->pasien ? $p->pasien->jenis_kelamin : '-') . "</td>";
+            $html .= "<td>" . ($p->pasien && $p->pasien->tanggal_lahir ? date('d M Y', strtotime($p->pasien->tanggal_lahir)) : '-') . "</td>";
+            $html .= "<td>" . ($p->penjamin ? $p->penjamin->nama_penjamin : 'Pribadi') . "</td>";
+            $html .= "<td>" . ($p->poliklinik ? $p->poliklinik->nama_poli : '-') . "</td>";
+            $html .= "<td>" . $p->status_periksa . "</td>";
+            $html .= "</tr>";
         }
-        echo "</table>";
-        exit;
+        $html .= "</table>";
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
     }
 }

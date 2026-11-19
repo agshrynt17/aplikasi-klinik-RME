@@ -21,10 +21,16 @@
 <div class="row justify-content-center">
     <div class="col-md-9">
         <div class="card card-custom p-4 shadow-sm" style="border-top: 3px solid #00c0ef;">
+            @php
+                $profil = \App\Models\ProfilFaskes::first();
+                $namaKlinik = $profil->nama_klinik ?? 'KLINIK TELAGASARI 24 JAM';
+                $alamatKlinik = $profil->alamat ?? 'Jl. Raya Telagasari - Kosambi No. 12, Telagasari, Kab. Karawang, Jawa Barat';
+                $telpKlinik = $profil->no_telepon ?? '(0267) 510123';
+            @endphp
             <!-- Header Surat -->
             <div class="text-center border-bottom pb-3 mb-4">
-                <h4 class="fw-bold mb-1">KLINIK PRATAMA RAWAT INAP KONHAKES</h4>
-                <p class="text-muted mb-1" style="font-size: 12px;">Jl. Raya Telagasari No. 123, Karawang | Telp: (0267) 123456</p>
+                <h4 class="fw-bold mb-1">{{ strtoupper($namaKlinik) }}</h4>
+                <p class="text-muted mb-1" style="font-size: 12px;">{{ $alamatKlinik }} | Telp: {{ $telpKlinik }}</p>
                 <div style="height: 2px; background: #333; margin: 10px auto 0; width: 100%;"></div>
             </div>
 
@@ -54,7 +60,7 @@
 
             <!-- Isi Surat -->
             <div style="font-size: 13.5px; line-height: 1.8; color: #333;">
-                <p>Yang bertanda tangan di bawah ini, Dokter Pemeriksa pada Klinik Pratama Rawat Inap Konhakes menerangkan bahwa:</p>
+                <p>Yang bertanda tangan di bawah ini, Dokter Pemeriksa pada {{ ucwords(strtolower($namaKlinik)) }} menerangkan bahwa:</p>
                 
                 <table class="table table-borderless table-sm ms-3 mb-3" style="width: 85%;">
                     <tr>

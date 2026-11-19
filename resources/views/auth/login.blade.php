@@ -498,7 +498,7 @@
         <div class="box-footer">
             &copy; 2026 Support By <a href="/">Klinik Telagasari 24 Jam</a><br>
             email : info@kliniktelagasari.com <br>
-            hotline w.a : (+62)812-8888-2026 (Konhakes)
+            hotline w.a : (+62)812-8888-2026 (Klinik Telagasari)
         </div>
 
     </div>

@@ -211,7 +211,7 @@ class TransaksiRadiologiController extends Controller
     // 8. Export Laporan XLS
     public function exportXls(Request $request)
     {
-        $tanggal = $request->get('tanggal', '2026-10-14');
+        $tanggal = $request->get('tanggal', date('Y-m-d'));
         $data = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin', 'transaksiRadiologis'])
             ->whereDate('tanggal_daftar', $tanggal)
             ->where('status_periksa', '!=', 'Batal')
@@ -220,30 +220,33 @@ class TransaksiRadiologiController extends Controller
 
         $filename = "Laporan_Transaksi_Radiologi_" . date('Ymd_His') . ".xls";
         
-        header("Content-Type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        
-        echo "<table border='1'>";
-        echo "<tr style='background-color:#00a65a; color:white;'>";
-        echo "<th>#</th><th>No. Registrasi</th><th>No. RM</th><th>Nama Pasien</th><th>Jenis Kelamin</th><th>Tgl Lahir</th><th>Penjamin</th><th>Klinik & Dokter</th><th>Status</th>";
-        echo "</tr>";
+        $html = "<table border='1'>";
+        $html .= "<tr style='background-color:#00a65a; color:white;'>";
+        $html .= "<th>#</th><th>No. Registrasi</th><th>No. RM</th><th>Nama Pasien</th><th>Jenis Kelamin</th><th>Tgl Lahir</th><th>Penjamin</th><th>Klinik & Dokter</th><th>Status</th>";
+        $html .= "</tr>";
 
         foreach ($data as $i => $item) {
             $jk = ($item->pasien->jenis_kelamin ?? 'L') == 'P' ? 'Perempuan' : 'Laki-Laki';
             $tglLahir = $item->pasien && $item->pasien->tanggal_lahir ? date('d.M.Y', strtotime($item->pasien->tanggal_lahir)) : '-';
-            echo "<tr>";
-            echo "<td>" . ($i + 1) . "</td>";
-            echo "<td>" . $item->nomor_registrasi . "</td>";
-            echo "<td>" . ($item->pasien->no_rm ?? '-') . "</td>";
-            echo "<td>" . ($item->pasien->nama_pasien ?? '-') . "</td>";
-            echo "<td>" . $jk . "</td>";
-            echo "<td>" . $tglLahir . "</td>";
-            echo "<td>" . ($item->penjamin->nama_penjamin ?? 'Pribadi') . "</td>";
-            echo "<td>" . ($item->poliklinik->nama_poli ?? '-') . " - " . ($item->dokter->nama_pegawai ?? '-') . "</td>";
-            echo "<td>" . ($item->transaksiRadiologis->count() > 0 ? 'Sudah Ada Transaksi' : 'Belum Ada Transaksi') . "</td>";
-            echo "</tr>";
+            $html .= "<tr>";
+            $html .= "<td>" . ($i + 1) . "</td>";
+            $html .= "<td>" . $item->nomor_registrasi . "</td>";
+            $html .= "<td>" . ($item->pasien->no_rm ?? '-') . "</td>";
+            $html .= "<td>" . ($item->pasien->nama_pasien ?? '-') . "</td>";
+            $html .= "<td>" . $jk . "</td>";
+            $html .= "<td>" . $tglLahir . "</td>";
+            $html .= "<td>" . ($item->penjamin->nama_penjamin ?? 'Pribadi') . "</td>";
+            $html .= "<td>" . ($item->poliklinik->nama_poli ?? '-') . " - " . ($item->dokter->nama_pegawai ?? '-') . "</td>";
+            $html .= "<td>" . ($item->transaksiRadiologis->count() > 0 ? 'Sudah Ada Transaksi' : 'Belum Ada Transaksi') . "</td>";
+            $html .= "</tr>";
         }
-        echo "</table>";
-        exit;
+        $html .= "</table>";
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
     }
 }

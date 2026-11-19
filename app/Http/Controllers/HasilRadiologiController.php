@@ -202,7 +202,7 @@ class HasilRadiologiController extends Controller
     // 7. Export Laporan XLS
     public function exportXls(Request $request)
     {
-        $tanggal = $request->get('tanggal', '2026-10-14');
+        $tanggal = $request->get('tanggal', date('Y-m-d'));
         $data = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin', 'transaksiRadiologis.masterRadiologi', 'transaksiRadiologis.hasilRadiologi'])
             ->whereHas('transaksiRadiologis')
             ->whereDate('tanggal_daftar', $tanggal)
@@ -212,31 +212,34 @@ class HasilRadiologiController extends Controller
 
         $filename = "Laporan_Order_Radiologi_" . date('Ymd_His') . ".xls";
         
-        header("Content-Type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        
-        echo "<table border='1'>";
-        echo "<tr style='background-color:#00a65a; color:white;'>";
-        echo "<th>#</th><th>No. Registrasi</th><th>No. RM</th><th>Nama Pasien</th><th>Pemeriksaan</th><th>Dokter</th><th>Status</th>";
-        echo "</tr>";
+        $html = "<table border='1'>";
+        $html .= "<tr style='background-color:#00a65a; color:white;'>";
+        $html .= "<th>#</th><th>No. Registrasi</th><th>No. RM</th><th>Nama Pasien</th><th>Pemeriksaan</th><th>Dokter</th><th>Status</th>";
+        $html .= "</tr>";
 
         if ($data->isEmpty()) {
-            echo "<tr><td colspan='7'>Tidak ada data order radiologi ditemukan.</td></tr>";
+            $html .= "<tr><td colspan='7'>Tidak ada data order radiologi ditemukan.</td></tr>";
         } else {
             foreach ($data as $i => $item) {
                 $pemeriksaanList = $item->transaksiRadiologis->map(fn($t) => $t->masterRadiologi->nama_pemeriksaan ?? '-')->implode(', ');
-                echo "<tr>";
-                echo "<td>" . ($i + 1) . "</td>";
-                echo "<td>" . $item->nomor_registrasi . "</td>";
-                echo "<td>" . ($item->pasien->no_rm ?? '-') . "</td>";
-                echo "<td>" . ($item->pasien->nama_pasien ?? '-') . "</td>";
-                echo "<td>" . $pemeriksaanList . "</td>";
-                echo "<td>" . ($item->dokter->nama_pegawai ?? '-') . "</td>";
-                echo "<td>" . $item->status_periksa . "</td>";
-                echo "</tr>";
+                $html .= "<tr>";
+                $html .= "<td>" . ($i + 1) . "</td>";
+                $html .= "<td>" . $item->nomor_registrasi . "</td>";
+                $html .= "<td>" . ($item->pasien->no_rm ?? '-') . "</td>";
+                $html .= "<td>" . ($item->pasien->nama_pasien ?? '-') . "</td>";
+                $html .= "<td>" . $pemeriksaanList . "</td>";
+                $html .= "<td>" . ($item->dokter->nama_pegawai ?? '-') . "</td>";
+                $html .= "<td>" . $item->status_periksa . "</td>";
+                $html .= "</tr>";
             }
         }
-        echo "</table>";
-        exit;
+        $html .= "</table>";
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
     }
 }

@@ -255,37 +255,37 @@ class MasterBarangController extends Controller
         $barangs = MasterBarang::orderBy('id', 'asc')->get();
         $filename = "master_barang_" . date('Ymd_His') . ".csv";
 
-        $handle = fopen('php://output', 'w');
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-
-        fputcsv($handle, [
-            'Kode Barang', 'Nama Barang', 'Jenis', 'Kemasan', 'Golongan', 
-            'Kelas Terapi', 'Bentuk Obat', 'Rute Obat', 'HNA', 'Minimum Stok', 
-            'Produsen', 'Kode KFA', 'Nama KFA', 'Keterangan', 'Status'
-        ]);
-
-        foreach ($barangs as $b) {
+        return response()->streamDownload(function () use ($barangs) {
+            $handle = fopen('php://output', 'w');
             fputcsv($handle, [
-                $b->kode_barang,
-                $b->nama_barang,
-                $b->jenis,
-                $b->kemasan,
-                $b->golongan_obat,
-                $b->kelas_terapi,
-                $b->bentuk_obat,
-                $b->rute_obat,
-                $b->hna,
-                $b->minimum_stok,
-                $b->produsen,
-                $b->kode_kfa,
-                $b->nama_kfa,
-                $b->keterangan,
-                $b->is_active ? 'Aktif' : 'Non Aktif'
+                'Kode Barang', 'Nama Barang', 'Jenis', 'Kemasan', 'Golongan', 
+                'Kelas Terapi', 'Bentuk Obat', 'Rute Obat', 'HNA', 'Minimum Stok', 
+                'Produsen', 'Kode KFA', 'Nama KFA', 'Keterangan', 'Status'
             ]);
-        }
 
-        fclose($handle);
-        exit;
+            foreach ($barangs as $b) {
+                fputcsv($handle, [
+                    $b->kode_barang,
+                    $b->nama_barang,
+                    $b->jenis,
+                    $b->kemasan,
+                    $b->golongan_obat,
+                    $b->kelas_terapi,
+                    $b->bentuk_obat,
+                    $b->rute_obat,
+                    $b->hna,
+                    $b->minimum_stok,
+                    $b->produsen,
+                    $b->kode_kfa,
+                    $b->nama_kfa,
+                    $b->keterangan,
+                    $b->is_active ? 'Aktif' : 'Non Aktif'
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 }

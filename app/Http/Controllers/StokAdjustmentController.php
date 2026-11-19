@@ -229,7 +229,17 @@ class StokAdjustmentController extends Controller
     public function show(Request $request, $id = null)
     {
         $targetId = $id ?? $request->query('id');
-        $adjustment = StokAdjustment::with(['masterGudang', 'user', 'details.masterBarang'])->findOrFail($targetId);
+        $adjustment = $targetId ? StokAdjustment::with(['masterGudang', 'user', 'details.masterBarang'])->find($targetId) : null;
+
+        if (!$adjustment) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data penyesuaian stok tidak ditemukan.'
+                ], 404);
+            }
+            return redirect('/stok-adjustment/index')->with('warning', 'Pilih data penyesuaian stok terlebih dahulu.');
+        }
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([

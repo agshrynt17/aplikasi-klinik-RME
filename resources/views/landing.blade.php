@@ -977,7 +977,7 @@
 <body>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Tim%20Konhakes%2C%20saya%20ingin%20informasi%20pelayanan%20dan%20RME%20Konhakes" target="_blank" class="floating-whatsapp" aria-label="Hubungi WhatsApp Konhakes">
+    <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Admin%20Klinik%20Telagasari%2C%20saya%20ingin%20informasi%20pelayanan%20dan%20RME%20Klinik%20Telagasari" target="_blank" class="floating-whatsapp" aria-label="Hubungi WhatsApp Klinik Telagasari">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path fill="white" d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01m-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18l-3.12.82l.83-3.04l-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23m4.52-6.16c-.25-.12-1.47-.72-1.69-.81c-.23-.08-.39-.12-.56.12c-.17.25-.64.81-.78.97c-.14.17-.29.19-.54.06c-.25-.12-1.05-.39-1.99-1.23c-.74-.66-1.23-1.47-1.38-1.72c-.14-.25-.02-.38.11-.51c.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31c-.22.25-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74c.59.26 1.05.41 1.41.52c.59.19 1.13.16 1.56.1c.48-.07 1.47-.6 1.67-1.18c.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28" />
         </svg>
@@ -1170,7 +1170,7 @@
                                 </tr>
                                 <tr>
                                     <td>Whatsapp</td>
-                                    <td class="w-75 fw-bold text-success">0812-8888-2026 (Konhakes)</td>
+                                    <td class="w-75 fw-bold text-success">0812-8888-2026 (Klinik Telagasari)</td>
                                 </tr>
                                 <tr>
                                     <td>Alamat</td>
@@ -1180,7 +1180,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="pt-2">
-                                        Punya Pertanyaan Lain? <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Tim%20Konhakes%2C%20saya%20ingin%20konsultasi%20layanan" target="_blank" style="color: #004aad; font-weight: 700;">Hubungi Tim Konhakes</a>
+                                        Punya Pertanyaan Lain? <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Admin%20Klinik%20Telagasari%2C%20saya%20ingin%20konsultasi%20layanan" target="_blank" style="color: #004aad; font-weight: 700;">Hubungi Tim Klinik Telagasari</a>
                                     </td>
                                 </tr>
                             </table>
@@ -1613,7 +1613,7 @@
                                 <i class="fas fa-phone-alt text-success me-2"></i> IGD / Call Center: (0267) 845-xxxx
                             </p>
                             <p style="font-size: 14px; color: #9ca3af; margin-bottom: 8px;">
-                                <i class="fab fa-whatsapp text-success me-2"></i> WhatsApp: 0812-8888-2026 (Konhakes)
+                                <i class="fab fa-whatsapp text-success me-2"></i> WhatsApp: 0812-8888-2026 (Klinik Telagasari)
                             </p>
                             <p style="font-size: 14px; color: #9ca3af;">
                                 <i class="fas fa-envelope text-primary me-2"></i> info@kliniktelagasari.com
@@ -1696,8 +1696,8 @@
                                         <li><i class="fas fa-check-circle text-success me-2"></i> Uji coba integrasi BPJS & SATUSEHAT</li>
                                     </ul>
                                     <div class="mt-auto">
-                                        <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Tim%20Konhakes%2C%20saya%20tertarik%20mencoba%20gratis%20sistem%20RME%20Konhakes%20untuk%20klinik%20saya" target="_blank" class="btn btn-success w-100 fw-bold py-2" style="background-color: #00a65a; border-color: #00a65a; border-radius: 6px; font-size: 14px;">
-                                            <i class="fab fa-whatsapp me-1"></i> Aktivasi via WhatsApp Konhakes
+                                        <a href="https://api.whatsapp.com/send/?phone=6281288882026&text=Halo%20Admin%20Klinik%20Telagasari%2C%20saya%20tertarik%20mencoba%20gratis%20sistem%20RME%20Klinik%20Telagasari%20untuk%20klinik%20saya" target="_blank" class="btn btn-success w-100 fw-bold py-2" style="background-color: #00a65a; border-color: #00a65a; border-radius: 6px; font-size: 14px;">
+                                            <i class="fab fa-whatsapp me-1"></i> Aktivasi via WhatsApp Klinik Telagasari
                                         </a>
                                     </div>
                                 </div>
@@ -1706,7 +1706,7 @@
                     </div>
                     <div class="modal-footer bg-white border-top py-2 px-4 d-flex justify-content-between align-items-center">
                         <span class="text-muted" style="font-size: 12px;">
-                            <i class="fas fa-info-circle me-1 text-primary"></i> Dukungan Teknis Hotline Konhakes: <strong>(+62)812-8888-2026</strong>
+                            <i class="fas fa-info-circle me-1 text-primary"></i> Dukungan Teknis Hotline Klinik Telagasari: <strong>(+62)812-8888-2026</strong>
                         </span>
                         <button type="button" class="btn btn-sm btn-outline-secondary px-3" data-bs-dismiss="modal">Tutup</button>
                     </div>

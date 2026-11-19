@@ -1085,7 +1085,7 @@
     <!-- Main Footer - KONHAKES 1:1 -->
     <footer class="main-footer" id="mainFooter">
         <div class="pull-left">
-            <strong>Copyright &copy; 2026 <a href="https://konhakes.id" target="_blank">Konhakes.id</a></strong>
+            <strong>Copyright &copy; {{ date('Y') }} <a href="#">KLINIK TELAGASARI 24 JAM</a>. All rights reserved.</strong>
         </div>
         <div class="pull-right" style="color: #337ab7;">
             <span>Waktu Server: <span id="footerServerTime">{{ date('d m Y H:i:s') }}</span> Zone : Asia/Jakarta <b>Version</b> 1.0</span>

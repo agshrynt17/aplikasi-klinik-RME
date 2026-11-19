@@ -265,35 +265,34 @@ class SkriningController extends Controller
     public function exportExcel(Request $request)
     {
         $skrinings = Skrining::with(['pasien', 'pendaftaran.poliklinik', 'pendaftaran.dokter'])->orderBy('id', 'desc')->get();
-
         $filename = 'data_skrining_' . date('Ymd_His') . '.csv';
-        $handle = fopen('php://output', 'w');
-        
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
 
-        fputcsv($handle, ['No', 'Tgl & Jam', 'Nama Skrining', 'No. RM', 'Nama Pasien', 'J.K', 'Tgl Lahir', 'Nyeri', 'Resiko Jatuh', 'Gizi', 'Alergi', 'Status']);
+        return response()->streamDownload(function () use ($skrinings) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['No', 'Tgl & Jam', 'Nama Skrining', 'No. RM', 'Nama Pasien', 'J.K', 'Tgl Lahir', 'Nyeri', 'Resiko Jatuh', 'Gizi', 'Alergi', 'Status']);
 
-        foreach ($skrinings as $idx => $s) {
-            $p = $s->pasien;
-            fputcsv($handle, [
-                $idx + 1,
-                $s->created_at ? $s->created_at->format('d/m/Y H:i') : '-',
-                $s->nama_skrining ?: 'Skrining Visual / Umum',
-                $p->no_rm ?? '-',
-                $p->nama_pasien ?? '-',
-                $p->jenis_kelamin ?? '-',
-                $p->tanggal_lahir ?? '-',
-                $s->skrining_nyeri ? ($s->skrining_nyeri . ' (Skor: ' . $s->skor_nyeri . ')') : '-',
-                $s->resiko_jatuh ?? '-',
-                $s->skrining_gizi ?? '-',
-                $s->status_alergi ?? '-',
-                $s->status ?? 'Selesai',
-            ]);
-        }
+            foreach ($skrinings as $idx => $s) {
+                $p = $s->pasien;
+                fputcsv($handle, [
+                    $idx + 1,
+                    $s->created_at ? $s->created_at->format('d/m/Y H:i') : '-',
+                    $s->nama_skrining ?: 'Skrining Visual / Umum',
+                    $p->no_rm ?? '-',
+                    $p->nama_pasien ?? '-',
+                    $p->jenis_kelamin ?? '-',
+                    $p->tanggal_lahir ?? '-',
+                    $s->skrining_nyeri ? ($s->skrining_nyeri . ' (Skor: ' . $s->skor_nyeri . ')') : '-',
+                    $s->resiko_jatuh ?? '-',
+                    $s->skrining_gizi ?? '-',
+                    $s->status_alergi ?? '-',
+                    $s->status ?? 'Selesai',
+                ]);
+            }
 
-        fclose($handle);
-        exit;
+            fclose($handle);
+        }, $filename, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     /**

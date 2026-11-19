@@ -531,19 +531,14 @@ class MasukBarangController extends Controller
 
         $filename = 'Laporan_Penerimaan_Barang_' . date('Ymd_His') . '.xls';
 
-        header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-
         $profil = DB::table('profil_faskes')->first();
         $klinikNama = $profil->nama_klinik ?? 'KLINIK TELAGASARI 24 JAM';
 
-        echo "<table border='1'>";
-        echo "<tr><th colspan='11' style='font-size:16px; font-weight:bold; text-align:center;'>LAPORAN PENERIMAAN BARANG - " . strtoupper($klinikNama) . "</th></tr>";
-        echo "<tr><th colspan='11' style='text-align:center;'>Dicetak pada: " . date('d-m-Y H:i:s') . "</th></tr>";
-        echo "<tr><th colspan='11'></th></tr>";
-        echo "<tr style='background-color:#dff0d8; font-weight:bold;'>
+        $html = "<table border='1'>";
+        $html .= "<tr><th colspan='11' style='font-size:16px; font-weight:bold; text-align:center;'>LAPORAN PENERIMAAN BARANG - " . strtoupper($klinikNama) . "</th></tr>";
+        $html .= "<tr><th colspan='11' style='text-align:center;'>Dicetak pada: " . date('d-m-Y H:i:s') . "</th></tr>";
+        $html .= "<tr><th colspan='11'></th></tr>";
+        $html .= "<tr style='background-color:#dff0d8; font-weight:bold;'>
                 <th>No</th>
                 <th>Kode Penerimaan</th>
                 <th>Tanggal Terima</th>
@@ -566,29 +561,35 @@ class MasukBarangController extends Controller
             $totalBayarSum += $row->total_bayar;
             $totalSisaSum += $row->sisa_bayar;
 
-            echo "<tr>";
-            echo "<td align='center'>" . ($idx + 1) . "</td>";
-            echo "<td>" . $row->nomor_penerimaan . "</td>";
-            echo "<td align='center'>" . Carbon::parse($row->tanggal_terima)->format('d-m-Y') . "</td>";
-            echo "<td>" . ($row->masterVendor ? $row->masterVendor->nama_vendor : '-') . "</td>";
-            echo "<td>" . $row->nomor_faktur . "</td>";
-            echo "<td align='right'>" . number_format($row->grand_total > 0 ? $row->grand_total : $row->total_tagihan, 0, ',', '.') . "</td>";
-            echo "<td align='center'>" . $row->jenis_pembayaran . "</td>";
-            echo "<td align='center'>" . ($row->tanggal_jatuh_tempo ? Carbon::parse($row->tanggal_jatuh_tempo)->format('d-m-Y') : '-') . "</td>";
-            echo "<td align='center'>" . $row->status_pembayaran . "</td>";
-            echo "<td align='right'>" . number_format($row->total_bayar, 0, ',', '.') . "</td>";
-            echo "<td align='right'>" . number_format($row->sisa_bayar, 0, ',', '.') . "</td>";
-            echo "</tr>";
+            $html .= "<tr>";
+            $html .= "<td align='center'>" . ($idx + 1) . "</td>";
+            $html .= "<td>" . $row->nomor_penerimaan . "</td>";
+            $html .= "<td align='center'>" . Carbon::parse($row->tanggal_terima)->format('d-m-Y') . "</td>";
+            $html .= "<td>" . ($row->masterVendor ? $row->masterVendor->nama_vendor : '-') . "</td>";
+            $html .= "<td>" . $row->nomor_faktur . "</td>";
+            $html .= "<td align='right'>" . number_format($row->grand_total > 0 ? $row->grand_total : $row->total_tagihan, 0, ',', '.') . "</td>";
+            $html .= "<td align='center'>" . $row->jenis_pembayaran . "</td>";
+            $html .= "<td align='center'>" . ($row->tanggal_jatuh_tempo ? Carbon::parse($row->tanggal_jatuh_tempo)->format('d-m-Y') : '-') . "</td>";
+            $html .= "<td align='center'>" . $row->status_pembayaran . "</td>";
+            $html .= "<td align='right'>" . number_format($row->total_bayar, 0, ',', '.') . "</td>";
+            $html .= "<td align='right'>" . number_format($row->sisa_bayar, 0, ',', '.') . "</td>";
+            $html .= "</tr>";
         }
 
-        echo "<tr style='background-color:#f5f5f5; font-weight:bold;'>
+        $html .= "<tr style='background-color:#f5f5f5; font-weight:bold;'>
                 <td colspan='5' align='right'>TOTAL KESELURUHAN</td>
                 <td align='right'>" . number_format($totalGrand, 0, ',', '.') . "</td>
                 <td colspan='3'></td>
                 <td align='right'>" . number_format($totalBayarSum, 0, ',', '.') . "</td>
                 <td align='right'>" . number_format($totalSisaSum, 0, ',', '.') . "</td>
               </tr>";
-        echo "</table>";
-        exit;
+        $html .= "</table>";
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
     }
 }

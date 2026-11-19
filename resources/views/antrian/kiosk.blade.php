@@ -563,7 +563,7 @@
     <!-- Footer Section -->
     <footer class="kiosk-footer">
         <div>
-            Copyright &copy; 2026 <a href="https://konhakes.id" target="_blank">Konhakes.id</a>
+            Copyright &copy; {{ date('Y') }} KLINIK TELAGASARI 24 JAM. All rights reserved.
         </div>
         <div>
             Waktu Server: <span id="clockDisplay">{{ date('d-m-Y H:i:s') }}</span> | Asia/Jakarta | Auto Reload : <span id="countdownDisplay">20</span> Detik

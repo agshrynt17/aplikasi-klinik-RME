@@ -292,7 +292,10 @@ class SatuSehatSettingController extends Controller
     public function unitView(Request $request)
     {
         $id = $request->get('id');
-        $unit = SatuSehatUnit::findOrFail($id);
+        $unit = $id ? SatuSehatUnit::find($id) : null;
+        if (!$unit) {
+            return redirect('/satusehat-unit/index')->with('warning', 'Pilih unit SatuSehat terlebih dahulu.');
+        }
 
         return view('bridging.satusehat_unit_view', compact('unit'));
     }
@@ -421,7 +424,10 @@ class SatuSehatSettingController extends Controller
     public function lokasiView(Request $request)
     {
         $id = $request->get('id');
-        $lokasi = SatuSehatLokasi::findOrFail($id);
+        $lokasi = $id ? SatuSehatLokasi::find($id) : null;
+        if (!$lokasi) {
+            return redirect('/satusehat-lokasi/index')->with('warning', 'Pilih lokasi SatuSehat terlebih dahulu.');
+        }
         return view('bridging.satusehat_lokasi_view', compact('lokasi'));
     }
 

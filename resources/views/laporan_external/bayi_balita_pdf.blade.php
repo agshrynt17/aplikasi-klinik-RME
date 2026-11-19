@@ -95,7 +95,7 @@
     <div class="header">
         <h2>KLINIK TELAGASARI 24 JAM</h2>
         <p>Jl. Raya Telagasari - Kosambi No. 12, Telagasari, Kab. Karawang, Jawa Barat</p>
-        <p>Telp: (0267) 510123 | Email: klinik.telagasari@konhakes.id</p>
+        <p>Telp: (0267) 510123 | Email: kliniktelagasari24jam@gmail.com</p>
     </div>
 
     <div class="report-title">

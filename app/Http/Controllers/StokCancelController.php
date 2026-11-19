@@ -53,7 +53,17 @@ class StokCancelController extends Controller
      */
     public function show($id)
     {
-        $cancel = StokCancel::with(['masterGudang', 'details.masterBarang', 'user'])->findOrFail($id);
+        $cancel = $id ? StokCancel::with(['masterGudang', 'details.masterBarang', 'user'])->find($id) : null;
+
+        if (!$cancel) {
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data pembatalan stok tidak ditemukan.'
+                ], 404);
+            }
+            return redirect('/stok-cancel/index')->with('warning', 'Pilih data pembatalan stok terlebih dahulu.');
+        }
 
         if (request()->ajax() || request()->wantsJson()) {
             return response()->json([
@@ -70,7 +80,7 @@ class StokCancelController extends Controller
      */
     public function view(Request $request)
     {
-        $id = $request->query('id', 1);
+        $id = $request->query('id');
         return $this->show($id);
     }
 

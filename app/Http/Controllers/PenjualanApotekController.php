@@ -139,9 +139,9 @@ class PenjualanApotekController extends Controller
         $barangId = $request->input('barang_id');
         $gudangId = $request->input('gudang_id');
 
-        $barang = MasterBarang::find($barangId);
+        $barang = $barangId ? MasterBarang::find($barangId) : null;
         if (!$barang) {
-            return response()->json(['success' => false, 'message' => 'Obat tidak ditemukan'], 404);
+            return response()->json(['success' => false, 'message' => 'Obat tidak ditemukan', 'data' => null]);
         }
 
         // Determine stock in specific warehouse
