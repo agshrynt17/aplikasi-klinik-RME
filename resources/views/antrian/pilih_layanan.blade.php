@@ -130,7 +130,7 @@
     <div class="page-header-box">
         <h1 class="page-title-text">Pilih Layanan Aktif Tanggal {{ $formattedTanggal }}</h1>
         <div class="breadcrumb-custom">
-            <a href="/admin">Beranda</a> &gt; <span>Pilih Layanan Aktif Tanggal {{ $formattedBreadcrumb }}</span>
+            <a href="/dashboard">Beranda</a> &gt; <span>Pilih Layanan Aktif Tanggal {{ $formattedBreadcrumb }}</span>
         </div>
     </div>
 

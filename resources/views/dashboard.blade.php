@@ -40,9 +40,6 @@
                 <span class="badge bg-white text-dark px-3 py-2 fw-bold shadow-sm" style="font-size: 11px; border-radius: 20px;">
                     <i class="fas fa-check-circle text-success me-1"></i> Hak Akses Aktif
                 </span>
-                <a href="/logout" class="btn btn-sm btn-outline-light px-3 py-1 fw-bold" style="font-size: 11px; border-radius: 20px;">
-                    <i class="fas fa-sign-out-alt me-1"></i> Ganti Role / Logout
-                </a>
             </div>
         </div>
     </div>
@@ -62,12 +59,12 @@
                 <div class="kpi-icon-box mx-auto mb-2 text-white" style="background-color: #00c0ef;">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="kpi-val">{{ $pasienHariIni ?? 112 }}</div>
+                <div class="kpi-val">{{ $pasienHariIni ?? 0 }}</div>
                 <div class="kpi-title">Pasien Hari Ini</div>
-                <div class="kpi-trend text-danger">
-                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $pasienHariIniTrend ?? '+41%' }}
+                <div class="kpi-trend {{ ($pasienHariIni ?? 0) > 0 ? 'text-success' : 'text-muted' }}">
+                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $pasienHariIniTrend ?? '0%' }}
                 </div>
-                <div class="kpi-sub">Kemarin : {{ $pasienKemarin ?? 101 }}</div>
+                <div class="kpi-sub">Kemarin : {{ $pasienKemarin ?? 0 }}</div>
             </div>
         </div>
         @endif
@@ -79,12 +76,12 @@
                 <div class="kpi-icon-box mx-auto mb-2 text-white" style="background-color: #00a65a;">
                     <i class="far fa-calendar-alt"></i>
                 </div>
-                <div class="kpi-val">{{ $pasienBulanIni ?? '2,324' }}</div>
+                <div class="kpi-val">{{ $pasienBulanIni ?? 0 }}</div>
                 <div class="kpi-title">Pasien Bulan Ini</div>
-                <div class="kpi-trend text-danger">
-                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $pasienBulanIniTrend ?? '+63%' }}
+                <div class="kpi-trend {{ ($pasienBulanIni ?? 0) > 0 ? 'text-success' : 'text-muted' }}">
+                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $pasienBulanIniTrend ?? '0%' }}
                 </div>
-                <div class="kpi-sub">Bulan Lalu : {{ $pasienBulanLalu ?? '8,268' }}</div>
+                <div class="kpi-sub">Bulan Lalu : {{ $pasienBulanLalu ?? 0 }}</div>
             </div>
         </div>
         @endif
@@ -96,12 +93,12 @@
                 <div class="kpi-icon-box mx-auto mb-2 text-white" style="background-color: #5c6ac4;">
                     <i class="fas fa-briefcase-medical"></i>
                 </div>
-                <div class="kpi-val">{{ $resepHariIni ?? 88 }}</div>
+                <div class="kpi-val">{{ $resepHariIni ?? 0 }}</div>
                 <div class="kpi-title">Resep Hari Ini</div>
-                <div class="kpi-trend text-danger">
-                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $resepTrend ?? '+43%' }}
+                <div class="kpi-trend {{ ($resepHariIni ?? 0) > 0 ? 'text-success' : 'text-muted' }}">
+                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $resepTrend ?? '0%' }}
                 </div>
-                <div class="kpi-sub">Kemarin : {{ $resepKemarin ?? 155 }}</div>
+                <div class="kpi-sub">Kemarin : {{ $resepKemarin ?? 0 }}</div>
             </div>
         </div>
         @endif
@@ -113,12 +110,12 @@
                 <div class="kpi-icon-box mx-auto mb-2 text-white" style="background-color: #dd4b39;">
                     <i class="fas fa-flask"></i>
                 </div>
-                <div class="kpi-val">{{ $labHariIni ?? 7 }}</div>
+                <div class="kpi-val">{{ $labHariIni ?? 0 }}</div>
                 <div class="kpi-title">Lab Hari Ini</div>
-                <div class="kpi-trend text-danger">
-                    <i class="fas fa-arrow-down" style="font-size: 9px;"></i> {{ $labTrend ?? '-37%' }}
+                <div class="kpi-trend {{ ($labHariIni ?? 0) > 0 ? 'text-success' : 'text-muted' }}">
+                    <i class="fas fa-arrow-down" style="font-size: 9px;"></i> {{ $labTrend ?? '0%' }}
                 </div>
-                <div class="kpi-sub">Kemarin : {{ $labKemarin ?? 13 }}</div>
+                <div class="kpi-sub">Kemarin : {{ $labKemarin ?? 0 }}</div>
             </div>
         </div>
         @endif
@@ -147,12 +144,12 @@
                 <div class="kpi-icon-box mx-auto mb-2 text-white" style="background-color: #00b4d8;">
                     <i class="fas fa-cloud-upload-alt"></i>
                 </div>
-                <div class="kpi-val">{{ $satusehatHariIni ?? 61 }}</div>
+                <div class="kpi-val">{{ $satusehatHariIni ?? 0 }}</div>
                 <div class="kpi-title">SATUSEHAT</div>
-                <div class="kpi-trend text-danger">
-                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $satusehatTrend ?? '+38%' }}
+                <div class="kpi-trend {{ ($satusehatHariIni ?? 0) > 0 ? 'text-success' : 'text-muted' }}">
+                    <i class="fas fa-arrow-up" style="font-size: 9px;"></i> {{ $satusehatTrend ?? '0%' }}
                 </div>
-                <div class="kpi-sub">Kemarin : {{ $satusehatKemarin ?? 100 }}</div>
+                <div class="kpi-sub">Kemarin : {{ $satusehatKemarin ?? 0 }}</div>
             </div>
         </div>
         @endif

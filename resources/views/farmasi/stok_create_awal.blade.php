@@ -85,7 +85,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Tambah Stok Awal Per Gudang</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stoks</a> <span class="mx-1">&gt;</span> <span>Tambah Stok Awal Per Gudang</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stoks</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Tambah Stok Awal Per Gudang</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

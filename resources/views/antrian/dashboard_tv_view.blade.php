@@ -631,6 +631,8 @@
     <script>
         let audioEnabled = true;
         let lastCalledNumber = "{{ $currentCalled->kode_nomor ?? '' }}";
+        let lastCalledTimestamp = "{{ isset($currentCalled->updated_at) && $currentCalled->updated_at ? (is_numeric($currentCalled->updated_at) ? $currentCalled->updated_at : $currentCalled->updated_at->timestamp) : time() }}";
+        let lastCallCount = {{ (int)($currentCalled->panggilan_ke ?? 1) }};
 
         // Fullscreen Toggle
         const btnFullscreen = document.getElementById('btnToggleFullscreen');
@@ -694,14 +696,20 @@
         function speakCallQueue(code, loket) {
             if (!audioEnabled || !('speechSynthesis' in window)) return;
             
-            // Format code into spelled letters/digits (e.g. A D 0 6 1)
-            const spelledCode = code.split('').join(' ');
-            const textToSpeak = `Nomor antrian, ${spelledCode}, menuju, ${loket}`;
+            // Format kode agar dibaca per digit dengan jelas (Contoh: A-001 -> A, nol, nol, satu)
+            let formattedCode = code.replace(/[-_]/g, ' ').trim();
+            let digitsSpelled = formattedCode.split('').map(function(ch) {
+                if (ch === '0') return 'nol';
+                return ch;
+            }).join(' ');
+
+            const textToSpeak = "Nomor antrian, " + digitsSpelled + ", silakan menuju ke, " + loket;
 
             setTimeout(() => {
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = 'id-ID';
-                utterance.rate = 0.9;
+                utterance.rate = 0.85;
                 utterance.pitch = 1.0;
                 window.speechSynthesis.speak(utterance);
             }, 600);
@@ -718,13 +726,17 @@
                 .then(res => res.json())
                 .then(res => {
                     if (res.success) {
-                        // Check if called ticket changed
+                        // Check if called ticket changed or re-called
                         if (res.called && res.called.kode_nomor) {
                             const newNumber = res.called.kode_nomor;
                             const newLoket = res.called.nama_loket;
+                            const newTimestamp = res.called.updated_at;
+                            const newCallCount = res.called.panggilan_ke;
 
-                            if (newNumber !== lastCalledNumber) {
+                            if (newNumber !== lastCalledNumber || newCallCount !== lastCallCount || newTimestamp !== lastCalledTimestamp) {
                                 lastCalledNumber = newNumber;
+                                lastCallCount = newCallCount;
+                                lastCalledTimestamp = newTimestamp;
                                 
                                 const numEl = document.getElementById('currentCalledNumber');
                                 const lokEl = document.getElementById('currentCalledLoket');

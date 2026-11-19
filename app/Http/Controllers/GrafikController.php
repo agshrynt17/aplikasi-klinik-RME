@@ -20,54 +20,59 @@ class GrafikController extends Controller
         // Categories Bulan
         $bulanList = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-        // Sample / DB Data Jumlah Pasien Terdaftar (Pria vs Wanita)
-        // Default sample values matching screenshot exactly
-        $dataPria = [240, 240, 220, 270, 310, 365, 260, 210, 290, 105, 0, 0];
-        $dataWanita = [280, 265, 220, 275, 330, 280, 245, 235, 290, 105, 0, 0];
-
-        // Jika ada data riil signifikan di DB, hitung secara dinamis
-        $totalPasienCount = Pasien::count();
-        if ($totalPasienCount > 50) {
-            $dataPria = [];
-            $dataWanita = [];
-            for ($m = 1; $m <= 12; $m++) {
-                $priaCount = Pasien::whereYear('created_at', $tahun)
-                    ->whereMonth('created_at', $m)
-                    ->where('jenis_kelamin', 'L')
-                    ->count();
-                $wanitaCount = Pasien::whereYear('created_at', $tahun)
-                    ->whereMonth('created_at', $m)
-                    ->where('jenis_kelamin', 'P')
-                    ->count();
-                $dataPria[] = $priaCount;
-                $dataWanita[] = $wanitaCount;
-            }
+        // Data Jumlah Pasien Terdaftar (Pria vs Wanita) per bulan tahun ini
+        $dataPria = [];
+        $dataWanita = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $priaCount = Pasien::whereYear('created_at', $tahun)
+                ->whereMonth('created_at', $m)
+                ->where('jenis_kelamin', 'L')
+                ->count();
+            $wanitaCount = Pasien::whereYear('created_at', $tahun)
+                ->whereMonth('created_at', $m)
+                ->where('jenis_kelamin', 'P')
+                ->count();
+            $dataPria[] = $priaCount;
+            $dataWanita[] = $wanitaCount;
         }
 
-        // Kunjungan Pasien Per Klinik (Pie Data)
-        $klinikPieData = [
-            ['name' => 'Klinik Gigi', 'y' => 75.2, 'sliced' => true, 'selected' => true, 'color' => '#5dade2'],
-            ['name' => 'Klinik Umum 1', 'y' => 8.5, 'color' => '#f39c12'],
-            ['name' => 'Klinik KIA', 'y' => 4.2, 'color' => '#2ecc71'],
-            ['name' => 'Home Visit', 'y' => 2.1, 'color' => '#f1c40f'],
-            ['name' => 'Klinik Umum 2', 'y' => 2.0, 'color' => '#e74c3c'],
-            ['name' => 'Imunisasi DPT', 'y' => 1.5, 'color' => '#9b59b6'],
-            ['name' => 'Imunisasi Campak', 'y' => 1.2, 'color' => '#1abc9c'],
-            ['name' => 'Senam Kelompok Prolanis', 'y' => 1.0, 'color' => '#34495e'],
-            ['name' => 'UGD', 'y' => 1.0, 'color' => '#e67e22'],
-            ['name' => 'Laboratorium', 'y' => 0.8, 'color' => '#00a65a'],
-            ['name' => 'Konseling', 'y' => 0.6, 'color' => '#3498db'],
-            ['name' => 'KLINIK UMUM 3', 'y' => 0.5, 'color' => '#95a5a6'],
-            ['name' => 'Imunisasi Polio', 'y' => 0.4, 'color' => '#d35400'],
-            ['name' => 'Imunisasi Hepatitis B', 'y' => 0.3, 'color' => '#27ae60'],
-            ['name' => 'Poli Persalinan', 'y' => 0.3, 'color' => '#8e44ad'],
-            ['name' => 'Apotek', 'y' => 0.2, 'color' => '#16a085'],
-            ['name' => 'Kunjungan Online Sehat', 'y' => 0.1, 'color' => '#2c3e50'],
-            ['name' => 'Kunjungan Online Sakit', 'y' => 0.1, 'color' => '#c0392b'],
-        ];
+        // Kunjungan Pasien Per Klinik (Pie Data Otomatis)
+        $totalKunjungan = Pendaftaran::count();
+        $klinikPieData = [];
+        $colors = ['#5dade2', '#f39c12', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6', '#1abc9c', '#6c5ce7', '#e67e22', '#00a65a'];
+        if ($totalKunjungan > 0) {
+            $poliKunjungan = Pendaftaran::with('poliklinik')
+                ->select('poliklinik_id', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+                ->groupBy('poliklinik_id')
+                ->orderBy('total', 'desc')
+                ->get();
+            $cIdx = 0;
+            foreach ($poliKunjungan as $pk) {
+                $poliName = $pk->poliklinik ? $pk->poliklinik->nama_poli : 'Poli Lainnya';
+                $pct = round(($pk->total / $totalKunjungan) * 100, 1);
+                $klinikPieData[] = [
+                    'name' => $poliName,
+                    'y' => (float)$pct,
+                    'color' => $colors[$cIdx % count($colors)],
+                ];
+                $cIdx++;
+            }
+        } else {
+            $klinikPieData = [
+                ['name' => 'Belum Ada Kunjungan', 'y' => 100, 'color' => '#d2d6de']
+            ];
+        }
 
-        // KBK Rasio Angka Kontak Pasien BPJS (Data Spikes at Sep = 222)
-        $angkaKontakData = [18, 18, 18, 18, 18, 18, 18, 18, 222, 0, 0, 0];
+        // KBK Rasio Angka Kontak Pasien BPJS per bulan
+        $angkaKontakData = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $angkaKontakData[] = Pendaftaran::whereYear('tanggal_daftar', $tahun)
+                ->whereMonth('tanggal_daftar', $m)
+                ->whereHas('penjamin', function($q) {
+                    $q->where('nama_penjamin', 'like', '%BPJS%');
+                })
+                ->count();
+        }
 
         // KBK Rasio Rujukan Non Spesialistik BPJS (RRNS)
         $rrnsData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Data Diagnosa</h4>
         <div style="font-size: 11px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Data Diagnosa</span>
         </div>
@@ -94,7 +94,7 @@
                 <i class="fas fa-sync-alt" style="font-size: 12px;"></i>
             </a>
             <!-- Add Button (Green) -->
-            <button type="button" class="btn btn-sm text-white ms-3" id="btnTambahDiagnosa" style="background-color: #00a65a; border-color: #008d4c; height: 32px; padding: 0 14px; font-weight: 600; border-radius: 3px; font-size: 12.5px; display: inline-flex; align-items: center;">
+            <button type="button" class="btn btn-sm text-white ms-3" id="btnTambahDiagnosa" data-bs-toggle="modal" data-bs-target="#modalDiagnosa" style="background-color: #00a65a; border-color: #008d4c; height: 32px; padding: 0 14px; font-weight: 600; border-radius: 3px; font-size: 12.5px; display: inline-flex; align-items: center; cursor: pointer;">
                 <i class="fas fa-plus me-1"></i> Add
             </button>
         </div>
@@ -365,140 +365,158 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    const modalDiag = new bootstrap.Modal(document.getElementById('modalDiagnosa'));
-    const modalDetail = new bootstrap.Modal(document.getElementById('modalDetailDiagnosa'));
+$(document).ready(function () {
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    function openModal(id) {
+        let el = document.getElementById(id);
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(el).show();
+        } else if (window.$) {
+            $('#' + id).modal('show');
+        }
+    }
+
+    function closeModal(id) {
+        let el = document.getElementById(id);
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(el).hide();
+        } else if (window.$) {
+            $('#' + id).modal('hide');
+        }
+    }
 
     // Tambah Diagnosa
-    document.getElementById('btnTambahDiagnosa')?.addEventListener('click', function () {
-        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus-circle me-1"></i> Tambah Data Diagnosa';
-        document.getElementById('formDiagnosa').reset();
-        document.getElementById('diagnosaId').value = '';
-        document.getElementById('formMethod').value = 'POST';
-        modalDiag.show();
+    $(document).on('click', '#btnTambahDiagnosa', function () {
+        $('#modalTitle').html('<i class="fas fa-plus-circle me-1"></i> Tambah Data Diagnosa');
+        $('#formDiagnosa')[0].reset();
+        $('#diagnosaId').val('');
+        $('#formMethod').val('POST');
+        openModal('modalDiagnosa');
     });
 
     // Edit Diagnosa
-    document.querySelectorAll('.btn-edit').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            fetch(`/diagnosa/${id}/edit`, {
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit me-1"></i> Edit Data Diagnosa';
-                document.getElementById('diagnosaId').value = data.id;
-                document.getElementById('formMethod').value = 'PUT';
-                document.getElementById('diag_kode').value = data.kode_diagnosa;
-                document.getElementById('diag_nama').value = data.nama_diagnosa;
-                document.getElementById('diag_kategori').value = data.kode_katdiagnosa || '';
-                document.getElementById('diag_kelompok').value = data.kode_kelompokdiagnosa || '';
-                document.getElementById('diag_non_spesialis').checked = !!data.is_non_spesialis;
-                document.getElementById('diag_lab').checked = !!data.is_diagnosa_lab;
-                document.getElementById('diag_rad').checked = !!data.is_diagnosa_radiologi;
-                document.getElementById('diag_keterangan').value = data.keterangan || '';
-                modalDiag.show();
-            })
-            .catch(err => alert('Gagal mengambil data diagnosa'));
+    $(document).on('click', '.btn-edit', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: `/diagnosa/${id}/edit`,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function (data) {
+                $('#modalTitle').html('<i class="fas fa-edit me-1"></i> Edit Data Diagnosa');
+                $('#diagnosaId').val(data.id);
+                $('#formMethod').val('PUT');
+                $('#diag_kode').val(data.kode_diagnosa);
+                $('#diag_nama').val(data.nama_diagnosa);
+                $('#diag_kategori').val(data.kode_katdiagnosa || '');
+                $('#diag_kelompok').val(data.kode_kelompokdiagnosa || '');
+                $('#diag_non_spesialis').prop('checked', !!data.is_non_spesialis);
+                $('#diag_lab').prop('checked', !!data.is_diagnosa_lab);
+                $('#diag_rad').prop('checked', !!data.is_diagnosa_radiologi);
+                $('#diag_keterangan').val(data.keterangan || '');
+                openModal('modalDiagnosa');
+            },
+            error: function () {
+                alert('Gagal mengambil data diagnosa.');
+            }
         });
     });
 
     // View Detail Diagnosa
-    document.querySelectorAll('.btn-view').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            fetch(`/diagnosa/${id}`, {
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('det_kode').textContent = data.kode_diagnosa;
-                document.getElementById('det_nama').textContent = data.nama_diagnosa;
-                document.getElementById('det_kategori').textContent = data.kode_katdiagnosa || '-';
-                document.getElementById('det_kelompok').textContent = data.kode_kelompokdiagnosa || '-';
-                document.getElementById('det_non_spesialis').innerHTML = data.is_non_spesialis ? '<span class="badge bg-success">Ya (Non Spesialis)</span>' : '<span class="badge bg-secondary">Tidak</span>';
-                document.getElementById('det_lab').innerHTML = data.is_diagnosa_lab ? '<span class="badge bg-info text-dark">Ya</span>' : '<span class="badge bg-secondary">Tidak</span>';
-                document.getElementById('det_radiologi').innerHTML = data.is_diagnosa_radiologi ? '<span class="badge bg-info text-dark">Ya</span>' : '<span class="badge bg-secondary">Tidak</span>';
-                document.getElementById('det_keterangan').textContent = data.keterangan || '-';
-                modalDetail.show();
-            })
-            .catch(err => alert('Gagal mengambil detail diagnosa'));
+    $(document).on('click', '.btn-view', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: `/diagnosa/${id}`,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function (data) {
+                $('#det_kode').text(data.kode_diagnosa);
+                $('#det_nama').text(data.nama_diagnosa);
+                $('#det_kategori').text(data.kode_katdiagnosa || '-');
+                $('#det_kelompok').text(data.kode_kelompokdiagnosa || '-');
+                $('#det_non_spesialis').html(data.is_non_spesialis ? '<span class="badge bg-success">Ya (Non Spesialis)</span>' : '<span class="badge bg-secondary">Tidak</span>');
+                $('#det_lab').html(data.is_diagnosa_lab ? '<span class="badge bg-info text-dark">Ya</span>' : '<span class="badge bg-secondary">Tidak</span>');
+                $('#det_radiologi').html(data.is_diagnosa_radiologi ? '<span class="badge bg-info text-dark">Ya</span>' : '<span class="badge bg-secondary">Tidak</span>');
+                $('#det_keterangan').text(data.keterangan || '-');
+                openModal('modalDetailDiagnosa');
+            },
+            error: function () {
+                alert('Gagal mengambil detail diagnosa.');
+            }
         });
     });
 
-    // Submit Form
-    document.getElementById('formDiagnosa').addEventListener('submit', function (e) {
+    // Submit Form Tambah / Edit Diagnosa
+    $(document).on('submit', '#formDiagnosa', function (e) {
         e.preventDefault();
-        const id = document.getElementById('diagnosaId').value;
-        const method = document.getElementById('formMethod').value;
+        const id = $('#diagnosaId').val();
+        const method = $('#formMethod').val();
         const url = id ? `/diagnosa/${id}` : '/diagnosa';
 
-        const formData = new FormData(this);
+        let formData = new FormData(this);
         if (method === 'PUT') {
             formData.append('_method', 'PUT');
         }
 
-        const btnSubmit = document.getElementById('btnSimpanDiagnosa');
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+        const $btnSubmit = $('#btnSimpanDiagnosa');
+        $btnSubmit.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...');
 
-        fetch(url, {
-            method: 'POST',
-            body: formData,
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
+            },
+            success: function (data) {
+                if (data.success) {
+                    closeModal('modalDiagnosa');
+                    window.location.reload();
+                } else {
+                    alert('Gagal menyimpan: ' + (data.message || 'Periksa input Anda'));
+                    $btnSubmit.prop('disabled', false).html('<i class="fas fa-save me-1"></i> Simpan');
+                }
+            },
+            error: function (xhr) {
+                let msg = 'Terjadi kesalahan koneksi.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                alert(msg);
+                $btnSubmit.prop('disabled', false).html('<i class="fas fa-save me-1"></i> Simpan');
             }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                modalDiag.hide();
-                window.location.reload();
-            } else {
-                alert('Gagal menyimpan: ' + (data.message || 'Periksa input Anda'));
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan';
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Terjadi kesalahan koneksi.');
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan';
         });
     });
 
     // Delete Diagnosa
-    document.querySelectorAll('.btn-delete').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            const kode = this.getAttribute('data-kode');
-            const nama = this.getAttribute('data-nama');
+    $(document).on('click', '.btn-delete', function () {
+        const id = $(this).data('id');
+        const kode = $(this).data('kode');
+        const nama = $(this).data('nama');
 
-            if (confirm(`Apakah Anda yakin ingin menghapus Diagnosa [${kode}] ${nama}?`)) {
-                fetch(`/diagnosa/${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ _method: 'DELETE' })
-                })
-                .then(res => res.json())
-                .then(data => {
+        if (confirm(`Apakah Anda yakin ingin menghapus Diagnosa [${kode}] ${nama}?`)) {
+            $.ajax({
+                url: `/diagnosa/${id}`,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                success: function (data) {
                     if (data.success) {
                         window.location.reload();
                     } else {
                         alert('Gagal menghapus: ' + (data.message || 'Terjadi kesalahan'));
                     }
-                })
-                .catch(err => alert('Terjadi kesalahan koneksi saat menghapus.'));
-            }
-        });
+                },
+                error: function () {
+                    alert('Terjadi kesalahan koneksi saat menghapus.');
+                }
+            });
+        }
     });
 });
 </script>

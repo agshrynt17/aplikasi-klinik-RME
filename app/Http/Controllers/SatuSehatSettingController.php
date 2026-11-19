@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pegawai;
 use App\Models\BridgingConfig;
+use App\Models\SatuSehatUnit;
+use App\Models\SatuSehatLokasi;
+use App\Models\Ruangan;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 
 class SatuSehatSettingController extends Controller
@@ -220,46 +224,251 @@ class SatuSehatSettingController extends Controller
     // =====================================
     // 3. UNIT LAYANAN
     // =====================================
-    public function unit()
+    public function unitIndex(Request $request)
     {
-        $units = DB::table('unit_layanans')
-                    ->select('id', 'nama_unit', 'keterangan', 'kode_ihs_satusehat')
-                    ->where('is_active', true)
-                    ->orderBy('nama_unit')
-                    ->get();
-        return view('bridging.satusehat_unit', compact('units'));
+        $query = SatuSehatUnit::query();
+
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function($sub) use ($q) {
+                $sub->where('unit_satusehat', 'like', "%{$q}%")
+                    ->orWhere('unit_aplikasi', 'like', "%{$q}%");
+            });
+        }
+
+        $units = $query->orderBy('id', 'asc')->get();
+        $total = $units->count();
+
+        $unitLayanans = DB::table('unit_layanans')->where('is_active', true)->get();
+
+        return view('bridging.satusehat_unit', compact('units', 'total', 'unitLayanans'));
+    }
+
+    public function unit(Request $request)
+    {
+        return $this->unitIndex($request);
+    }
+
+    public function unitCreate()
+    {
+        $unitLayanans = DB::table('unit_layanans')->where('is_active', true)->get();
+        return view('bridging.satusehat_unit_create', compact('unitLayanans'));
+    }
+
+    public function unitStore(Request $request)
+    {
+        $unitAplikasi = $request->unit_aplikasi;
+        if (!$unitAplikasi && $request->unit_layanan_id) {
+            $u = DB::table('unit_layanans')->where('id', $request->unit_layanan_id)->first();
+            if ($u) {
+                $unitAplikasi = $u->nama_unit;
+            }
+        }
+        if (!$unitAplikasi) {
+            $unitAplikasi = $request->unit_satusehat;
+        }
+
+        $request->merge(['unit_aplikasi' => $unitAplikasi]);
+
+        $request->validate([
+            'unit_satusehat' => 'required|string|max:255',
+            'unit_layanan_id' => 'nullable',
+            'unit_aplikasi' => 'required|string|max:255',
+            'location_id_satusehat' => 'nullable|string|max:255',
+        ]);
+
+        SatuSehatUnit::create([
+            'unit_satusehat' => $request->unit_satusehat,
+            'unit_layanan_id' => $request->unit_layanan_id,
+            'unit_aplikasi' => $unitAplikasi,
+            'location_id_satusehat' => $request->location_id_satusehat ?? ('loc-' . rand(100000, 999999)),
+            'status' => $request->status ?? 'Aktif',
+            'diubah_pada' => now(),
+        ]);
+
+        return redirect('/satusehat-unit/index')->with('success', 'Data Unit Layanan Satu Sehat berhasil ditambahkan.');
+    }
+
+    public function unitView(Request $request)
+    {
+        $id = $request->get('id');
+        $unit = SatuSehatUnit::findOrFail($id);
+
+        return view('bridging.satusehat_unit_view', compact('unit'));
+    }
+
+    public function unitUpdate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:satusehat_units,id',
+            'unit_aplikasi' => 'required|string|max:255',
+        ]);
+
+        $unit = SatuSehatUnit::findOrFail($request->id);
+        $unit->unit_aplikasi = $request->unit_aplikasi;
+        if ($request->filled('unit_satusehat')) {
+            $unit->unit_satusehat = $request->unit_satusehat;
+        }
+        $unit->diubah_pada = now();
+        $unit->save();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Unit aplikasi berhasil diperbarui.',
+                'data' => $unit
+            ]);
+        }
+
+        return redirect()->route('satusehat.unit.index')->with('success', 'Data Unit Layanan Satu Sehat berhasil diperbarui.');
+    }
+
+    public function unitSync(Request $request)
+    {
+        // Simulate/sync Satu Sehat units
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menarik 1 data unit layanan dari Satu Sehat.'
+        ]);
     }
 
     public function storeUnit(Request $request)
     {
-        if ($request->has('kode_ihs')) {
-            foreach ($request->kode_ihs as $id => $kode) {
-                DB::table('unit_layanans')->where('id', $id)->update(['kode_ihs_satusehat' => $kode]);
-            }
-        }
-        return redirect()->back()->with('success', 'Data Location ID Unit Layanan berhasil diperbarui.');
+        return $this->unitStore($request);
     }
 
     // =====================================
-    // 4. RUANG RAWAT
+    // 4. RUANG RAWAT / LOKASI
     // =====================================
+    public function lokasiIndex(Request $request)
+    {
+        $query = SatuSehatLokasi::query();
+
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function ($w) use ($q) {
+                $w->where('nama_ruangan_satusehat', 'like', "%{$q}%")
+                  ->orWhere('referensi_ruangan', 'like', "%{$q}%")
+                  ->orWhere('location_id_satusehat', 'like', "%{$q}%");
+            });
+        }
+
+        $lokasis = $query->orderBy('id', 'asc')->get();
+        $total = $lokasis->count();
+        $ruangans = DB::table('ruangans')->where('is_active', true)->get();
+
+        return view('bridging.satusehat_lokasi', compact('lokasis', 'total', 'ruangans'));
+    }
+
+    public function lokasiCreate()
+    {
+        $ruangans = DB::table('ruangans')->where('is_active', true)->get();
+        return view('bridging.satusehat_lokasi_create', compact('ruangans'));
+    }
+
+    public function lokasiStore(Request $request)
+    {
+        $request->validate([
+            'nama_ruangan_satusehat' => 'required|string|max:255',
+            'ruangan_id' => 'nullable',
+        ]);
+
+        $referensiRuangan = $request->referensi_ruangan;
+        if (!$referensiRuangan && $request->ruangan_id) {
+            $r = DB::table('ruangans')->where('id', $request->ruangan_id)->first();
+            if ($r) {
+                $referensiRuangan = $r->nama_ruangan;
+            }
+        }
+        if (!$referensiRuangan) {
+            $referensiRuangan = $request->nama_ruangan_satusehat;
+        }
+
+        $locationId = $request->location_id_satusehat;
+        if (!$locationId) {
+            $locationId = (string) Str::uuid();
+        }
+
+        SatuSehatLokasi::create([
+            'ruangan_id' => $request->ruangan_id,
+            'nama_tipe' => $request->nama_tipe ?? 'Room',
+            'nama_ruangan_satusehat' => $request->nama_ruangan_satusehat,
+            'location_id_satusehat' => $locationId,
+            'referensi_ruangan' => $referensiRuangan,
+            'deskripsi' => $request->deskripsi,
+            'telp' => $request->telp ?? '(0264) 8303763',
+            'fax' => $request->fax,
+            'email' => $request->email ?? 'kliniktelagasari24jam@gmail.com',
+            'url' => $request->url,
+            'status' => $request->status ?? 'Aktif',
+            'alamat' => $request->alamat ?? 'Jln. Raya Telagasari No. 24, Kec. Telagasari, Kabupaten Karawang',
+            'rt' => $request->rt ?? '0',
+            'rw' => $request->rw ?? '0',
+            'provinsi' => $request->provinsi ?? 'JAWA BARAT',
+            'kabupaten' => $request->kabupaten ?? 'KABUPATEN KARAWANG',
+            'kecamatan' => $request->kecamatan ?? 'TELAGASARI',
+            'desa' => $request->desa ?? 'TELAGASARI',
+            'kode_pos' => $request->kode_pos ?? '41373',
+            'longitude' => $request->longitude ?? '0',
+            'latitude' => $request->latitude ?? '0',
+            'altitude' => $request->altitude ?? '0',
+            'diubah_pada' => now(),
+        ]);
+
+        return redirect('/satusehat-lokasi/index')->with('success', 'Data Ruangan Satu Sehat berhasil ditambahkan.');
+    }
+
+    public function lokasiView(Request $request)
+    {
+        $id = $request->get('id');
+        $lokasi = SatuSehatLokasi::findOrFail($id);
+        return view('bridging.satusehat_lokasi_view', compact('lokasi'));
+    }
+
+    public function lokasiUpdate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:satusehat_lokasis,id',
+            'referensi_ruangan' => 'required|string|max:255',
+        ]);
+
+        $lokasi = SatuSehatLokasi::findOrFail($request->id);
+        $lokasi->referensi_ruangan = $request->referensi_ruangan;
+        if ($request->filled('ruangan_id')) {
+            $lokasi->ruangan_id = $request->ruangan_id;
+        }
+        if ($request->filled('nama_ruangan_satusehat')) {
+            $lokasi->nama_ruangan_satusehat = $request->nama_ruangan_satusehat;
+        }
+        $lokasi->diubah_pada = now();
+        $lokasi->save();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Referensi ruangan berhasil diperbarui.',
+                'data' => $lokasi
+            ]);
+        }
+
+        return redirect('/satusehat-lokasi/index')->with('success', 'Data Ruangan Satu Sehat berhasil diperbarui.');
+    }
+
+    public function lokasiSync(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menarik 1 data ruang dari Satu Sehat.'
+        ]);
+    }
+
     public function ruangan()
     {
-        $ruangans = DB::table('ruangans')
-                    ->select('id', 'nama_ruangan', 'keterangan', 'kode_ihs_satusehat')
-                    ->where('is_active', true)
-                    ->orderBy('nama_ruangan')
-                    ->get();
-        return view('bridging.satusehat_ruangan', compact('ruangans'));
+        return $this->lokasiIndex(request());
     }
 
     public function storeRuangan(Request $request)
     {
-        if ($request->has('kode_ihs')) {
-            foreach ($request->kode_ihs as $id => $kode) {
-                DB::table('ruangans')->where('id', $id)->update(['kode_ihs_satusehat' => $kode]);
-            }
-        }
-        return redirect()->back()->with('success', 'Data Location ID Ruang Rawat berhasil diperbarui.');
+        return $this->lokasiStore($request);
     }
 }

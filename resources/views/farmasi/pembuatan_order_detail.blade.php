@@ -69,9 +69,9 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Detail Pemesanan Barang (PO)</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; 
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; 
             <a href="{{ url('/pembuatanorder/index') }}">Transaksi Pemesanan Barang (PO)</a> &gt; 
-            <span>Detail {{ $order->nomor_po }}</span>
+            <a href="{{ url()->current() }}">Detail {{ $order->nomor_po }}</a>
         </div>
     </div>
 

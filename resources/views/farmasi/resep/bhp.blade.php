@@ -145,7 +145,7 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Transaksi Bahan Habis Pakai (BHP)</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; <span>Transaksi Bahan Habis Pakai (BHP)</span>
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; <a href="{{ url()->current() }}">Transaksi Bahan Habis Pakai (BHP)</a>
         </div>
     </div>
 

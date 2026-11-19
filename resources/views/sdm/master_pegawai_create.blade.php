@@ -13,9 +13,7 @@
             <ol class="breadcrumb mb-0 small text-muted" style="font-size: 12px;">
                 <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="/master-pegawai" class="text-decoration-none text-muted">Pegawai</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">
-                    {{ isset($item) ? 'Ubah Pegawai' : 'Tambah Pegawai' }}
-                </li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">{{ isset($item) ? 'Ubah Pegawai' : 'Tambah Pegawai' }}</a></li>
             </ol>
         </nav>
     </div>

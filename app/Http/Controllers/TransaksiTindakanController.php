@@ -18,13 +18,6 @@ class TransaksiTindakanController extends Controller
     // 1. Menampilkan daftar kunjungan (pasien) yang bisa diinput tindakan
     public function index(Request $request)
     {
-        // Pastikan ada data pendaftaran realistis jika masih kosong
-        if (Pendaftaran::count() === 0) {
-            try {
-                (new PendaftaranKonhakesSeeder())->run();
-            } catch (\Throwable $e) {}
-        }
-
         $query = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'perawat', 'penjamin', 'transaksiTindakans'])
                     ->where('status_periksa', '!=', 'Batal');
 

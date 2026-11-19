@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 small text-muted" style="font-size: 12px;">
                 <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Pengaturan Tarif Tindakan</li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Pengaturan Tarif Tindakan</a></li>
             </ol>
         </nav>
     </div>
@@ -74,12 +74,8 @@
 
                 <div class="d-flex gap-2 ms-auto">
                     <a href="/master-tarif-tindakan/create" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center" 
-                       style="background-color: #00a65a; border-color: #008d4c; height: 33px; font-size: 12px; border-radius: 3px;">
-                        <i class="fas fa-plus me-1"></i> Buat Tarif
-                    </a>
-                    <a href="/master-tarif-tindakan/create" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center" 
-                       style="background-color: #f39c12; border-color: #e08e0b; height: 33px; font-size: 12px; border-radius: 3px;">
-                        <i class="fas fa-plus me-1"></i> Ubah Tarif
+                       style="background-color: #00a65a; border-color: #008d4c; height: 33px; font-size: 12px; border-radius: 3px;" title="Atur / Buat Tarif Tindakan per Penjamin">
+                        <i class="fas fa-plus me-1"></i> Atur Tarif Penjamin (Massal)
                     </a>
                     <button type="button" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center" 
                             data-bs-toggle="modal" data-bs-target="#modalImportTarif"
@@ -111,44 +107,51 @@
                         <th class="text-center" style="color: #337ab7; font-weight: 600;">Jasa Paramedis</th>
                         <th class="text-end" style="color: #337ab7; font-weight: 600;">Margin</th>
                         <th class="text-end" style="color: #337ab7; font-weight: 600;">Total Tarif</th>
-                        <th width="40" class="text-center"></th>
+                        <th style="width: 80px;" class="text-center" style="color: #337ab7; font-weight: 600;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($data as $index => $item)
                     <tr data-id="{{ $item->id }}">
                         <td class="text-center fw-bold" style="color: #555;">{{ $data->firstItem() + $index }}</td>
-                        <td style="color: #333;">
+                        <td style="color: #333;" class="td-poli">
                             {{ $item->tindakan && $item->tindakan->poliklinik ? $item->tindakan->poliklinik->nama_poli : '-' }}
                         </td>
-                        <td style="color: #333;">
+                        <td style="color: #333;" class="td-penjamin">
                             {{ $item->penjamin ? $item->penjamin->nama_penjamin : 'Pribadi' }}
                         </td>
-                        <td style="color: #333; font-weight: 500;">
+                        <td style="color: #333; font-weight: 500;" class="td-tindakan">
                             {{ $item->tindakan ? $item->tindakan->nama_tindakan : '-' }}
                         </td>
-                        <td class="text-center" style="color: #333;">
+                        <td class="text-center td-unit-cost" style="color: #333;">
                             {{ $item->unit_cost > 0 ? number_format($item->unit_cost, 0, ',', '.') : '0' }}
                         </td>
-                        <td class="text-center" style="color: #333;">
+                        <td class="text-center td-jasa-medis" style="color: #333;">
                             {{ number_format($item->jasa_medis, 0, ',', '.') }}
                         </td>
-                        <td class="text-center" style="color: #333;">
+                        <td class="text-center td-jasa-paramedis" style="color: #333;">
                             {{ number_format($item->jasa_paramedis, 0, ',', '.') }}
                         </td>
-                        <td class="text-end" style="color: #333;">
+                        <td class="text-end td-margin" style="color: #333;">
                             {{ number_format($item->margin, 0, ',', '.') }}
                         </td>
-                        <td class="text-end fw-semibold" style="color: #333;">
+                        <td class="text-end fw-semibold td-total-tarif" style="color: #333;">
                             {{ number_format($item->total_tarif, 0, ',', '.') }}
                         </td>
-                        <td class="text-center">
-                            <a href="javascript:void(0)" class="text-info btn-delete text-decoration-none" 
-                               data-id="{{ $item->id }}" 
-                               data-nama="{{ ($item->tindakan ? $item->tindakan->nama_tindakan : 'Tarif') . ' (' . ($item->penjamin ? $item->penjamin->nama_penjamin : 'Pribadi') . ')' }}" 
-                               title="Hapus Tarif">
-                                <i class="fas fa-trash" style="font-size: 13px;"></i>
-                            </a>
+                        <td class="text-center text-nowrap">
+                            <button type="button" class="btn btn-sm text-white btn-edit-tarif me-1" 
+                                    data-id="{{ $item->id }}" 
+                                    style="background-color: #f39c12; border-color: #f39c12; border-radius: 3px; font-size: 11px; padding: 2px 7px;" 
+                                    title="Ubah Tarif Tindakan">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </button>
+                            <button type="button" class="btn btn-sm text-white btn-delete" 
+                                    data-id="{{ $item->id }}" 
+                                    data-nama="{{ ($item->tindakan ? $item->tindakan->nama_tindakan : 'Tarif') . ' (' . ($item->penjamin ? $item->penjamin->nama_penjamin : 'Pribadi') . ')' }}" 
+                                    style="background-color: #dd4b39; border-color: #dd4b39; border-radius: 3px; font-size: 11px; padding: 2px 6px;" 
+                                    title="Hapus Tarif">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     @empty
@@ -172,6 +175,78 @@
             </div>
         </div>
         @endif
+    </div>
+</div>
+
+{{-- Modal Edit Tarif Tindakan --}}
+<div class="modal fade" id="modalEditTarif" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content rounded-2 border-0 shadow">
+            <div class="modal-header py-2 px-3 text-white" style="background-color: #f39c12; border-radius: 3px 3px 0 0;">
+                <h6 class="modal-title fw-bold" style="font-size: 13px;">
+                    <i class="fas fa-pencil-alt me-1"></i> Ubah Tarif Tindakan
+                </h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formEditTarif">
+                @csrf
+                <input type="hidden" id="editTarifId">
+                <div class="modal-body p-3" style="font-size: 13px;">
+                    <!-- Info Header Box -->
+                    <div class="p-2 mb-3 rounded" style="background-color: #f8f9fa; border: 1px solid #e9ecef; font-size: 12px;">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tr>
+                                <td style="width: 100px;" class="text-muted fw-bold">Tindakan</td>
+                                <td style="width: 10px;">:</td>
+                                <td class="fw-bold text-dark" id="editNamaTindakan">-</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-bold">Poliklinik</td>
+                                <td>:</td>
+                                <td class="text-dark" id="editNamaPoli">-</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-bold">Penjamin</td>
+                                <td>:</td>
+                                <td class="text-primary fw-bold" id="editNamaPenjamin">-</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Input Fields -->
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label mb-1" style="font-size: 12px; font-weight: 600; color: #555;">Unit Cost (Rp)</label>
+                            <input type="number" id="editUnitCost" class="form-control form-control-sm text-end edit-calc" value="0" min="0">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label mb-1" style="font-size: 12px; font-weight: 600; color: #555;">Jasa Medis (Rp)</label>
+                            <input type="number" id="editJasaMedis" class="form-control form-control-sm text-end edit-calc" value="0" min="0">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label mb-1" style="font-size: 12px; font-weight: 600; color: #555;">Jasa Paramedis (Rp)</label>
+                            <input type="number" id="editJasaParamedis" class="form-control form-control-sm text-end edit-calc" value="0" min="0">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label mb-1" style="font-size: 12px; font-weight: 600; color: #555;">Margin (Rp)</label>
+                            <input type="number" id="editMargin" class="form-control form-control-sm text-end edit-calc" value="0" min="0">
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="p-2 rounded bg-light border d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-dark" style="font-size: 13px;">Total Tarif (Rp):</span>
+                                <span class="fw-bold text-success fs-6" id="editTotalTarifLabel">Rp 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer py-2 px-3 bg-light d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" style="font-size: 12px; border-radius: 3px;">Batal</button>
+                    <button type="submit" class="btn btn-sm text-white fw-bold px-3" id="btnSimpanEditTarif" style="background-color: #00a65a; border-color: #008d4c; font-size: 12px; border-radius: 3px;">
+                        <i class="fas fa-save me-1"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -223,11 +298,104 @@
 $(document).ready(function() {
     let currentTarifId = null;
 
+    // Helper: Hitung live total tarif pada modal edit
+    function calcEditTotal() {
+        let unitCost = parseFloat($('#editUnitCost').val()) || 0;
+        let jasaMedis = parseFloat($('#editJasaMedis').val()) || 0;
+        let jasaParamedis = parseFloat($('#editJasaParamedis').val()) || 0;
+        let margin = parseFloat($('#editMargin').val()) || 0;
+        let total = unitCost + jasaMedis + jasaParamedis + margin;
+        $('#editTotalTarifLabel').text('Rp ' + total.toLocaleString('id-ID'));
+        return total;
+    }
+
+    $(document).on('input change', '.edit-calc', calcEditTotal);
+
+    // Buka Modal Ubah Tarif
+    $(document).on('click', '.btn-edit-tarif', function() {
+        let id = $(this).data('id');
+        $('#editTarifId').val(id);
+
+        $.get('/master-tarif-tindakan/' + id + '/edit', function(res) {
+            $('#editNamaTindakan').text(res.tindakan ? res.tindakan.nama_tindakan : '-');
+            $('#editNamaPoli').text(res.tindakan && res.tindakan.poliklinik ? res.tindakan.poliklinik.nama_poli : '-');
+            $('#editNamaPenjamin').text(res.penjamin ? res.penjamin.nama_penjamin : 'Pribadi');
+
+            $('#editUnitCost').val(res.unit_cost || 0);
+            $('#editJasaMedis').val(res.jasa_medis || 0);
+            $('#editJasaParamedis').val(res.jasa_paramedis || 0);
+            $('#editMargin').val(res.margin || 0);
+
+            calcEditTotal();
+
+            let modalEl = document.getElementById('modalEditTarif');
+            if (window.bootstrap && bootstrap.Modal) {
+                bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            } else {
+                $('#modalEditTarif').modal('show');
+            }
+        }).fail(function() {
+            alert('Gagal mengambil data tarif.');
+        });
+    });
+
+    // Simpan Perubahan Ubah Tarif
+    $('#formEditTarif').on('submit', function(e) {
+        e.preventDefault();
+        let id = $('#editTarifId').val();
+        let unitCost = parseFloat($('#editUnitCost').val()) || 0;
+        let jasaMedis = parseFloat($('#editJasaMedis').val()) || 0;
+        let jasaParamedis = parseFloat($('#editJasaParamedis').val()) || 0;
+        let margin = parseFloat($('#editMargin').val()) || 0;
+
+        $.ajax({
+            url: '/master-tarif-tindakan/' + id,
+            type: 'PUT',
+            data: {
+                _token: '{{ csrf_token() }}',
+                unit_cost: unitCost,
+                jasa_medis: jasaMedis,
+                jasa_paramedis: jasaParamedis,
+                margin: margin
+            },
+            success: function(res) {
+                let modalEl = document.getElementById('modalEditTarif');
+                if (window.bootstrap && bootstrap.Modal) {
+                    bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+                } else {
+                    $('#modalEditTarif').modal('hide');
+                }
+
+                showAlert('success', res.message || 'Data Tarif Tindakan berhasil diperbarui.');
+
+                // Update tampilan baris di tabel seketika
+                let $row = $(`tr[data-id="${id}"]`);
+                if ($row.length) {
+                    $row.find('.td-unit-cost').text(unitCost.toLocaleString('id-ID'));
+                    $row.find('.td-jasa-medis').text(jasaMedis.toLocaleString('id-ID'));
+                    $row.find('.td-jasa-paramedis').text(jasaParamedis.toLocaleString('id-ID'));
+                    $row.find('.td-margin').text(margin.toLocaleString('id-ID'));
+                    let total = unitCost + jasaMedis + jasaParamedis + margin;
+                    $row.find('.td-total-tarif').text(total.toLocaleString('id-ID'));
+                }
+            },
+            error: function() {
+                alert('Gagal menyimpan perubahan tarif.');
+            }
+        });
+    });
+
+    // Hapus Tarif
     $(document).on('click', '.btn-delete', function() {
         currentTarifId = $(this).data('id');
         let nama = $(this).data('nama');
         $('#namaHapusTarif').text(nama);
-        $('#modalHapusTarif').modal('show');
+        let modalEl = document.getElementById('modalHapusTarif');
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        } else {
+            $('#modalHapusTarif').modal('show');
+        }
     });
 
     $('#btnKonfirmasiHapus').on('click', function() {
@@ -239,7 +407,12 @@ $(document).ready(function() {
                 _token: '{{ csrf_token() }}'
             },
             success: function(res) {
-                $('#modalHapusTarif').modal('hide');
+                let modalEl = document.getElementById('modalHapusTarif');
+                if (window.bootstrap && bootstrap.Modal) {
+                    bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+                } else {
+                    $('#modalHapusTarif').modal('hide');
+                }
                 showAlert('success', res.message);
                 $(`tr[data-id="${currentTarifId}"]`).fadeOut(300, function() {
                     $(this).remove();

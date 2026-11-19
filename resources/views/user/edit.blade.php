@@ -7,9 +7,9 @@
         <h3 class="fw-normal mb-0" style="color: #333; font-size: 24px;">Update User</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0" style="font-size: 12px; background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="/user/admin/index" class="text-decoration-none text-muted">Users</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Update User</li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Update User</a></li>
             </ol>
         </nav>
     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="name" class="form-label text-dark fw-bold" style="font-size: 13px;">Full Name</label>
-                        <input type="text" name="name" id="name" class="form-control form-control-sm" style="background-color: #eee; font-size: 13px;" value="{{ old('name', $user->name) }}" readonly>
+                        <input type="text" name="name" id="name" class="form-control form-control-sm" style="font-size: 13px;" value="{{ old('name', $user->name) }}" required>
                     </div>
                     <div class="col-md-4">
                         <label for="email" class="form-label text-dark fw-bold" style="font-size: 13px;">Email</label>

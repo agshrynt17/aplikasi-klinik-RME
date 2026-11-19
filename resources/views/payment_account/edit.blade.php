@@ -7,9 +7,9 @@
         <h3 class="fw-normal mb-0" style="color: #333; font-size: 24px;">Update Payment Account</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0" style="font-size: 12px; background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="/payment-account/index" class="text-decoration-none text-muted">Payment Accounts</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Update Payment Account</li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Update Payment Account</a></li>
             </ol>
         </nav>
     </div>

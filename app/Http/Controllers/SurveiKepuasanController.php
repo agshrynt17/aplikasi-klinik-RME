@@ -14,13 +14,6 @@ class SurveiKepuasanController extends Controller
 {
     public function index(Request $request)
     {
-        // Pastikan ada data pendaftaran jika kosong
-        if (Pendaftaran::count() === 0) {
-            try {
-                (new PendaftaranKonhakesSeeder())->run();
-            } catch (\Throwable $e) {}
-        }
-
         $query = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'perawat', 'penjamin', 'surveiKepuasan'])
                     ->where('status_periksa', '!=', 'Batal');
 

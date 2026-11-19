@@ -80,7 +80,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Upload Stok Awal Per Gudang</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stoks</a> <span class="mx-1">&gt;</span> <span>Upload Stok Awal</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stoks</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Upload Stok Awal</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

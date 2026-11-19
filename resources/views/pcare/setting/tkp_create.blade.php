@@ -23,10 +23,14 @@
         color: #777;
     }
     .konhakes-breadcrumb a {
-        color: #444;
+        color: #337ab7 !important;
         text-decoration: none;
+        cursor: pointer;
     }
-    .konhakes-breadcrumb a:hover { text-decoration: underline; }
+    .konhakes-breadcrumb a:hover {
+        color: #23527c !important;
+        text-decoration: underline;
+    }
     .form-group-konhakes {
         margin-bottom: 15px;
     }
@@ -73,11 +77,11 @@
     <div class="konhakes-header">
         <h3 class="konhakes-title">Create Tkp</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a>
-            <span style="color:#777; margin:0 5px;">&nbsp;</span>
+            <a href="/dashboard">Beranda</a>
+            <span style="color:#777; margin:0 5px;">&gt;</span>
             <a href="/pcare-tkp/index">Pcare Tkps</a>
-            <span style="color:#777; margin:0 5px;">&nbsp;</span>
-            <span style="color:#777;">Create Tkp</span>
+            <span style="color:#777; margin:0 5px;">&gt;</span>
+            <a href="{{ url()->current() }}" style="color:#777;">Create Tkp</a>
         </div>
     </div>
 

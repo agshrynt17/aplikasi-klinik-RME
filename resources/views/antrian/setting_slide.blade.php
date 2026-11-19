@@ -151,7 +151,7 @@
     <div class="page-header-box">
         <h1 class="page-title-text">Setting Slide Antrian</h1>
         <div class="breadcrumb-custom">
-            <a href="/admin">Beranda</a> &gt; <span>Setting Slide Antrian</span>
+            <a href="/dashboard">Beranda</a> &gt; <span>Setting Slide Antrian</span>
         </div>
     </div>
 

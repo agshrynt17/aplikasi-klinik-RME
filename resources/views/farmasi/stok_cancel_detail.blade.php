@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="fs-4 fw-medium text-dark mb-0">Detail Stok Cancel #{{ $cancel->cancel_no }}</h3>
         <div class="small text-muted">
-            <a href="/" class="text-decoration-none text-muted">Beranda</a> &gt; 
+            <a href="/dashboard" class="text-decoration-none text-muted">Beranda</a> &gt; 
             <a href="/stok-cancel/index" class="text-decoration-none text-muted">Stok Cancels</a> &gt; 
             <span>Detail</span>
         </div>

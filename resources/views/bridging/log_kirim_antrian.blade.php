@@ -185,7 +185,7 @@
     <div class="page-header-box">
         <h1 class="page-title-text">Log Pengiriman Antrian ke BPJS</h1>
         <div class="breadcrumb-custom">
-            <a href="/admin">Beranda</a> &gt; <span>Log Pengiriman Antrian ke BPJS</span>
+            <a href="/dashboard">Beranda</a> &gt; <span>Log Pengiriman Antrian ke BPJS</span>
         </div>
     </div>
 

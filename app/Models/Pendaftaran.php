@@ -104,4 +104,14 @@ class Pendaftaran extends Model
     {
         return $this->hasMany(Resep::class, 'pendaftaran_id');
     }
+
+    public function kamarRanaps()
+    {
+        return $this->hasMany(KamarRanap::class, 'pendaftaran_id');
+    }
+
+    public function rawatInapTransfers()
+    {
+        return $this->hasMany(RawatInapTransfer::class, 'pendaftaran_id');
+    }
 }

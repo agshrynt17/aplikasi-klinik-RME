@@ -106,7 +106,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Daftar No.Batch Barang</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <span>Daftar No.Batch Barang</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Daftar No.Batch Barang</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

@@ -141,7 +141,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3 class="konhakes-title">Histori Penyesuaian Stok</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <span>Histori Penyesuaian Stok</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Histori Penyesuaian Stok</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

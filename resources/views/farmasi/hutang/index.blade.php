@@ -149,7 +149,7 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Data Pembayaran Hutang</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; <span>Data Pembayaran Hutang</span>
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; <a href="{{ url()->current() }}">Data Pembayaran Hutang</a>
         </div>
     </div>
 

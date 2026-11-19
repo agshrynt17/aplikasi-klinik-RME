@@ -7,8 +7,8 @@
         <h3 class="fw-normal mb-0" style="color: #333; font-size: 24px;">Akun Channel Pembayaran</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0" style="font-size: 12px; background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Akun Channel Pembayaran</li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Akun Channel Pembayaran</a></li>
             </ol>
         </nav>
     </div>

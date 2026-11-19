@@ -15,62 +15,7 @@ class PncController extends Controller
 {
     public function index(Request $request)
     {
-        // Pastikan sample baseline data 14-10-2026 tersedia jika belum ada (sesuai KONHAKES)
-        if (!Pendaftaran::where('nomor_registrasi', 'RG26101400118')->exists()) {
-            $pasien1 = Pasien::firstOrCreate(['no_rm' => 'S2023-000183'], [
-                'nama_pasien' => 'SDR IRFANSYAH NAUFAL AEPPUTRA',
-                'tanggal_lahir' => '2000-05-21',
-                'jenis_kelamin' => 'L',
-                'no_bpjs' => '0001811692824',
-                'alamat' => 'Karawang',
-                'alergi_obat' => null
-            ]);
-
-            Pendaftaran::create([
-                'no_rawat' => 'RG26101400118',
-                'nomor_registrasi' => 'RG26101400118',
-                'pasien_id' => $pasien1->id,
-                'tanggal_daftar' => '2026-10-14',
-                'jam_daftar' => '14:45:00',
-                'poliklinik_id' => 6,
-                'dokter_id' => 25,
-                'nama_perawat' => 'LALA WIJAYANTI AMD.KEB',
-                'penjamin_id' => 10,
-                'jenis_kunjungan' => 'Kunjungan Sakit',
-                'status_periksa' => 'Dalam Proses',
-                'is_online' => true,
-                'keluhan' => 'Kontrol PNC'
-            ]);
-        }
-
-        if (!Pendaftaran::where('nomor_registrasi', 'RG26101400117')->exists()) {
-            $pasien2 = Pasien::firstOrCreate(['no_rm' => 'N2025-001265'], [
-                'nama_pasien' => 'NY NENG YANAH',
-                'tanggal_lahir' => '1971-06-12',
-                'jenis_kelamin' => 'P',
-                'no_bpjs' => '0001811692825',
-                'alamat' => 'Karawang',
-                'alergi_obat' => 'RANITIDINE,'
-            ]);
-
-            Pendaftaran::create([
-                'no_rawat' => 'RG26101400117',
-                'nomor_registrasi' => 'RG26101400117',
-                'pasien_id' => $pasien2->id,
-                'tanggal_daftar' => '2026-10-14',
-                'jam_daftar' => '14:40:00',
-                'poliklinik_id' => 6,
-                'dokter_id' => 25,
-                'nama_perawat' => 'LALA WIJAYANTI AMD.KEB',
-                'penjamin_id' => 10,
-                'jenis_kunjungan' => 'Kunjungan Sakit',
-                'status_periksa' => 'Dalam Proses',
-                'is_online' => true,
-                'keluhan' => 'Pemeriksaan Nifas'
-            ]);
-        }
-
-        $rawTanggal = $request->input('tanggal', '2026-10-14');
+        $rawTanggal = $request->input('tanggal', date('Y-m-d'));
         if (preg_match('/^\d{2}-\d{2}-\d{4}$/', $rawTanggal)) {
             $tanggal = \Carbon\Carbon::createFromFormat('d-m-Y', $rawTanggal)->format('Y-m-d');
         } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $rawTanggal)) {

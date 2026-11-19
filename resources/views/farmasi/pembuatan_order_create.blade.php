@@ -153,9 +153,9 @@
     <div class="konhakes-header">
         <h3 class="konhakes-title">Pembuatanorder</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span>
+            <a href="/dashboard">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span>
             <a href="/pembuatanorder/index">Pembuatanorders</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span>
-            <span style="color: #777;">Pembuatanorder</span>
+            <a href="{{ url()->current() }}" style="color: #777;">Pembuatanorder</a>
         </div>
     </div>
 

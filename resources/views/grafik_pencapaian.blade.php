@@ -176,9 +176,11 @@
             return;
         }
 
-        // Global Highcharts theme font
+        // Global Highcharts theme font & vibrant colors (No Black)
         Highcharts.setOptions({
+            colors: ['#3c8dbc', '#f39c12', '#00a65a', '#dd4b39', '#9b59b6', '#00c0ef', '#e84393', '#f1c40f', '#1abc9c', '#e67e22'],
             chart: {
+                backgroundColor: '#ffffff',
                 style: {
                     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif'
                 }
@@ -188,7 +190,8 @@
         // 1. Chart Jumlah Pasien Terdaftar
         Highcharts.chart('chartPasienTerdaftar', {
             chart: {
-                type: 'column'
+                type: 'column',
+                backgroundColor: '#ffffff'
             },
             title: {
                 text: 'Jumlah Pasien Terdaftar',
@@ -231,11 +234,11 @@
             },
             series: [{
                 name: 'Pria',
-                color: '#5dade2',
+                color: '#3c8dbc',
                 data: {!! json_encode($dataPria) !!}
             }, {
                 name: 'Wanita',
-                color: '#34495e',
+                color: '#f39c12',
                 data: {!! json_encode($dataWanita) !!}
             }],
             legend: {
@@ -374,7 +377,7 @@
             },
             series: [{
                 name: 'Angka Kontak',
-                color: '#5dade2',
+                color: '#00a65a',
                 data: {!! json_encode($angkaKontakData) !!}
             }],
             legend: {
@@ -436,7 +439,7 @@
             },
             series: [{
                 name: 'RRNS',
-                color: '#5dade2',
+                color: '#dd4b39',
                 data: {!! json_encode($rrnsData) !!}
             }],
             legend: {

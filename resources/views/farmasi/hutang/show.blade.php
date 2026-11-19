@@ -46,9 +46,9 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Detail & Riwayat Pembayaran Tagihan</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; 
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; 
             <a href="{{ url('/pembayaran-hutang/index') }}">Data Pembayaran Hutang</a> &gt; 
-            <span>Detail {{ $hutang->no_tagihan_display }}</span>
+            <a href="{{ url()->current() }}">Detail {{ $hutang->no_tagihan_display }}</a>
         </div>
     </div>
 

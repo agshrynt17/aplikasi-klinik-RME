@@ -50,7 +50,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Kartu Stok : <span class="text-primary">{{ $barang->nama_barang }}</span> ({{ $barang->kode_barang }})</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Data Stok</a> <span class="mx-1">&gt;</span> <span>Kartu Stok</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Data Stok</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Kartu Stok</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

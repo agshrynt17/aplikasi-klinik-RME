@@ -161,9 +161,9 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Form Penerimaan Barang & Obat</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; 
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; 
             <a href="{{ url('/barangmasuk/index') }}">Barangmasukheaders</a> &gt; 
-            <span>Tambah Barang Masuk</span>
+            <a href="{{ url()->current() }}">Tambah Barang Masuk</a>
         </div>
     </div>
 

@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Prosedur</h4>
         <div style="font-size: 11px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Prosedur</span>
         </div>
@@ -59,7 +59,7 @@
             <a href="{{ url()->current() }}" class="btn btn-sm text-white" style="background-color: #f39c12; border-color: #e08e0b; height: 32px; padding: 0 16px; border-radius: 3px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center;">
                 Reset
             </a>
-            <button type="button" class="btn btn-sm text-white ms-3" id="btnTambahData" style="background-color: #00a65a; border-color: #008d4c; height: 32px; padding: 0 16px; border-radius: 3px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center;">
+            <button type="button" class="btn btn-sm text-white ms-3" id="btnTambahData" data-bs-toggle="modal" data-bs-target="#modalProsedur" style="background-color: #00a65a; border-color: #008d4c; height: 32px; padding: 0 16px; border-radius: 3px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; cursor: pointer;">
                 Tambah Data
             </button>
         </div>
@@ -267,134 +267,152 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    const modalPros = new bootstrap.Modal(document.getElementById('modalProsedur'));
-    const modalDetail = new bootstrap.Modal(document.getElementById('modalDetailProsedur'));
+$(document).ready(function () {
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    function openModal(id) {
+        let el = document.getElementById(id);
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(el).show();
+        } else if (window.$) {
+            $('#' + id).modal('show');
+        }
+    }
+
+    function closeModal(id) {
+        let el = document.getElementById(id);
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(el).hide();
+        } else if (window.$) {
+            $('#' + id).modal('hide');
+        }
+    }
 
     // Tambah Prosedur
-    document.getElementById('btnTambahData')?.addEventListener('click', function () {
-        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus-circle me-1"></i> Tambah Data Prosedur';
-        document.getElementById('formProsedur').reset();
-        document.getElementById('prosedurId').value = '';
-        document.getElementById('formMethod').value = 'POST';
-        modalPros.show();
+    $(document).on('click', '#btnTambahData', function () {
+        $('#modalTitle').html('<i class="fas fa-plus-circle me-1"></i> Tambah Data Prosedur');
+        $('#formProsedur')[0].reset();
+        $('#prosedurId').val('');
+        $('#formMethod').val('POST');
+        openModal('modalProsedur');
     });
 
     // Edit Prosedur
-    document.querySelectorAll('.btn-edit').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            fetch(`/prosedur/${id}/edit`, {
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit me-1"></i> Edit Data Prosedur';
-                document.getElementById('prosedurId').value = data.id;
-                document.getElementById('formMethod').value = 'PUT';
-                document.getElementById('pros_kode').value = data.kode_prosedur;
-                document.getElementById('pros_nama').value = data.nama_prosedur;
-                document.getElementById('pros_kategori').value = data.kategori_prosedur || '';
-                document.getElementById('pros_kelompok').value = data.kelompok_prosedur || '';
-                document.getElementById('pros_keterangan').value = data.keterangan || '';
-                modalPros.show();
-            })
-            .catch(err => alert('Gagal mengambil data prosedur'));
+    $(document).on('click', '.btn-edit', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: `/prosedur/${id}/edit`,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function (data) {
+                $('#modalTitle').html('<i class="fas fa-edit me-1"></i> Edit Data Prosedur');
+                $('#prosedurId').val(data.id);
+                $('#formMethod').val('PUT');
+                $('#pros_kode').val(data.kode_prosedur);
+                $('#pros_nama').val(data.nama_prosedur);
+                $('#pros_kategori').val(data.kategori_prosedur || '');
+                $('#pros_kelompok').val(data.kelompok_prosedur || '');
+                $('#pros_keterangan').val(data.keterangan || '');
+                openModal('modalProsedur');
+            },
+            error: function () {
+                alert('Gagal mengambil data prosedur.');
+            }
         });
     });
 
     // View Detail
-    document.querySelectorAll('.btn-view').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            fetch(`/prosedur/${id}`, {
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('det_kode').textContent = data.kode_prosedur;
-                document.getElementById('det_nama').textContent = data.nama_prosedur;
-                document.getElementById('det_kategori').textContent = data.kategori_prosedur || '-';
-                document.getElementById('det_kelompok').innerHTML = data.kelompok_prosedur ? data.kelompok_prosedur : '<span style="color: #dd4b39; font-style: italic;">(belum diset)</span>';
-                document.getElementById('det_keterangan').textContent = data.keterangan || '-';
-                modalDetail.show();
-            })
-            .catch(err => alert('Gagal mengambil detail prosedur'));
+    $(document).on('click', '.btn-view', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: `/prosedur/${id}`,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function (data) {
+                $('#det_kode').text(data.kode_prosedur);
+                $('#det_nama').text(data.nama_prosedur);
+                $('#det_kategori').text(data.kategori_prosedur || '-');
+                $('#det_kelompok').html(data.kelompok_prosedur ? data.kelompok_prosedur : '<span style="color: #dd4b39; font-style: italic;">(belum diset)</span>');
+                $('#det_keterangan').text(data.keterangan || '-');
+                openModal('modalDetailProsedur');
+            },
+            error: function () {
+                alert('Gagal mengambil detail prosedur.');
+            }
         });
     });
 
     // Submit Form
-    document.getElementById('formProsedur').addEventListener('submit', function (e) {
+    $(document).on('submit', '#formProsedur', function (e) {
         e.preventDefault();
-        const id = document.getElementById('prosedurId').value;
-        const method = document.getElementById('formMethod').value;
+        const id = $('#prosedurId').val();
+        const method = $('#formMethod').val();
         const url = id ? `/prosedur/${id}` : '/prosedur';
 
-        const formData = new FormData(this);
+        let formData = new FormData(this);
         if (method === 'PUT') {
             formData.append('_method', 'PUT');
         }
 
-        const btnSubmit = document.getElementById('btnSimpanProsedur');
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+        const $btnSubmit = $('#btnSimpanProsedur');
+        $btnSubmit.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...');
 
-        fetch(url, {
-            method: 'POST',
-            body: formData,
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
+            },
+            success: function (data) {
+                if (data.success) {
+                    closeModal('modalProsedur');
+                    window.location.reload();
+                } else {
+                    alert('Gagal menyimpan: ' + (data.message || 'Periksa input Anda'));
+                    $btnSubmit.prop('disabled', false).html('<i class="fas fa-save me-1"></i> Simpan');
+                }
+            },
+            error: function (xhr) {
+                let msg = 'Terjadi kesalahan koneksi.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                alert(msg);
+                $btnSubmit.prop('disabled', false).html('<i class="fas fa-save me-1"></i> Simpan');
             }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                modalPros.hide();
-                window.location.reload();
-            } else {
-                alert('Gagal menyimpan: ' + (data.message || 'Periksa input Anda'));
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan';
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Terjadi kesalahan koneksi.');
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan';
         });
     });
 
     // Delete Prosedur
-    document.querySelectorAll('.btn-delete').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            const kode = this.getAttribute('data-kode');
-            const nama = this.getAttribute('data-nama');
+    $(document).on('click', '.btn-delete', function () {
+        const id = $(this).data('id');
+        const kode = $(this).data('kode');
+        const nama = $(this).data('nama');
 
-            if (confirm(`Apakah Anda yakin ingin menghapus Prosedur [${kode}] ${nama}?`)) {
-                fetch(`/prosedur/${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ _method: 'DELETE' })
-                })
-                .then(res => res.json())
-                .then(data => {
+        if (confirm(`Apakah Anda yakin ingin menghapus Prosedur [${kode}] ${nama}?`)) {
+            $.ajax({
+                url: `/prosedur/${id}`,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                success: function (data) {
                     if (data.success) {
                         window.location.reload();
                     } else {
                         alert('Gagal menghapus: ' + (data.message || 'Terjadi kesalahan'));
                     }
-                })
-                .catch(err => alert('Terjadi kesalahan koneksi saat menghapus.'));
-            }
-        });
+                },
+                error: function () {
+                    alert('Terjadi kesalahan koneksi saat menghapus.');
+                }
+            });
+        }
     });
 });
 </script>

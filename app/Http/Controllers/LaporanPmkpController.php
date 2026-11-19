@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class LaporanPmkpController extends Controller
 {
@@ -82,58 +83,293 @@ class LaporanPmkpController extends Controller
     // 1. Laporan Survey Kepuasan
     public function surveyKepuasan(Request $request)
     {
-        $bulan = $request->bulan ?: date('m');
-        $tahun = $request->tahun ?: date('Y');
-        
-        $data = $this->generateDummyData(15, 'survey');
-        
-        // Calculate averages
-        foreach($data as $d) {
-            $d->rata_rata = ($d->pelayanan_dokter + $d->pelayanan_perawat + $d->fasilitas + $d->kebersihan) / 4;
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+
+        $parseDate = function ($str) {
+            if (!$str) return date('Y-m-d');
+            $parts = explode('-', $str);
+            if (count($parts) == 3) {
+                if (strlen($parts[0]) == 4) {
+                    return $str;
+                } else {
+                    return $parts[2] . '-' . $parts[1] . '-' . $parts[0];
+                }
+            }
+            return date('Y-m-d');
+        };
+
+        $tglAwal = $parseDate($tglAwalInput);
+        $tglAkhir = $parseDate($tglAkhirInput);
+
+        $profil = \App\Models\ProfilFaskes::first();
+        $namaKlinik = ($profil && !empty($profil->nama_faskes)) ? $profil->nama_faskes : 'KLINIK TELAGASARI 24 JAM';
+
+        $surveys = DB::table('survei_kepuasans')
+            ->whereDate('created_at', '>=', $tglAwal)
+            ->whereDate('created_at', '<=', $tglAkhir)
+            ->get();
+
+        $count = $surveys->count();
+
+        // Calculate Permenpan RB IKM
+        $nilaiUnsur = array_fill(1, 9, 0);
+        $nrrUnsur = array_fill(1, 9, 0.0);
+        $nrrTertimbang = array_fill(1, 9, 0.0);
+        $totalNrrTertimbang = 0.0;
+        $ikm = 0.0;
+
+        if ($count > 0) {
+            foreach ($surveys as $s) {
+                for ($i = 1; $i <= 9; $i++) {
+                    $val = $s->{"u{$i}"} ?? 3;
+                    $nilaiUnsur[$i] += $val;
+                }
+            }
+            for ($i = 1; $i <= 9; $i++) {
+                $nrrUnsur[$i] = $nilaiUnsur[$i] / $count;
+                $nrrTertimbang[$i] = $nrrUnsur[$i] * 0.11;
+                $totalNrrTertimbang += $nrrTertimbang[$i];
+            }
+            $ikm = $totalNrrTertimbang * 25;
         }
 
-        return view('pmkp.survey_kepuasan', compact('data', 'bulan', 'tahun'));
+        return view('laporan.survey_kepuasan', compact(
+            'surveys',
+            'tglAwalInput',
+            'tglAkhirInput',
+            'nilaiUnsur',
+            'nrrUnsur',
+            'nrrTertimbang',
+            'totalNrrTertimbang',
+            'ikm',
+            'namaKlinik'
+        ));
+    }
+
+    public function cetakSurveyKepuasanPdf(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        return response('<script>window.print();</script><h2 style="font-family:sans-serif;">PENGOLAHAN DATA SURVEI KEPUASAN MASYARAKAT</h2><p>Periode: ' . $tglAwalInput . ' s/d ' . $tglAkhirInput . '</p>');
     }
 
     // 2. Laporan Waktu Tunggu Pelayanan
     public function waktuTungguPelayanan(Request $request)
     {
-        $bulan = $request->bulan ?: date('m');
-        $tahun = $request->tahun ?: date('Y');
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        $jenisAsesmen = $request->jenis_asesmen ?: 'Asesmen Awal';
 
-        $data = $this->generateDummyData(20, 'waktu_pelayanan');
+        $parseDate = function ($str) {
+            if (!$str) return date('Y-m-d');
+            $parts = explode('-', $str);
+            if (count($parts) == 3) {
+                if (strlen($parts[0]) == 4) {
+                    return $str; // YYYY-MM-DD
+                } else {
+                    return $parts[2] . '-' . $parts[1] . '-' . $parts[0]; // DD-MM-YYYY to YYYY-MM-DD
+                }
+            }
+            return date('Y-m-d');
+        };
 
-        $rataTunggu = collect($data)->avg('waktu_tunggu');
-        $rataLayanan = collect($data)->avg('waktu_layanan');
+        $tglAwal = $parseDate($tglAwalInput);
+        $tglAkhir = $parseDate($tglAkhirInput);
 
-        return view('pmkp.waktu_tunggu_pelayanan', compact('data', 'bulan', 'tahun', 'rataTunggu', 'rataLayanan'));
+        if ($jenisAsesmen == 'Asesmen Ulang') {
+            $table = 'asesmen_ulangs';
+        } else {
+            $table = 'asesmen_awal_rajals';
+        }
+
+        $query = DB::table($table)
+            ->join('pendaftarans', "{$table}.pendaftaran_id", '=', 'pendaftarans.id')
+            ->join('pasiens', "{$table}.pasien_id", '=', 'pasiens.id')
+            ->select(
+                "{$table}.*",
+                'pendaftarans.nomor_registrasi',
+                'pendaftarans.tanggal_daftar',
+                'pendaftarans.jam_daftar',
+                'pasiens.nama_pasien',
+                'pasiens.no_rm'
+            )
+            ->whereDate('pendaftarans.tanggal_daftar', '>=', $tglAwal)
+            ->whereDate('pendaftarans.tanggal_daftar', '<=', $tglAkhir);
+
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function($w) use ($q, $table) {
+                $w->where('pendaftarans.nomor_registrasi', 'like', "%{$q}%")
+                  ->orWhere('pasiens.nama_pasien', 'like', "%{$q}%")
+                  ->orWhere('pasiens.no_rm', 'like', "%{$q}%");
+            });
+        }
+
+        $data = $query->orderBy("{$table}.created_at", 'asc')->get();
+
+        $rataRata = '0 Jam 0 Menit';
+
+        return view('laporan.waktu_tunggu_pelayanan', compact('data', 'tglAwalInput', 'tglAkhirInput', 'jenisAsesmen', 'rataRata'));
     }
 
-    // 3. Laporan Waktu Tunggu Obat (Non-Racik)
+    public function cetakWaktuTungguPelayananPdf(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        $jenisAsesmen = $request->jenis_asesmen ?: 'Asesmen Awal';
+        return response('<script>window.print();</script><h2 style="font-family:sans-serif;">LAPORAN WAKTU TUNGGU PELAYANAN</h2><p>Periode: ' . $tglAwalInput . ' s/d ' . $tglAkhirInput . ' (' . $jenisAsesmen . ')</p>');
+    }
+
+    public function cetakWaktuTungguPelayananExcel(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        $filename = "Laporan_Waktu_Tunggu_Pelayanan_{$tglAwalInput}_{$tglAkhirInput}.xls";
+        
+        return response("Kode Registrasi\tTanggal\tNama Pasien\tNo RM\tJam Pendaftaran\tJam Asesmen\tWaktu Tunggu\tKet\n", 200, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
+    }
+
+    // 3. Laporan Waktu Tunggu Obat
     public function waktuTungguObat(Request $request)
     {
-        $bulan = $request->bulan ?: date('m');
-        $tahun = $request->tahun ?: date('Y');
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
 
-        $data = $this->generateDummyData(25, 'waktu_obat_nonracik');
+        // Parse format safely
+        $parseDate = function ($str) {
+            if (!$str) return date('Y-m-d');
+            $parts = explode('-', $str);
+            if (count($parts) == 3) {
+                if (strlen($parts[0]) == 4) {
+                    return $str; // YYYY-MM-DD
+                } else {
+                    return $parts[2] . '-' . $parts[1] . '-' . $parts[0]; // DD-MM-YYYY to YYYY-MM-DD
+                }
+            }
+            return date('Y-m-d');
+        };
+
+        $tglAwal = $parseDate($tglAwalInput);
+        $tglAkhir = $parseDate($tglAkhirInput);
+
+        $query = DB::table('reseps')
+            ->join('pendaftarans', 'reseps.pendaftaran_id', '=', 'pendaftarans.id')
+            ->join('pasiens', 'reseps.pasien_id', '=', 'pasiens.id')
+            ->select(
+                'reseps.*',
+                'pendaftarans.nomor_registrasi',
+                'pendaftarans.tanggal_daftar',
+                'pasiens.nama_pasien',
+                'pasiens.no_rm'
+            )
+            ->whereDate('pendaftarans.tanggal_daftar', '>=', $tglAwal)
+            ->whereDate('pendaftarans.tanggal_daftar', '<=', $tglAkhir);
+
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function($w) use ($q) {
+                $w->where('pendaftarans.nomor_registrasi', 'like', "%{$q}%")
+                  ->orWhere('pasiens.nama_pasien', 'like', "%{$q}%")
+                  ->orWhere('pasiens.no_rm', 'like', "%{$q}%");
+            });
+        }
+
+        $data = $query->orderBy('reseps.waktu_proses', 'asc')->get();
+
+        return view('laporan.waktu_tunggu_obat', compact('data', 'tglAwalInput', 'tglAkhirInput'));
+    }
+
+    public function cetakWaktuTungguObatPdf(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        return response('<script>window.print();</script><h2 style="font-family:sans-serif;">LAPORAN WAKTU TUNGGU OBAT</h2><p>Periode: ' . $tglAwalInput . ' s/d ' . $tglAkhirInput . '</p>');
+    }
+
+    public function cetakWaktuTungguObatExcel(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        $filename = "Laporan_Waktu_Tunggu_Obat_{$tglAwalInput}_{$tglAkhirInput}.xls";
         
-        $totalSesuai = collect($data)->where('memenuhi_standar', true)->count();
-        $persentase = count($data) > 0 ? ($totalSesuai / count($data)) * 100 : 0;
-
-        return view('pmkp.waktu_tunggu_obat', compact('data', 'bulan', 'tahun', 'totalSesuai', 'persentase'));
+        return response("Kode Registrasi\tTanggal\tNama Pasien\tNo RM\tWaktu Penerimaan Resep\tWaktu Penyerahan Obat\tWaktu Tunggu\n", 200, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
     }
 
     // 4. Laporan Waktu Tunggu Obat Racik
     public function waktuTungguObatRacik(Request $request)
     {
-        $bulan = $request->bulan ?: date('m');
-        $tahun = $request->tahun ?: date('Y');
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
 
-        $data = $this->generateDummyData(15, 'waktu_obat_racik');
+        $parseDate = function ($str) {
+            if (!$str) return date('Y-m-d');
+            $parts = explode('-', $str);
+            if (count($parts) == 3) {
+                if (strlen($parts[0]) == 4) {
+                    return $str; // YYYY-MM-DD
+                } else {
+                    return $parts[2] . '-' . $parts[1] . '-' . $parts[0]; // DD-MM-YYYY to YYYY-MM-DD
+                }
+            }
+            return date('Y-m-d');
+        };
+
+        $tglAwal = $parseDate($tglAwalInput);
+        $tglAkhir = $parseDate($tglAkhirInput);
+
+        $query = DB::table('reseps')
+            ->join('pendaftarans', 'reseps.pendaftaran_id', '=', 'pendaftarans.id')
+            ->join('pasiens', 'reseps.pasien_id', '=', 'pasiens.id')
+            ->select(
+                'reseps.*',
+                'pendaftarans.nomor_registrasi',
+                'pendaftarans.tanggal_daftar',
+                'pasiens.nama_pasien',
+                'pasiens.no_rm'
+            )
+            ->where('reseps.is_racikan', true)
+            ->whereDate('pendaftarans.tanggal_daftar', '>=', $tglAwal)
+            ->whereDate('pendaftarans.tanggal_daftar', '<=', $tglAkhir);
+
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function($w) use ($q) {
+                $w->where('pendaftarans.nomor_registrasi', 'like', "%{$q}%")
+                  ->orWhere('pasiens.nama_pasien', 'like', "%{$q}%")
+                  ->orWhere('pasiens.no_rm', 'like', "%{$q}%");
+            });
+        }
+
+        $data = $query->orderBy('reseps.waktu_proses', 'asc')->get();
+
+        $rataRata = '0 Jam 0 Menit';
+
+        return view('laporan.waktu_tunggu_obat_racik', compact('data', 'tglAwalInput', 'tglAkhirInput', 'rataRata'));
+    }
+
+    public function cetakWaktuTungguRacikPdf(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        return response('<script>window.print();</script><h2 style="font-family:sans-serif;">LAPORAN WAKTU TUNGGU OBAT RACIK</h2><p>Periode: ' . $tglAwalInput . ' s/d ' . $tglAkhirInput . '</p>');
+    }
+
+    public function cetakWaktuTungguRacikExcel(Request $request)
+    {
+        $tglAwalInput = $request->tgl_awal ?: '14-10-2026';
+        $tglAkhirInput = $request->tgl_akhir ?: '14-10-2026';
+        $filename = "Laporan_Waktu_Tunggu_Obat_Racik_{$tglAwalInput}_{$tglAkhirInput}.xls";
         
-        $totalSesuai = collect($data)->where('memenuhi_standar', true)->count();
-        $persentase = count($data) > 0 ? ($totalSesuai / count($data)) * 100 : 0;
-
-        return view('pmkp.waktu_tunggu_obat_racik', compact('data', 'bulan', 'tahun', 'totalSesuai', 'persentase'));
+        return response("Kode Registrasi\tTanggal\tNama Pasien\tNo RM\tWaktu Penerimaan Resep\tWaktu Penyerahan Obat\tWaktu Tunggu\n", 200, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
     }
 }

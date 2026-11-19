@@ -23,10 +23,14 @@
         color: #777;
     }
     .konhakes-breadcrumb a {
-        color: #444;
+        color: #337ab7 !important;
         text-decoration: none;
+        cursor: pointer;
     }
-    .konhakes-breadcrumb a:hover { text-decoration: underline; }
+    .konhakes-breadcrumb a:hover {
+        color: #23527c !important;
+        text-decoration: underline;
+    }
     .konhakes-summary-text {
         font-size: 13px;
         color: #333;
@@ -137,9 +141,9 @@
     <div class="konhakes-header">
         <h3 class="konhakes-title">Bridging PCare - Setting Data Sarana</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a>
-            <span style="color:#777; margin:0 5px;">&nbsp;</span>
-            <span style="color:#777;">Bridging PCare - Setting Data Sarana</span>
+            <a href="/dashboard">Beranda</a>
+            <span style="color:#777; margin:0 5px;">&gt;</span>
+            <a href="/pcare-sarana/index">Bridging PCare - Setting Data Sarana</a>
         </div>
     </div>
 

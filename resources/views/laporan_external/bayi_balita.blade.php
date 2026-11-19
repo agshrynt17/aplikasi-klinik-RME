@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Laporan Kunjungan Bayi &amp; Balita</h4>
         <div style="font-size: 11.5px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Laporan Kunjungan Bayi &amp; Balita</span>
         </div>

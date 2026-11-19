@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Daftar Order Radiologi</h4>
         <div style="font-size: 11px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Daftar Order Radiologi</span>
         </div>
@@ -155,43 +155,35 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Setup CSRF header
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+$(document).ready(function () {
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
     // Terima Order AJAX
-    document.querySelectorAll('.btn-terima-order').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            const targetBtn = this;
+    $(document).on('click', '.btn-terima-order', function () {
+        const id = $(this).data('id');
+        const $targetBtn = $(this);
 
-            targetBtn.disabled = true;
-            targetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+        $targetBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Memproses...');
 
-            fetch(`/entryhasilrad/${id}/terima`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
+        $.ajax({
+            url: `/entryhasilrad/${id}/terima`,
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            success: function (data) {
                 if (data.success) {
-                    targetBtn.outerHTML = '<span class="badge" style="background-color: #00a65a; color: white; font-size: 11px; padding: 4px 8px; font-weight: normal; border-radius: 3px;"><i class="fas fa-check me-1"></i> Order Diterima</span>';
+                    $targetBtn.replaceWith('<span class="badge" style="background-color: #00a65a; color: white; font-size: 11px; padding: 4px 8px; font-weight: normal; border-radius: 3px;"><i class="fas fa-check me-1"></i> Order Diterima</span>');
                 } else {
                     alert('Gagal menerima order: ' + (data.message || 'Terjadi kesalahan'));
-                    targetBtn.disabled = false;
-                    targetBtn.innerHTML = '<i class="fas fa-check me-1"></i> Terima Order';
+                    $targetBtn.prop('disabled', false).html('<i class="fas fa-check me-1"></i> Terima Order');
                 }
-            })
-            .catch(err => {
-                console.error(err);
+            },
+            error: function () {
                 alert('Terjadi kesalahan jaringan.');
-                targetBtn.disabled = false;
-                targetBtn.innerHTML = '<i class="fas fa-check me-1"></i> Terima Order';
-            });
+                $targetBtn.prop('disabled', false).html('<i class="fas fa-check me-1"></i> Terima Order');
+            }
         });
     });
 });

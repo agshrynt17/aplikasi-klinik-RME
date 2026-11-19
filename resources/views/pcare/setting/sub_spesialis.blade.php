@@ -55,11 +55,11 @@
     <div class="konhakes-header">
         <h3 class="konhakes-title">Sub Spesialis: {{ $spesialis->nm_spesialis }} ({{ $spesialis->kd_spesialis }})</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a>
-            <span style="color:#777; margin:0 5px;">&nbsp;</span>
+            <a href="/dashboard">Beranda</a>
+            <span style="color:#777; margin:0 5px;">&gt;</span>
             <a href="/pcare-spesialis/index">Bridging PCare - Setting Data Spesialis</a>
-            <span style="color:#777; margin:0 5px;">&nbsp;</span>
-            <span style="color:#777;">Sub Spesialis</span>
+            <span style="color:#777; margin:0 5px;">&gt;</span>
+            <a href="{{ url()->current() }}" style="color:#777;">Sub Spesialis</a>
         </div>
     </div>
 

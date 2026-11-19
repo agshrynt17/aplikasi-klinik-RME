@@ -73,7 +73,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Transaksi Penyesuaian Barang</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stok Adjustments</a> <span class="mx-1">&gt;</span> <span>Transaksi Penyesuaian Barang</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="/stok/index">Stok Adjustments</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Transaksi Penyesuaian Barang</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

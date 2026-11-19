@@ -56,8 +56,8 @@
     <h3 class="fw-bold mb-0 text-dark" style="font-size: 1.5rem;">Checkin Antrian Pendaftaran</h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0 small text-muted">
-            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Checkin Antrian Pendaftaran</li>
+            <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Checkin Antrian Pendaftaran</a></li>
         </ol>
     </nav>
 </div>
@@ -270,15 +270,53 @@ $(document).ready(function() {
         $('#displayLiveClock').text(h + ':' + m + ':' + s);
     }, 1000);
 
+    // Web Audio Chime Bell (Dua Nada Ding-Dong)
+    function playChimeBell() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(587.33, ctx.currentTime);
+            gain1.gain.setValueAtTime(0.25, ctx.currentTime);
+            gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+            osc1.connect(gain1);
+            gain1.connect(ctx.destination);
+            osc1.start();
+            osc1.stop(ctx.currentTime + 0.35);
+
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(440, ctx.currentTime + 0.25);
+            gain2.gain.setValueAtTime(0.25, ctx.currentTime + 0.25);
+            gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.7);
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.start(ctx.currentTime + 0.25);
+            osc2.stop(ctx.currentTime + 0.7);
+        } catch (err) {}
+    }
+
     // Text to Speech
     function speakAntrian(noAntrian) {
+        playChimeBell();
         if ('speechSynthesis' in window) {
-            let spaced = noAntrian.split('').join(' ');
+            let formatted = String(noAntrian).replace(/[-_]/g, ' ').trim();
+            let spaced = formatted.split('').map(function(ch) { return (ch === '0' ? 'nol' : ch); }).join(' ');
             let text = "Nomor antrian " + spaced + ", silakan menuju loket pendaftaran!";
-            let utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'id-ID';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
+            
+            setTimeout(() => {
+                window.speechSynthesis.cancel();
+                let utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.85;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }, 500);
         }
     }
 

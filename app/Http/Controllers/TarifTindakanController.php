@@ -140,7 +140,7 @@ class TarifTindakanController extends Controller
 
     public function edit($id, Request $request)
     {
-        $item = TarifTindakan::with(['tindakan', 'penjamin'])->findOrFail($id);
+        $item = TarifTindakan::with(['tindakan.poliklinik', 'penjamin'])->findOrFail($id);
         return response()->json($item);
     }
 
@@ -148,10 +148,10 @@ class TarifTindakanController extends Controller
     {
         $item = TarifTindakan::findOrFail($id);
 
-        $unitCost      = floatval($request->unit_cost ?? $item->unit_cost);
-        $jasaMedis     = floatval($request->jasa_medis ?? $item->jasa_medis);
-        $jasaParamedis = floatval($request->jasa_paramedis ?? $item->jasa_paramedis);
-        $margin        = floatval($request->margin ?? $item->margin);
+        $unitCost      = $request->has('unit_cost') ? floatval($request->unit_cost) : $item->unit_cost;
+        $jasaMedis     = $request->has('jasa_medis') ? floatval($request->jasa_medis) : $item->jasa_medis;
+        $jasaParamedis = $request->has('jasa_paramedis') ? floatval($request->jasa_paramedis) : $item->jasa_paramedis;
+        $margin        = $request->has('margin') ? floatval($request->margin) : $item->margin;
         $totalTarif    = $unitCost + $jasaMedis + $jasaParamedis + $margin;
 
         $item->update([
@@ -163,6 +163,8 @@ class TarifTindakanController extends Controller
             'harga'          => $totalTarif,
             'is_active'      => $request->has('is_active') ? (bool) $request->is_active : $item->is_active,
         ]);
+
+        $item->load('tindakan.poliklinik', 'penjamin');
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([

@@ -81,9 +81,9 @@
     </h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0 small text-muted">
-            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
             <li class="breadcrumb-item"><a href="/pendaftaran-rajal" class="text-decoration-none text-muted">Pendaftaran Rawat Jalan</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $isEditing ? 'Edit' : 'Tambah Baru' }}</li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">{{ $isEditing ? 'Edit' : 'Tambah Baru' }}</a></li>
         </ol>
     </nav>
 </div>

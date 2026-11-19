@@ -10,7 +10,7 @@
             Data Dokumen Pelayanan Pasien {{ $mode == 'rawat_inap' ? 'Rawat Inap' : 'Rawat Jalan' }}
         </h4>
         <div style="font-size: 11.5px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Data Dokumen Pelayanan Pasien {{ $mode == 'rawat_inap' ? 'Rawat Inap' : 'Rawat Jalan' }}</span>
         </div>

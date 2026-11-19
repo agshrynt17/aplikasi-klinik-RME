@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 style="font-size: 19px; font-weight: 500; color: #333; margin: 0;">Master Diagnosa Keperawatan</h4>
         <div style="font-size: 11px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Master Diagnosa Keperawatan</span>
         </div>
@@ -26,7 +26,7 @@
         <a href="{{ url()->current() }}" class="btn btn-sm text-white" style="background-color: #f39c12; border-color: #e08e0b; height: 32px; padding: 0 16px; border-radius: 3px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center;">
             Reset
         </a>
-        <button type="button" class="btn btn-sm text-white" id="btnTambahData" style="background-color: #00a65a; border-color: #008d4c; height: 32px; padding: 0 16px; border-radius: 3px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center;">
+        <button type="button" class="btn btn-sm text-white" id="btnTambahData" data-bs-toggle="modal" data-bs-target="#modalDiagnosaKep" style="background-color: #00a65a; border-color: #008d4c; height: 32px; padding: 0 16px; border-radius: 3px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; cursor: pointer;">
             Tambah Data
         </button>
     </form>
@@ -186,130 +186,148 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    const modalDiag = new bootstrap.Modal(document.getElementById('modalDiagnosaKep'));
-    const modalDetail = new bootstrap.Modal(document.getElementById('modalDetailDiagnosaKep'));
+$(document).ready(function () {
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    function openModal(id) {
+        let el = document.getElementById(id);
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(el).show();
+        } else if (window.$) {
+            $('#' + id).modal('show');
+        }
+    }
+
+    function closeModal(id) {
+        let el = document.getElementById(id);
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(el).hide();
+        } else if (window.$) {
+            $('#' + id).modal('hide');
+        }
+    }
 
     // Tambah Diagnosa Keperawatan
-    document.getElementById('btnTambahData')?.addEventListener('click', function () {
-        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus-circle me-1"></i> Tambah Data Diagnosa Keperawatan';
-        document.getElementById('formDiagnosaKep').reset();
-        document.getElementById('diagnosaKepId').value = '';
-        document.getElementById('formMethod').value = 'POST';
-        modalDiag.show();
+    $(document).on('click', '#btnTambahData', function () {
+        $('#modalTitle').html('<i class="fas fa-plus-circle me-1"></i> Tambah Data Diagnosa Keperawatan');
+        $('#formDiagnosaKep')[0].reset();
+        $('#diagnosaKepId').val('');
+        $('#formMethod').val('POST');
+        openModal('modalDiagnosaKep');
     });
 
     // Edit Diagnosa Keperawatan
-    document.querySelectorAll('.btn-edit').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            fetch(`/diagnosa-keperawatan/${id}/edit`, {
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit me-1"></i> Edit Data Diagnosa Keperawatan';
-                document.getElementById('diagnosaKepId').value = data.id;
-                document.getElementById('formMethod').value = 'PUT';
-                document.getElementById('diag_kode').value = data.kode_diagnosa;
-                document.getElementById('diag_nama').value = data.nama_diagnosa;
-                document.getElementById('diag_keterangan').value = data.keterangan || '';
-                modalDiag.show();
-            })
-            .catch(err => alert('Gagal mengambil data diagnosa keperawatan'));
+    $(document).on('click', '.btn-edit', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: `/diagnosa-keperawatan/${id}/edit`,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function (data) {
+                $('#modalTitle').html('<i class="fas fa-edit me-1"></i> Edit Data Diagnosa Keperawatan');
+                $('#diagnosaKepId').val(data.id);
+                $('#formMethod').val('PUT');
+                $('#diag_kode').val(data.kode_diagnosa);
+                $('#diag_nama').val(data.nama_diagnosa);
+                $('#diag_keterangan').val(data.keterangan || '');
+                openModal('modalDiagnosaKep');
+            },
+            error: function () {
+                alert('Gagal mengambil data diagnosa keperawatan.');
+            }
         });
     });
 
     // View Detail
-    document.querySelectorAll('.btn-view').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            fetch(`/diagnosa-keperawatan/${id}`, {
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('det_kode').textContent = data.kode_diagnosa;
-                document.getElementById('det_nama').textContent = data.nama_diagnosa;
-                document.getElementById('det_keterangan').textContent = data.keterangan || '-';
-                modalDetail.show();
-            })
-            .catch(err => alert('Gagal mengambil detail diagnosa keperawatan'));
+    $(document).on('click', '.btn-view', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: `/diagnosa-keperawatan/${id}`,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function (data) {
+                $('#det_kode').text(data.kode_diagnosa);
+                $('#det_nama').text(data.nama_diagnosa);
+                $('#det_keterangan').text(data.keterangan || '-');
+                openModal('modalDetailDiagnosaKep');
+            },
+            error: function () {
+                alert('Gagal mengambil detail diagnosa keperawatan.');
+            }
         });
     });
 
     // Submit Form
-    document.getElementById('formDiagnosaKep').addEventListener('submit', function (e) {
+    $(document).on('submit', '#formDiagnosaKep', function (e) {
         e.preventDefault();
-        const id = document.getElementById('diagnosaKepId').value;
-        const method = document.getElementById('formMethod').value;
+        const id = $('#diagnosaKepId').val();
+        const method = $('#formMethod').val();
         const url = id ? `/diagnosa-keperawatan/${id}` : '/diagnosa-keperawatan';
 
-        const formData = new FormData(this);
+        let formData = new FormData(this);
         if (method === 'PUT') {
             formData.append('_method', 'PUT');
         }
 
-        const btnSubmit = document.getElementById('btnSimpanDiagnosaKep');
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+        const $btnSubmit = $('#btnSimpanDiagnosaKep');
+        $btnSubmit.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...');
 
-        fetch(url, {
-            method: 'POST',
-            body: formData,
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
+            },
+            success: function (data) {
+                if (data.success) {
+                    closeModal('modalDiagnosaKep');
+                    window.location.reload();
+                } else {
+                    alert('Gagal menyimpan: ' + (data.message || 'Periksa input Anda'));
+                    $btnSubmit.prop('disabled', false).html('<i class="fas fa-save me-1"></i> Simpan');
+                }
+            },
+            error: function (xhr) {
+                let msg = 'Terjadi kesalahan koneksi.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                alert(msg);
+                $btnSubmit.prop('disabled', false).html('<i class="fas fa-save me-1"></i> Simpan');
             }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                modalDiag.hide();
-                window.location.reload();
-            } else {
-                alert('Gagal menyimpan: ' + (data.message || 'Periksa input Anda'));
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan';
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Terjadi kesalahan koneksi.');
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan';
         });
     });
 
     // Delete Diagnosa
-    document.querySelectorAll('.btn-delete').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            const kode = this.getAttribute('data-kode');
-            const nama = this.getAttribute('data-nama');
+    $(document).on('click', '.btn-delete', function () {
+        const id = $(this).data('id');
+        const kode = $(this).data('kode');
+        const nama = $(this).data('nama');
 
-            if (confirm(`Apakah Anda yakin ingin menghapus Diagnosa Keperawatan [${kode}] ${nama}?`)) {
-                fetch(`/diagnosa-keperawatan/${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ _method: 'DELETE' })
-                })
-                .then(res => res.json())
-                .then(data => {
+        if (confirm(`Apakah Anda yakin ingin menghapus Diagnosa Keperawatan [${kode}] ${nama}?`)) {
+            $.ajax({
+                url: `/diagnosa-keperawatan/${id}`,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                success: function (data) {
                     if (data.success) {
                         window.location.reload();
                     } else {
                         alert('Gagal menghapus: ' + (data.message || 'Terjadi kesalahan'));
                     }
-                })
-                .catch(err => alert('Terjadi kesalahan koneksi saat menghapus.'));
-            }
-        });
+                },
+                error: function () {
+                    alert('Terjadi kesalahan koneksi saat menghapus.');
+                }
+            });
+        }
     });
 });
 </script>

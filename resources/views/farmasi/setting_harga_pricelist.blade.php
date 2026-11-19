@@ -50,7 +50,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Pricelist Barang / Obat : <span class="text-primary">{{ $penjamin->nama_penjamin }}</span></h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <a href="/hargaobat/index">Setting Harga</a> <span class="mx-1">&gt;</span> <span>Pricelist {{ $penjamin->nama_penjamin }}</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="/hargaobat/index">Setting Harga</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Pricelist {{ $penjamin->nama_penjamin }}</a>
         </div>
     </div>
     <div class="konhakes-cyan-line"></div>

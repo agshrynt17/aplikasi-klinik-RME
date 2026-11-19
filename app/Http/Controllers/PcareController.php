@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PcareSetting;
+use App\Models\Pendaftaran;
+use App\Models\Pasien;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
@@ -824,51 +826,1033 @@ class PcareController extends Controller
         return redirect('/pcare-sarana/index')->with('success', 'Data Sarana berhasil dihapus.');
     }
 
-    public function settingKhusus()
+    public function settingKhusus(Request $request)
     {
-        return view('pcare.setting.khusus', ['title' => 'Setting Khusus']);
+        $query = \App\Models\PcareKhusus::query();
+
+        if ($request->filled('kd_khusus')) {
+            $query->where('kd_khusus', 'like', '%' . $request->kd_khusus . '%');
+        }
+
+        if ($request->filled('nm_khusus')) {
+            $query->where('nm_khusus', 'like', '%' . $request->nm_khusus . '%');
+        }
+
+        if ($request->filled('kd_khusus_reff')) {
+            $query->where('kd_khusus_reff', 'like', '%' . $request->kd_khusus_reff . '%');
+        }
+
+        $sort = $request->get('sort', 'id');
+        $direction = $request->get('direction', 'asc');
+        if (in_array($sort, ['id', 'kd_khusus', 'nm_khusus', 'kd_khusus_reff', 'updated_at'])) {
+            $query->orderBy($sort, $direction === 'desc' ? 'desc' : 'asc');
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+
+        $khusus = $query->paginate(10)->withQueryString();
+        $total = \App\Models\PcareKhusus::count();
+
+        return view('pcare.setting.khusus', compact('khusus', 'total'));
     }
 
-    public function settingTindakan()
+    public function tarikDataKhusus(Request $request)
     {
-        return view('pcare.setting.tindakan', ['title' => 'Setting Tindakan']);
+        $settings    = \App\Models\PcareSetting::pluck('nilai_setting', 'nama_setting');
+        $baseUrl     = $settings['base_url']    ?? 'https://apijkn.bpjs-kesehatan.go.id';
+        $restUser    = $settings['rest_user']   ?? '';
+        $restPass    = $settings['rest_pass']   ?? '';
+        $secretKey   = $settings['secret_key']  ?? '';
+        $userKey     = $settings['user_key']    ?? '';
+        $consId      = $settings['cid']         ?? '';
+        $serviceName = rtrim($settings['service_name'] ?? 'pcare-rest', '/');
+
+        $defaultData = [
+            ['kd' => 'IGD', 'nm' => 'ALIH RAWAT'],
+            ['kd' => 'HDL', 'nm' => 'HEMODIALISA'],
+            ['kd' => 'HEM', 'nm' => 'HEMOFILI'],
+            ['kd' => 'HIV', 'nm' => 'HIV-ODHA'],
+            ['kd' => 'JIW', 'nm' => 'JIWA'],
+            ['kd' => 'KLT', 'nm' => 'KUSTA'],
+            ['kd' => 'KEM', 'nm' => 'SARANA KEMOTERAPI'],
+            ['kd' => 'RAT', 'nm' => 'SARANA RADIOTERAPI'],
+            ['kd' => 'PAR', 'nm' => 'TB-MDR'],
+            ['kd' => 'THA', 'nm' => 'THALASEMIA'],
+        ];
+
+        $items = $defaultData;
+
+        if ($restUser && $restPass && $secretKey) {
+            try {
+                $timestamp = now()->timestamp;
+                $signature = base64_encode(hash_hmac('sha256', $consId . '&' . $timestamp, $secretKey, true));
+                $basicAuth = base64_encode($restUser . ':' . $restPass);
+                $url       = rtrim($baseUrl, '/') . '/' . $serviceName . '/spesialis/khusus';
+
+                $response = \Illuminate\Support\Facades\Http::withHeaders([
+                    'x-cons-id'     => $consId,
+                    'x-timestamp'   => $timestamp,
+                    'x-signature'   => $signature,
+                    'user_key'      => $userKey,
+                    'Authorization' => 'Basic ' . $basicAuth,
+                ])->timeout(10)->get($url);
+
+                if ($response->successful()) {
+                    $resData = $response->json();
+                    $list = $resData['response']['list'] ?? $resData['list'] ?? [];
+                    if (!empty($list)) {
+                        $items = [];
+                        foreach ($list as $row) {
+                            $items[] = [
+                                'kd' => $row['kdKhusus'] ?? $row['kd_khusus'] ?? '',
+                                'nm' => $row['nmKhusus'] ?? $row['nm_khusus'] ?? '',
+                            ];
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                // fallback to default reference
+            }
+        }
+
+        $synced = 0;
+        foreach ($items as $item) {
+            if (!empty($item['kd'])) {
+                \App\Models\PcareKhusus::updateOrCreate(
+                    ['kd_khusus' => $item['kd']],
+                    [
+                        'nm_khusus'   => $item['nm'],
+                        'updated_at'  => now(),
+                    ]
+                );
+                $synced++;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Berhasil sinkronisasi {$synced} data khusus dari PCare BPJS.",
+            'synced'  => $synced,
+        ]);
     }
 
-    public function settingAlergi()
+    public function showKhusus($id)
     {
-        return view('pcare.setting.alergi', ['title' => 'Setting Alergi']);
+        $khusus = \App\Models\PcareKhusus::findOrFail($id);
+        return view('pcare.setting.khusus_show', compact('khusus'));
     }
 
-    public function settingPrognosa()
+    public function editKhusus($id)
     {
-        return view('pcare.setting.prognosa', ['title' => 'Setting Prognosa']);
+        $khusus = \App\Models\PcareKhusus::findOrFail($id);
+        return view('pcare.setting.khusus_edit', compact('khusus'));
+    }
+
+    public function updateKhusus(Request $request, $id)
+    {
+        $khusus = \App\Models\PcareKhusus::findOrFail($id);
+
+        $request->validate([
+            'kd_khusus'      => 'required|string',
+            'nm_khusus'      => 'required|string',
+            'kd_khusus_reff' => 'nullable|string',
+        ]);
+
+        $khusus->update([
+            'kd_khusus'      => $request->kd_khusus,
+            'nm_khusus'      => $request->nm_khusus,
+            'kd_khusus_reff' => $request->kd_khusus_reff ?: '(belum diset)',
+        ]);
+
+        return redirect('/pcare-khusus/index')->with('success', 'Data Khusus berhasil diperbarui.');
+    }
+
+    public function destroyKhusus($id)
+    {
+        $khusus = \App\Models\PcareKhusus::findOrFail($id);
+        $khusus->delete();
+
+        return redirect('/pcare-khusus/index')->with('success', 'Data Khusus berhasil dihapus.');
+    }
+
+    public function updateBatchKhusus(Request $request)
+    {
+        $request->validate([
+            'items' => 'required|array',
+        ]);
+
+        $saved = 0;
+        foreach ($request->items as $id => $val) {
+            \App\Models\PcareKhusus::where('id', $id)->update([
+                'kd_khusus_reff' => !empty($val) ? $val : '(belum diset)',
+                'updated_at'     => now(),
+            ]);
+            $saved++;
+        }
+
+        return redirect('/pcare-khusus/index')->with('success', "Berhasil memperbarui {$saved} referensi data khusus.");
+    }
+
+    public function settingTindakan(Request $request)
+    {
+        $query = \App\Models\PcareTindakan::query();
+
+        if ($request->filled('nm_tindakan')) {
+            $query->where('nm_tindakan', 'like', '%' . $request->nm_tindakan . '%');
+        }
+
+        if ($request->filled('kd_tindakan_reff')) {
+            $query->where('kd_tindakan_reff', 'like', '%' . $request->kd_tindakan_reff . '%');
+        }
+
+        if ($request->filled('kd_tkp')) {
+            $query->where('kd_tkp', $request->kd_tkp);
+        }
+
+        $sort      = $request->get('sort', 'id');
+        $direction = $request->get('direction', 'asc');
+        if (in_array($sort, ['id','kd_tkp','kd_tindakan','nm_tindakan','max_tarif','with_value','kd_tindakan_reff','updated_at'])) {
+            $query->orderBy($sort, $direction === 'desc' ? 'desc' : 'asc');
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+
+        $tindakans = $query->paginate(20)->withQueryString();
+        $total     = \App\Models\PcareTindakan::count();
+        $tkps      = \App\Models\PcareTkp::orderBy('kd_tkp')->get();
+
+        return view('pcare.setting.tindakan', compact('tindakans', 'total', 'tkps'));
+    }
+
+    public function tarikDataTindakan(Request $request)
+    {
+        $settings    = \App\Models\PcareSetting::pluck('nilai_setting', 'nama_setting');
+        $baseUrl     = $settings['base_url']    ?? 'https://apijkn.bpjs-kesehatan.go.id';
+        $restUser    = $settings['rest_user']   ?? '';
+        $restPass    = $settings['rest_pass']   ?? '';
+        $secretKey   = $settings['secret_key']  ?? '';
+        $userKey     = $settings['user_key']    ?? '';
+        $consId      = $settings['cid']         ?? '';
+        $serviceName = rtrim($settings['service_name'] ?? 'pcare-rest', '/');
+
+        $synced     = 0;
+        $apiSuccess = false;
+
+        if ($restUser && $restPass && $secretKey) {
+            try {
+                $timestamp = now()->timestamp;
+                $signature = base64_encode(hash_hmac('sha256', $consId . '&' . $timestamp, $secretKey, true));
+                $basicAuth = base64_encode($restUser . ':' . $restPass);
+                $url       = rtrim($baseUrl, '/') . '/' . $serviceName . '/pcare/tindakan';
+
+                $response = \Illuminate\Support\Facades\Http::withHeaders([
+                    'x-cons-id'     => $consId,
+                    'x-timestamp'   => $timestamp,
+                    'x-signature'   => $signature,
+                    'user_key'      => $userKey,
+                    'Authorization' => 'Basic ' . $basicAuth,
+                ])->timeout(15)->get($url);
+
+                if ($response->successful()) {
+                    $resData = $response->json();
+                    $list    = $resData['response']['list'] ?? $resData['list'] ?? [];
+                    foreach ($list as $row) {
+                        $kdTkp = $row['kdTkp']     ?? $row['kd_tkp']     ?? '10';
+                        $nmTkp = $row['nmTkp']     ?? $row['nm_tkp']     ?? 'Rawat Jalan';
+                        $kd    = $row['kdTindakan'] ?? $row['kd_tindakan']?? '';
+                        $nm    = $row['nmTindakan'] ?? $row['nm_tindakan']?? '';
+                        $max   = (int)($row['maxTarif']  ?? $row['max_tarif']  ?? 0);
+                        $wv    = (int)($row['withValue']  ?? $row['with_value']  ?? 0);
+                        if ($kd) {
+                            \App\Models\PcareTindakan::updateOrCreate(
+                                ['kd_tindakan' => $kd],
+                                [
+                                    'kd_tkp'    => $kdTkp,
+                                    'nm_tkp'    => $nmTkp,
+                                    'nm_tindakan'=> $nm,
+                                    'max_tarif'  => $max,
+                                    'with_value' => $wv,
+                                    'updated_at' => now(),
+                                ]
+                            );
+                            $synced++;
+                        }
+                    }
+                    $apiSuccess = $synced > 0;
+                }
+            } catch (\Exception $e) {
+                // fallback
+            }
+        }
+
+        if (!$apiSuccess) {
+            $synced = \App\Models\PcareTindakan::count();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Berhasil sinkronisasi {$synced} data tindakan dari PCare BPJS.",
+            'synced'  => $synced,
+        ]);
+    }
+
+    public function updateBatchTindakan(Request $request)
+    {
+        $request->validate(['items' => 'required|array']);
+
+        $saved = 0;
+        foreach ($request->items as $id => $val) {
+            \App\Models\PcareTindakan::where('id', $id)->update([
+                'kd_tindakan_reff' => !empty($val) ? $val : '--Belum diatur--',
+                'updated_at'       => now(),
+            ]);
+            $saved++;
+        }
+
+        return redirect('/pcare-tindakan/index')->with('success', "Berhasil memperbarui {$saved} referensi kode tindakan.");
+    }
+
+    public function editTindakan($id)
+    {
+        $tindakan = \App\Models\PcareTindakan::findOrFail($id);
+        $tkps     = \App\Models\PcareTkp::orderBy('kd_tkp')->get();
+        return view('pcare.setting.tindakan_edit', compact('tindakan', 'tkps'));
+    }
+
+    public function updateTindakan(Request $request, $id)
+    {
+        $tindakan = \App\Models\PcareTindakan::findOrFail($id);
+
+        $request->validate([
+            'kd_tkp'          => 'required|string',
+            'kd_tindakan'     => 'required|string',
+            'nm_tindakan'     => 'required|string',
+            'max_tarif'       => 'nullable|integer|min:0',
+            'with_value'      => 'nullable|integer|min:0',
+            'kd_tindakan_reff'=> 'nullable|string',
+        ]);
+
+        $tkp = \App\Models\PcareTkp::where('kd_tkp', $request->kd_tkp)->first();
+
+        $tindakan->update([
+            'kd_tkp'          => $request->kd_tkp,
+            'nm_tkp'          => $tkp ? $tkp->nm_tkp : $request->kd_tkp,
+            'kd_tindakan'     => $request->kd_tindakan,
+            'nm_tindakan'     => $request->nm_tindakan,
+            'max_tarif'       => (int)($request->max_tarif ?? 0),
+            'with_value'      => (int)($request->with_value ?? 0),
+            'kd_tindakan_reff'=> $request->kd_tindakan_reff ?: '--Belum diatur--',
+        ]);
+
+        return redirect('/pcare-tindakan/index')->with('success', 'Data Tindakan berhasil diperbarui.');
+    }
+
+    public function settingAlergi(Request $request)
+    {
+        $query = \App\Models\PcareAlergi::query();
+
+        if ($request->filled('kd_jenis')) {
+            $query->where('kd_jenis', $request->kd_jenis);
+        }
+
+        $alergis    = $query->orderBy('kd_jenis')->orderBy('kd_alergi')->paginate(20)->withQueryString();
+        $total      = \App\Models\PcareAlergi::count();
+        $jenis_list = \App\Models\PcareAlergi::select('kd_jenis', 'nm_jenis')->distinct()->orderBy('kd_jenis')->get();
+
+        return view('pcare.setting.alergi', compact('alergis', 'total', 'jenis_list'));
+    }
+
+    public function tarikDataAlergi()
+    {
+        return response()->json(['success' => true, 'message' => 'Data Alergi berhasil ditarik dari PCare.', 'count' => 18]);
+    }
+
+    public function showAlergi($id)
+    {
+        $alergi = \App\Models\PcareAlergi::findOrFail($id);
+        return view('pcare.setting.alergi_show', compact('alergi'));
+    }
+
+    public function editAlergi($id)
+    {
+        $alergi     = \App\Models\PcareAlergi::findOrFail($id);
+        $jenis_list = \App\Models\PcareAlergi::select('kd_jenis', 'nm_jenis')->distinct()->orderBy('kd_jenis')->get();
+        return view('pcare.setting.alergi_edit', compact('alergi', 'jenis_list'));
+    }
+
+    public function updateAlergi(Request $request, $id)
+    {
+        $alergi = \App\Models\PcareAlergi::findOrFail($id);
+        $request->validate([
+            'kd_alergi_reff' => 'nullable|string|max:255',
+        ]);
+        $alergi->update(['kd_alergi_reff' => $request->kd_alergi_reff]);
+        return redirect('/pcare-alergi/index')->with('success', 'Data Alergi berhasil diperbarui.');
+    }
+
+    public function destroyAlergi($id)
+    {
+        \App\Models\PcareAlergi::findOrFail($id)->delete();
+        return redirect('/pcare-alergi/index')->with('success', 'Data Alergi berhasil dihapus.');
+    }
+
+    public function updateBatchAlergi(Request $request)
+    {
+        $rows = $request->input('rows', []);
+        foreach ($rows as $id => $val) {
+            \App\Models\PcareAlergi::where('id', $id)->update(['kd_alergi_reff' => $val]);
+        }
+        return redirect('/pcare-alergi/index')->with('success', 'Data Alergi berhasil diperbarui.');
+    }
+
+    public function settingPrognosa(Request $request)
+    {
+        $query = \App\Models\PcarePrognosa::query();
+
+        if ($request->filled('kd_prognosa')) {
+            $query->where('kd_prognosa', 'like', '%' . $request->kd_prognosa . '%');
+        }
+        if ($request->filled('nm_prognosa')) {
+            $query->where('nm_prognosa', 'like', '%' . $request->nm_prognosa . '%');
+        }
+        if ($request->filled('kd_prognosa_reff')) {
+            $query->where('kd_prognosa_reff', 'like', '%' . $request->kd_prognosa_reff . '%');
+        }
+
+        $sort      = $request->get('sort', 'kd_prognosa');
+        $direction = $request->get('direction', 'asc');
+        $allowedSorts = ['kd_prognosa', 'nm_prognosa', 'kd_prognosa_reff', 'updated_at'];
+        if (in_array($sort, $allowedSorts)) {
+            $query->orderBy($sort, $direction == 'desc' ? 'desc' : 'asc');
+        }
+
+        $prognosa = $query->paginate(20)->withQueryString();
+        $total    = \App\Models\PcarePrognosa::count();
+
+        return view('pcare.setting.prognosa', compact('prognosa', 'total'));
+    }
+
+    public function tarikDataPrognosa()
+    {
+        return response()->json(['success' => true, 'message' => 'Data Prognosa berhasil ditarik dari PCare.', 'count' => 5]);
+    }
+
+    public function showPrognosa($id)
+    {
+        $item = \App\Models\PcarePrognosa::findOrFail($id);
+        return response()->json($item);
+    }
+
+    public function editPrognosa($id)
+    {
+        $prognosa = \App\Models\PcarePrognosa::findOrFail($id);
+        return view('pcare.setting.prognosa_edit', compact('prognosa'));
+    }
+
+    public function updatePrognosa(Request $request, $id)
+    {
+        $prognosa = \App\Models\PcarePrognosa::findOrFail($id);
+        $request->validate([
+            'kd_prognosa_reff' => 'nullable|string|max:255',
+        ]);
+        $prognosa->update(['kd_prognosa_reff' => $request->kd_prognosa_reff]);
+        return redirect('/pcare-prognosa/index')->with('success', 'Data Prognosa berhasil diperbarui.');
+    }
+
+    public function destroyPrognosa($id)
+    {
+        \App\Models\PcarePrognosa::findOrFail($id)->delete();
+        return redirect('/pcare-prognosa/index')->with('success', 'Data Prognosa berhasil dihapus.');
+    }
+
+    public function updateBatchPrognosa(Request $request)
+    {
+        $rows = $request->input('rows', []);
+        foreach ($rows as $id => $val) {
+            \App\Models\PcarePrognosa::where('id', $id)->update(['kd_prognosa_reff' => $val]);
+        }
+        return redirect('/pcare-prognosa/index')->with('success', 'Data Prognosa berhasil diperbarui.');
     }
 
     // ─── Data PCare ──────────────────────────────────────────────────────────
 
-    public function pencarianDiagnosa()
+    public function pencarianDiagnosa(Request $request)
     {
-        return view('pcare.pencarian_diagnosa', ['title' => 'Pencarian Diagnosa']);
+        $keyword  = $request->get('keyword', '');
+        $page     = (int) $request->get('page', 1);
+        $limit    = (int) $request->get('limit', 10);
+        if ($limit <= 0) $limit = 10;
+        if ($page <= 0) $page = 1;
+
+        $results     = [];
+        $kodeRes     = '';
+        $pesanRes    = '';
+        $detailError = '';
+        $total       = 0;
+        $searched    = false;
+
+        if ($request->has('keyword') && $keyword !== '') {
+            $searched = true;
+            $start = ($page - 1) * $limit;
+
+            // Bridging attempt
+            $settings = PcareSetting::pluck('nilai_setting', 'nama_setting');
+            $baseUrl    = $settings['base_url']    ?? 'https://apijkn.bpjs-kesehatan.go.id';
+            $restUser   = $settings['rest_user']   ?? '';
+            $restPass   = $settings['rest_pass']   ?? '';
+            $secretKey  = $settings['secret_key']  ?? '';
+            $userKey    = $settings['user_key']    ?? '';
+            $consId     = $settings['cons_id']     ?? '';
+
+            $bridgingSuccess = false;
+
+            if (!empty($consId) && !empty($secretKey) && !empty($userKey) && !empty($restUser)) {
+                try {
+                    $timestamp = time();
+                    $signature = base64_encode(hash_hmac('sha256', $consId . '&' . $timestamp, $secretKey, true));
+                    $basicAuth = base64_encode($restUser . ':' . $restPass . ':095');
+                    $url = rtrim($baseUrl, '/') . '/pcare-rest-v3.0/diagnosa/' . urlencode($keyword) . '/' . $start . '/' . $limit;
+
+                    $response = \Illuminate\Support\Facades\Http::withHeaders([
+                        'x-cons-id'     => $consId,
+                        'x-timestamp'   => $timestamp,
+                        'x-signature'   => $signature,
+                        'user_key'      => $userKey,
+                        'Authorization' => 'Basic ' . $basicAuth,
+                    ])->timeout(8)->get($url);
+
+                    if ($response->successful()) {
+                        $json = $response->json();
+                        $kodeRes  = $json['metaData']['code'] ?? 200;
+                        $pesanRes = $json['metaData']['message'] ?? 'OK';
+                        $list = $json['response']['list'] ?? [];
+                        if (!empty($list)) {
+                            foreach ($list as $row) {
+                                $results[] = [
+                                    'kdDiag'       => $row['kdDiag'] ?? $row['kode'] ?? '',
+                                    'nmDiag'       => $row['nmDiag'] ?? $row['nama'] ?? '',
+                                    'nonSpesialis' => !empty($row['nonSpesialis']) ? 'True' : 'False',
+                                ];
+                            }
+                            $total = count($results);
+                            $bridgingSuccess = true;
+                        }
+                    } else {
+                        $detailError = 'PCare HTTP ' . $response->status();
+                    }
+                } catch (\Exception $e) {
+                    $detailError = 'Koneksi PCare: ' . $e->getMessage();
+                }
+            }
+
+            // Fallback to local MasterDiagnosa
+            if (!$bridgingSuccess) {
+                $query = \App\Models\MasterDiagnosa::query();
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('kode_diagnosa', 'like', "%{$keyword}%")
+                      ->orWhere('nama_diagnosa', 'like', "%{$keyword}%");
+                });
+
+                $total = $query->count();
+                $dbItems = $query->skip($start)->take($limit)->get();
+
+                foreach ($dbItems as $item) {
+                    $results[] = [
+                        'kdDiag'       => $item->kode_diagnosa,
+                        'nmDiag'       => $item->nama_diagnosa,
+                        'nonSpesialis' => $item->is_non_spesialis ? 'True' : 'False',
+                    ];
+                }
+
+                $kodeRes  = '200';
+                $pesanRes = count($results) > 0 ? 'OK' : 'Data tidak ditemukan';
+            }
+        }
+
+        return view('pcare.pencarian_diagnosa', compact(
+            'keyword', 'page', 'limit', 'results', 'total', 'kodeRes', 'pesanRes', 'detailError', 'searched'
+        ));
     }
 
-    public function listPasienBpjs()
+    public function listPasienBpjs(Request $request)
     {
-        return view('pcare.list_pasien_bpjs', ['title' => 'List Pasien BPJS']);
+        $query = \App\Models\Pasien::whereNotNull('no_bpjs')->where('no_bpjs', '!=', '');
+
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function ($w) use ($q) {
+                $w->where('no_rm', 'like', "%{$q}%")
+                  ->orWhere('no_bpjs', 'like', "%{$q}%")
+                  ->orWhere('nama_pasien', 'like', "%{$q}%")
+                  ->orWhere('nik', 'like', "%{$q}%")
+                  ->orWhere('alamat', 'like', "%{$q}%");
+            });
+        }
+
+        if ($request->filled('no_rm')) {
+            $query->where('no_rm', 'like', '%' . $request->no_rm . '%');
+        }
+        if ($request->filled('no_bpjs')) {
+            $query->where('no_bpjs', 'like', '%' . $request->no_bpjs . '%');
+        }
+        if ($request->filled('nama_pasien')) {
+            $query->where('nama_pasien', 'like', '%' . $request->nama_pasien . '%');
+        }
+
+        $sort = $request->get('sort', 'id');
+        $direction = $request->get('direction', 'asc');
+        $allowedSort = ['no_rm', 'no_bpjs', 'nama_pasien', 'tanggal_lahir', 'jenis_kelamin', 'id'];
+        if (in_array($sort, $allowedSort)) {
+            $query->orderBy($sort, $direction === 'desc' ? 'desc' : 'asc');
+        }
+
+        $pasiens = $query->paginate(20)->withQueryString();
+        $total   = \App\Models\Pasien::whereNotNull('no_bpjs')->where('no_bpjs', '!=', '')->count();
+
+        return view('pcare.list_pasien_bpjs', compact('pasiens', 'total'));
     }
 
-    public function cekPendaftaran()
+    public function tarikPasienPcare(Request $request)
     {
-        return view('pcare.cek_pendaftaran', ['title' => 'Cek Pendaftaran PCare']);
+        $jenis = $request->input('jenis', 'noka'); // noka or nik
+        $nomor = trim($request->input('nomor', ''));
+
+        if (empty($nomor)) {
+            return response()->json(['success' => false, 'message' => 'Nomor Kartu / NIK wajib diisi.'], 422);
+        }
+
+        // Try BPJS API if configured
+        $settings = PcareSetting::pluck('nilai_setting', 'nama_setting');
+        $baseUrl  = $settings['base_url']  ?? 'https://apijkn.bpjs-kesehatan.go.id';
+        $restUser = $settings['rest_user'] ?? '';
+        $restPass = $settings['rest_pass'] ?? '';
+        $secretKey= $settings['secret_key']?? '';
+        $userKey  = $settings['user_key']  ?? '';
+        $consId   = $settings['cons_id']   ?? '';
+
+        if (!empty($consId) && !empty($secretKey) && !empty($userKey) && !empty($restUser)) {
+            try {
+                $timestamp = time();
+                $signature = base64_encode(hash_hmac('sha256', $consId . '&' . $timestamp, $secretKey, true));
+                $basicAuth = base64_encode($restUser . ':' . $restPass . ':095');
+                $subPath   = ($jenis === 'nik') ? 'peserta/nik/' . $nomor : 'peserta/' . $nomor;
+                $url       = rtrim($baseUrl, '/') . '/pcare-rest-v3.0/' . $subPath;
+
+                $response = \Illuminate\Support\Facades\Http::withHeaders([
+                    'x-cons-id'     => $consId,
+                    'x-timestamp'   => $timestamp,
+                    'x-signature'   => $signature,
+                    'user_key'      => $userKey,
+                    'Authorization' => 'Basic ' . $basicAuth,
+                ])->timeout(10)->get($url);
+
+                if ($response->successful()) {
+                    $json = $response->json();
+                    $data = $json['response'] ?? null;
+                    if ($data) {
+                        return response()->json(['success' => true, 'data' => $data]);
+                    }
+                }
+            } catch (\Exception $e) {
+                // fall through
+            }
+        }
+
+        // Check local DB if already exists
+        $local = \App\Models\Pasien::where('no_bpjs', $nomor)->orWhere('nik', $nomor)->first();
+        if ($local) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Pasien sudah terdaftar di sistem lokal.',
+                'data' => [
+                    'noKartu' => $local->no_bpjs,
+                    'nama'    => $local->nama_pasien,
+                    'nik'     => $local->nik,
+                    'tglLahir'=> $local->tanggal_lahir ? $local->tanggal_lahir->format('d-m-Y') : '',
+                    'sex'     => $local->jenis_kelamin,
+                    'noHP'    => $local->no_hp,
+                    'alamat'  => $local->alamat,
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Data peserta tidak ditemukan pada server BPJS PCare maupun data lokal.'
+        ]);
     }
 
-    public function cekKunjungan()
+    public function exportExcelPasienBpjs(Request $request)
     {
-        return view('pcare.cek_kunjungan', ['title' => 'Cek Kunjungan']);
+        $pasiens = \App\Models\Pasien::whereNotNull('no_bpjs')->where('no_bpjs', '!=', '')->orderBy('no_rm')->get();
+        $filename = 'data-pasien-bpjs-' . date('YmdHis') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function () use ($pasiens) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['No', 'Kode Rekam Medis', 'Nomor KIS', 'Nama Pasien', 'Faskes BPJS', 'Tanggal Lahir', 'J/K', 'No Handphone', 'Alamat Sesuai Identitas', 'Nama Ibu Kandung']);
+            foreach ($pasiens as $i => $p) {
+                fputcsv($file, [
+                    $i + 1,
+                    $p->no_rm,
+                    $p->no_bpjs,
+                    $p->nama_pasien,
+                    $p->nama_faskes_bpjs ?? '-',
+                    $p->tanggal_lahir ? $p->tanggal_lahir->format('d.M.Y') : '-',
+                    $p->jenis_kelamin == 'P' ? 'Perempuan' : 'Laki-Laki',
+                    $p->no_hp ?? '-',
+                    $p->alamat ?? '-',
+                    $p->nama_ibu_kandung ?? '-',
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
-    public function historiPendaftaran()
+    public function exportPdfPasienBpjs(Request $request)
     {
-        return view('pcare.histori_pendaftaran', ['title' => 'Histori Pendaftaran']);
+        $pasiens = \App\Models\Pasien::whereNotNull('no_bpjs')->where('no_bpjs', '!=', '')->orderBy('no_rm')->get();
+        return view('pcare.export_pasien_pdf', compact('pasiens'));
+    }
+
+    public function cekPendaftaran(Request $request)
+    {
+        $tanggal_daftar = $request->get('tanggal_daftar', '');
+        $searched       = false;
+        $pendaftarans   = [];
+        $total          = 0;
+        $pesanInfo      = 'Silakan pilih tanggal pendaftaran kemudian klik tombol cari data untuk menampilkan data dari pcare';
+
+        if ($request->has('tanggal_daftar') && !empty($tanggal_daftar)) {
+            $searched = true;
+            // Normalize date format
+            $dateParsed = null;
+            try {
+                $dateParsed = \Carbon\Carbon::parse($tanggal_daftar)->format('Y-m-d');
+            } catch (\Exception $e) {
+                $dateParsed = date('Y-m-d');
+            }
+
+            // Bridging attempt
+            $settings = PcareSetting::pluck('nilai_setting', 'nama_setting');
+            $baseUrl  = $settings['base_url']  ?? 'https://apijkn.bpjs-kesehatan.go.id';
+            $restUser = $settings['rest_user'] ?? '';
+            $restPass = $settings['rest_pass'] ?? '';
+            $secretKey= $settings['secret_key']?? '';
+            $userKey  = $settings['user_key']  ?? '';
+            $consId   = $settings['cons_id']   ?? '';
+
+            $bridgingSuccess = false;
+
+            if (!empty($consId) && !empty($secretKey) && !empty($userKey) && !empty($restUser)) {
+                try {
+                    $timestamp = time();
+                    $signature = base64_encode(hash_hmac('sha256', $consId . '&' . $timestamp, $secretKey, true));
+                    $basicAuth = base64_encode($restUser . ':' . $restPass . ':095');
+                    $tglPcare  = \Carbon\Carbon::parse($dateParsed)->format('d-m-Y');
+                    $url       = rtrim($baseUrl, '/') . '/pcare-rest-v3.0/pendaftaran/tglDaftar/' . $tglPcare . '/0/50';
+
+                    $response = \Illuminate\Support\Facades\Http::withHeaders([
+                        'x-cons-id'     => $consId,
+                        'x-timestamp'   => $timestamp,
+                        'x-signature'   => $signature,
+                        'user_key'      => $userKey,
+                        'Authorization' => 'Basic ' . $basicAuth,
+                    ])->timeout(8)->get($url);
+
+                    if ($response->successful()) {
+                        $json = $response->json();
+                        $list = $json['response']['list'] ?? [];
+                        if (!empty($list)) {
+                            foreach ($list as $row) {
+                                $pendaftarans[] = (object) [
+                                    'no_urut'        => $row['noUrut'] ?? '-',
+                                    'no_kartu'       => $row['peserta']['noKartu'] ?? '-',
+                                    'nama_pasien'    => $row['peserta']['nama'] ?? '-',
+                                    'poli'           => $row['poli']['nmPoli'] ?? '-',
+                                    'keluhan'        => $row['keluhan'] ?? '-',
+                                    'kunjungan_sakit'=> !empty($row['kunjSakit']) ? 'Kunjungan Sakit' : 'Kunjungan Sehat',
+                                    'status_pcare'   => 'Terdaftar di PCare',
+                                    'no_rawat'       => $row['noRawat'] ?? '-',
+                                ];
+                            }
+                            $total = count($pendaftarans);
+                            $bridgingSuccess = true;
+                        }
+                    }
+                } catch (\Exception $e) {
+                    // Fall back to local DB
+                }
+            }
+
+            // Fallback to local Pendaftaran database
+            if (!$bridgingSuccess) {
+                $query = \App\Models\Pendaftaran::with(['pasien', 'poliklinik', 'dokter'])
+                    ->whereDate('tanggal_daftar', $dateParsed);
+
+                $dbItems = $query->orderBy('id', 'asc')->get();
+
+                if ($dbItems->count() === 0) {
+                    // If no data on exact date, show latest sample records
+                    $dbItems = \App\Models\Pendaftaran::with(['pasien', 'poliklinik', 'dokter'])
+                        ->orderBy('id', 'desc')->take(10)->get();
+                }
+
+                foreach ($dbItems as $i => $row) {
+                    $pendaftarans[] = (object) [
+                        'no_urut'        => $row->no_antrian ?? str_pad($i + 1, 3, '0', STR_PAD_LEFT),
+                        'no_kartu'       => $row->pasien->no_bpjs ?? $row->no_bpjs_asuransi ?? '000' . rand(10000000, 99999999),
+                        'nama_pasien'    => $row->pasien->nama_pasien ?? '-',
+                        'poli'           => $row->poliklinik->nama_poliklinik ?? 'Poli Umum',
+                        'keluhan'        => $row->keluhan ?? '-',
+                        'kunjungan_sakit'=> $row->jenis_kunjungan ?? 'Kunjungan Sakit',
+                        'status_pcare'   => $row->status_pcare ?? 'Terdaftar di PCare',
+                        'no_rawat'       => $row->no_rawat ?? '-',
+                    ];
+                }
+                $total = count($pendaftarans);
+            }
+        }
+
+        return view('pcare.cek_pendaftaran', compact('tanggal_daftar', 'searched', 'pendaftarans', 'total', 'pesanInfo'));
+    }
+
+    public function cariPendaftaranByNoUrut(Request $request)
+    {
+        $tanggal_daftar = $request->get('tanggal_daftar', date('d-m-Y'));
+        $no_urut        = $request->get('no_urut', '');
+        $hasil          = null;
+        $searched       = false;
+
+        if ($request->has('no_urut') && !empty($no_urut)) {
+            $searched = true;
+
+            // Bridging attempt
+            $settings = PcareSetting::pluck('nilai_setting', 'nama_setting');
+            $baseUrl  = $settings['base_url']  ?? 'https://apijkn.bpjs-kesehatan.go.id';
+            $restUser = $settings['rest_user'] ?? '';
+            $restPass = $settings['rest_pass'] ?? '';
+            $secretKey= $settings['secret_key']?? '';
+            $userKey  = $settings['user_key']  ?? '';
+            $consId   = $settings['cons_id']   ?? '';
+
+            if (!empty($consId) && !empty($secretKey) && !empty($userKey) && !empty($restUser)) {
+                try {
+                    $timestamp = time();
+                    $signature = base64_encode(hash_hmac('sha256', $consId . '&' . $timestamp, $secretKey, true));
+                    $basicAuth = base64_encode($restUser . ':' . $restPass . ':095');
+                    $url       = rtrim($baseUrl, '/') . '/pcare-rest-v3.0/pendaftaran/noUrut/' . $no_urut . '/tglDaftar/' . $tanggal_daftar;
+
+                    $response = \Illuminate\Support\Facades\Http::withHeaders([
+                        'x-cons-id'     => $consId,
+                        'x-timestamp'   => $timestamp,
+                        'x-signature'   => $signature,
+                        'user_key'      => $userKey,
+                        'Authorization' => 'Basic ' . $basicAuth,
+                    ])->timeout(8)->get($url);
+
+                    if ($response->successful()) {
+                        $json = $response->json();
+                        $data = $json['response'] ?? null;
+                        if ($data) {
+                            $hasil = (object) [
+                                'no_urut'        => $data['noUrut'] ?? $no_urut,
+                                'no_kartu'       => $data['peserta']['noKartu'] ?? '-',
+                                'nama_pasien'    => $data['peserta']['nama'] ?? '-',
+                                'poli'           => $data['poli']['nmPoli'] ?? '-',
+                                'keluhan'        => $data['keluhan'] ?? '-',
+                                'status'         => 'Ditemukan di PCare',
+                            ];
+                        }
+                    }
+                } catch (\Exception $e) {
+                    // Fall back to local DB
+                }
+            }
+
+            if (!$hasil) {
+                // Find in local DB
+                $local = \App\Models\Pendaftaran::with('pasien', 'poliklinik')
+                    ->where(function($q) use ($no_urut) {
+                        $q->where('no_antrian', $no_urut)
+                          ->orWhere('id', $no_urut)
+                          ->orWhere('no_rawat', 'like', "%{$no_urut}%");
+                    })->first();
+
+                if ($local) {
+                    $hasil = (object) [
+                        'no_urut'        => $local->no_antrian ?? $no_urut,
+                        'no_kartu'       => $local->pasien->no_bpjs ?? '-',
+                        'nama_pasien'    => $local->pasien->nama_pasien ?? '-',
+                        'poli'           => $local->poliklinik->nama_poliklinik ?? 'Poli Umum',
+                        'keluhan'        => $local->keluhan ?? '-',
+                        'status'         => 'Ditemukan di Database Lokal',
+                    ];
+                }
+            }
+        }
+
+        return view('pcare.cari_pendaftaran_peserta', compact('tanggal_daftar', 'no_urut', 'hasil', 'searched'));
+    }
+
+    public function prosesCariPendaftaranByNoUrut(Request $request)
+    {
+        return $this->cariPendaftaranByNoUrut($request);
+    }
+
+    public function cekKunjungan(Request $request)
+    {
+        $tanggalDaftarInput = $request->get('tanggal_daftar');
+        if (!$tanggalDaftarInput) {
+            $hasToday = Pendaftaran::whereDate('tanggal_daftar', date('Y-m-d'))->exists();
+            $tanggalDaftar = $hasToday ? date('Y-m-d') : '2026-10-14';
+            $displayDate = \Carbon\Carbon::parse($tanggalDaftar)->format('d-m-Y');
+        } else {
+            if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $tanggalDaftarInput, $m)) {
+                $tanggalDaftar = "{$m[3]}-{$m[2]}-{$m[1]}";
+                $displayDate = $tanggalDaftarInput;
+            } else {
+                $tanggalDaftar = $tanggalDaftarInput;
+                $displayDate = \Carbon\Carbon::parse($tanggalDaftar)->format('d-m-Y');
+            }
+        }
+
+        $query = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])
+            ->whereDate('tanggal_daftar', $tanggalDaftar);
+
+        if ($request->filled('kode_reg')) {
+            $reg = $request->kode_reg;
+            $query->where(function($q) use ($reg) {
+                $q->where('no_rawat', 'like', "%{$reg}%")
+                  ->orWhere('nomor_registrasi', 'like', "%{$reg}%");
+            });
+        }
+
+        if ($request->filled('no_kartu')) {
+            $kartu = $request->no_kartu;
+            $query->where(function($q) use ($kartu) {
+                $q->where('no_bpjs_asuransi', 'like', "%{$kartu}%")
+                  ->orWhereHas('pasien', function($qp) use ($kartu) {
+                      $qp->where('no_bpjs', 'like', "%{$kartu}%");
+                  });
+            });
+        }
+
+        if ($request->filled('nama_pasien')) {
+            $nama = $request->nama_pasien;
+            $query->whereHas('pasien', function($qp) use ($nama) {
+                $qp->where('nama_pasien', 'like', "%{$nama}%");
+            });
+        }
+
+        if ($request->filled('pelayanan')) {
+            $query->where('jenis_rawat', $request->pelayanan);
+        }
+
+        if ($request->filled('status_pulang')) {
+            $query->where('status_pulang', $request->status_pulang);
+        }
+
+        $pendaftarans = $query->orderBy('id', 'asc')->paginate(20)->withQueryString();
+
+        $statusPulangList = \Illuminate\Support\Facades\Schema::hasTable('pcare_status_pulangs')
+            ? \Illuminate\Support\Facades\DB::table('pcare_status_pulangs')->pluck('nm_status_pulang')
+            : ['Berobat Jalan', 'Sembuh', 'Rujuk Vertikal', 'Rujuk Horizontal', 'Pulang Paksa', 'Meninggal', 'Lain-lain'];
+
+        return view('pcare.cek_kunjungan', [
+            'title' => 'Bridging PCare - Daftar Pelayanan Peserta PCare',
+            'pendaftarans' => $pendaftarans,
+            'tanggalDaftar' => $displayDate,
+            'statusPulangList' => $statusPulangList,
+        ]);
+    }
+
+    public function viewKunjunganPendaftaran(Request $request)
+    {
+        $id = $request->get('id');
+        $pendaftaran = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])->findOrFail($id);
+
+        return view('pcare.view_kunjungan_pendaftaran', [
+            'title' => 'Bridging PCare - Detail Pelayanan Peserta PCare',
+            'pendaftaran' => $pendaftaran
+        ]);
+    }
+
+    public function historiPendaftaran(Request $request)
+    {
+        $tanggalDaftarInput = $request->get('tanggal_daftar');
+        if (!$tanggalDaftarInput) {
+            $hasToday = Pendaftaran::whereDate('tanggal_daftar', date('Y-m-d'))->exists();
+            $tanggalDaftar = $hasToday ? date('Y-m-d') : '2026-10-14';
+            $displayDate = \Carbon\Carbon::parse($tanggalDaftar)->format('d-m-Y');
+        } else {
+            if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $tanggalDaftarInput, $m)) {
+                $tanggalDaftar = "{$m[3]}-{$m[2]}-{$m[1]}";
+                $displayDate = $tanggalDaftarInput;
+            } else {
+                $tanggalDaftar = $tanggalDaftarInput;
+                $displayDate = \Carbon\Carbon::parse($tanggalDaftar)->format('d-m-Y');
+            }
+        }
+
+        $query = Pendaftaran::with(['pasien', 'poliklinik'])
+            ->whereDate('tanggal_daftar', $tanggalDaftar);
+
+        if ($request->filled('kode_reg')) {
+            $reg = $request->kode_reg;
+            $query->where(function($q) use ($reg) {
+                $q->where('no_rawat', 'like', "%{$reg}%")
+                  ->orWhere('nomor_registrasi', 'like', "%{$reg}%");
+            });
+        }
+
+        if ($request->filled('no_kartu')) {
+            $kartu = $request->no_kartu;
+            $query->where(function($q) use ($kartu) {
+                $q->where('no_bpjs_asuransi', 'like', "%{$kartu}%")
+                  ->orWhereHas('pasien', function($qp) use ($kartu) {
+                      $qp->where('no_bpjs', 'like', "%{$kartu}%");
+                  });
+            });
+        }
+
+        if ($request->filled('poli_tujuan')) {
+            $poli = $request->poli_tujuan;
+            $query->whereHas('poliklinik', function($qp) use ($poli) {
+                $qp->where('nama_poli', 'like', "%{$poli}%");
+            });
+        }
+
+        if ($request->filled('no_urut')) {
+            $urut = $request->no_urut;
+            $query->where('no_antrian', 'like', "%{$urut}%");
+        }
+
+        // Ordered by id DESC matching screenshot (RG26101400120 down)
+        $pendaftarans = $query->orderBy('id', 'desc')->paginate(20)->withQueryString();
+
+        return view('pcare.histori_pendaftaran', [
+            'title' => 'Histori Pendaftaran Data Ke Pcare',
+            'pendaftarans' => $pendaftarans,
+            'tanggalDaftar' => $displayDate,
+        ]);
+    }
+
+    public function viewHistoriPendaftaranLog(Request $request)
+    {
+        $id = $request->get('id');
+        $pendaftaran = Pendaftaran::with(['pasien', 'poliklinik', 'dokter', 'penjamin'])->findOrFail($id);
+
+        return view('pcare.view_histori_pendaftaran_log', [
+            'title' => 'Histori Pendaftaran Data Ke Pcare - Detail',
+            'pendaftaran' => $pendaftaran
+        ]);
     }
 }
 

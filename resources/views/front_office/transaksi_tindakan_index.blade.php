@@ -9,8 +9,8 @@
     <div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 small text-muted" style="background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Transaksi Tindakan</li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none">Beranda</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="/transaksi-tindakan" class="text-decoration-none">Transaksi Tindakan</a></li>
             </ol>
         </nav>
     </div>

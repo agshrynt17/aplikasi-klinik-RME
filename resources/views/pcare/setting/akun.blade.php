@@ -23,10 +23,12 @@
         color: #777;
     }
     .konhakes-breadcrumb a {
-        color: #444;
+        color: #337ab7 !important;
         text-decoration: none;
+        cursor: pointer;
     }
     .konhakes-breadcrumb a:hover {
+        color: #23527c !important;
         text-decoration: underline;
     }
     .konhakes-summary-text {
@@ -124,9 +126,9 @@
     <div class="konhakes-header">
         <h3 class="konhakes-title">Setting Bridging Pcare</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a>
+            <a href="/dashboard">Beranda</a>
             <span style="color: #ccc; margin: 0 2px;">&gt;</span>
-            <span style="color: #777;">Setting Bridging Pcare</span>
+            <a href="/pcare/setting/akun">Setting Bridging Pcare</a>
         </div>
     </div>
 

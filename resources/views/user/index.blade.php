@@ -7,8 +7,8 @@
         <h3 class="fw-normal mb-0" style="color: #333; font-size: 24px;">Data Pengguna Aplikasi</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0" style="font-size: 12px; background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Data Pengguna Aplikasi</li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Data Pengguna Aplikasi</a></li>
             </ol>
         </nav>
     </div>
@@ -84,35 +84,59 @@
                 <table class="table table-bordered table-striped table-hover align-middle mb-0" id="tabelUser" style="font-size: 12px; border-color: #e9ecef;">
                     <thead style="background-color: #fdfdfd; border-bottom: 2px solid #dee2e6;">
                         <tr style="color: #333;">
-                            <th style="width: 45px;" class="text-center">#</th>
-                            <th style="width: 80px;" class="text-center">Detail</th>
-                            <th style="min-width: 130px;">Username</th>
-                            <th style="min-width: 180px;">Profil Name</th>
-                            <th style="min-width: 200px;">Karyawan &amp; NIK</th>
-                            <th style="min-width: 200px;">Email</th>
-                            <th style="width: 90px;" class="text-center">Status</th>
-                            <th style="width: 110px;" class="text-center">Dibuat pada</th>
-                            <th style="width: 150px;" class="text-center">Login terakhir</th>
+                            <th style="width: 40px;" class="text-center">#</th>
+                            <th style="width: 140px;" class="text-center">Aksi</th>
+                            <th style="min-width: 120px;">Username</th>
+                            <th style="min-width: 160px;">Profil Name</th>
+                            <th style="min-width: 180px;">Karyawan &amp; NIK</th>
+                            <th style="min-width: 140px;">Hak Akses</th>
+                            <th style="min-width: 180px;">Email</th>
+                            <th style="width: 100px;" class="text-center">Status</th>
+                            <th style="width: 100px;" class="text-center">Dibuat pada</th>
+                            <th style="width: 140px;" class="text-center">Login terakhir</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($data as $index => $item)
                         <tr data-id="{{ $item->id }}">
                             <td class="text-center fw-normal" style="color: #555;">{{ $index + 1 }}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-sm text-white btnDetail" data-id="{{ $item->id }}" style="background-color: #00c0ef; border-color: #00c0ef; border-radius: 3px; font-size: 11px; padding: 2px 9px;">
-                                    <i class="fas fa-eye me-1"></i> Detail
+                            <td class="text-center text-nowrap">
+                                <button type="button" class="btn btn-sm text-white btnDetail me-1" data-id="{{ $item->id }}" style="background-color: #00c0ef; border-color: #00c0ef; border-radius: 3px; font-size: 11px; padding: 2px 7px;" title="Lihat Detail">
+                                    <i class="fas fa-eye"></i> Detail
+                                </button>
+                                <a href="/user/admin/edit/{{ $item->id }}" class="btn btn-sm text-white me-1" style="background-color: #f39c12; border-color: #f39c12; border-radius: 3px; font-size: 11px; padding: 2px 7px;" title="Edit Data &amp; Status">
+                                    <i class="fas fa-pencil-alt"></i> Edit
+                                </a>
+                                <button type="button" class="btn btn-sm text-white btnHapusDirect" data-id="{{ $item->id }}" data-name="{{ $item->username ?? $item->name }}" style="background-color: #dd4b39; border-color: #dd4b39; border-radius: 3px; font-size: 11px; padding: 2px 7px;" title="Hapus User">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </td>
-                            <td class="fw-normal" style="color: #333;">{{ $item->username ?? '-' }}</td>
+                            <td class="fw-normal" style="color: #333;"><strong>{{ $item->username ?? '-' }}</strong></td>
                             <td style="color: #333;">{{ $item->name }}</td>
                             <td>
                                 <div style="color: #333;">{{ $item->pegawai ? $item->pegawai->nama_pegawai : $item->name }}</div>
-                                <div class="text-muted" style="font-size: 11px;">{{ $item->pegawai ? $item->pegawai->nik : '0' }}</div>
+                                <div class="text-muted" style="font-size: 11px;">{{ $item->pegawai ? $item->pegawai->nik : '-' }}</div>
+                            </td>
+                            <td>
+                                @if($item->role)
+                                    <span class="badge bg-primary" style="font-size: 10px; font-weight: normal; padding: 3px 6px;">{{ $item->role->name }}</span>
+                                @else
+                                    <span class="text-muted fst-italic" style="font-size: 11px;">-</span>
+                                @endif
                             </td>
                             <td style="color: #333;">{{ $item->email }}</td>
-                            <td class="text-center" style="color: #333;">
-                                {{ $item->is_active ? 'Active' : 'Inactive' }}
+                            <td class="text-center">
+                                <a href="/user/admin/toggle-status/{{ $item->id }}" class="btnToggleStatus" data-id="{{ $item->id }}" style="text-decoration: none;" title="Klik untuk {{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }} User">
+                                    @if($item->is_active)
+                                        <span class="badge bg-success" style="font-size: 11px; cursor: pointer; padding: 4px 8px; border-radius: 3px;">
+                                            <i class="fas fa-check-circle me-1"></i> Active
+                                        </span>
+                                    @else
+                                        <span class="badge bg-danger" style="font-size: 11px; cursor: pointer; padding: 4px 8px; border-radius: 3px;">
+                                            <i class="fas fa-times-circle me-1"></i> Inactive
+                                        </span>
+                                    @endif
+                                </a>
                             </td>
                             <td class="text-center" style="color: #333;">
                                 {{ $item->created_at ? $item->created_at->format('d-m-Y') : '-' }}
@@ -123,7 +147,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="9" class="text-center text-muted py-4">Belum ada data Pengguna Aplikasi.</td>
+                            <td colspan="10" class="text-center text-muted py-4">Belum ada data Pengguna Aplikasi.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -283,15 +307,75 @@ $(document).ready(function () {
             $('#detailLastLogin').text(lastLoginStr);
 
             $('#btnEditFromDetail').attr('href', '/user/admin/edit/' + res.id);
-            $('#modalDetailUser').modal('show');
+            let modalEl = document.getElementById('modalDetailUser');
+            if (window.bootstrap && bootstrap.Modal) {
+                bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            } else {
+                $('#modalDetailUser').modal('show');
+            }
+        }).fail(function() {
+            alert('Gagal mengambil data user.');
         });
     });
 
     // Hapus from detail modal
     $('#btnHapusFromDetail').on('click', function () {
-        $('#modalDetailUser').modal('hide');
+        let modalDetailEl = document.getElementById('modalDetailUser');
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(modalDetailEl).hide();
+        } else {
+            $('#modalDetailUser').modal('hide');
+        }
         $('#namaHapusUser').text(currentUserName);
-        $('#modalHapusUser').modal('show');
+        let modalHapusEl = document.getElementById('modalHapusUser');
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(modalHapusEl).show();
+        } else {
+            $('#modalHapusUser').modal('show');
+        }
+    });
+
+    // Direct Hapus from table row
+    $(document).on('click', '.btnHapusDirect', function () {
+        currentUserId = $(this).data('id');
+        currentUserName = $(this).data('name') || 'User #' + currentUserId;
+        $('#namaHapusUser').text(currentUserName);
+        let modalHapusEl = document.getElementById('modalHapusUser');
+        if (window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(modalHapusEl).show();
+        } else {
+            $('#modalHapusUser').modal('show');
+        }
+    });
+
+    // 1-Click Toggle Status (Active <-> Inactive)
+    $(document).on('click', '.btnToggleStatus', function (e) {
+        e.preventDefault();
+        let url = $(this).attr('href');
+        let $link = $(this);
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: { 'Accept': 'application/json' },
+            success: function(res) {
+                if (res.success) {
+                    if (res.is_active) {
+                        $link.html('<span class="badge bg-success" style="font-size: 11px; cursor: pointer; padding: 4px 8px; border-radius: 3px;"><i class="fas fa-check-circle me-1"></i> Active</span>');
+                        $link.attr('title', 'Klik untuk Nonaktifkan User');
+                    } else {
+                        $link.html('<span class="badge bg-danger" style="font-size: 11px; cursor: pointer; padding: 4px 8px; border-radius: 3px;"><i class="fas fa-times-circle me-1"></i> Inactive</span>');
+                        $link.attr('title', 'Klik untuk Aktifkan User');
+                    }
+                    showAlert('success', res.message);
+                } else {
+                    location.reload();
+                }
+            },
+            error: function() {
+                window.location.href = url;
+            }
+        });
     });
 
     // Confirm Hapus

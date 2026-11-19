@@ -174,7 +174,7 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Penerimaan Mutasi Barang Antar Gudang</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; <span>Penerimaan Mutasi Barang Antar Gudang</span>
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; <a href="{{ url()->current() }}">Penerimaan Mutasi Barang Antar Gudang</a>
         </div>
     </div>
 

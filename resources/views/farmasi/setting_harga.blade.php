@@ -131,7 +131,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Setting Harga Barang / Obat & Biaya Racik</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <span>Setting Harga Barang / Obat & Biaya Racik</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Setting Harga Barang / Obat & Biaya Racik</a>
         </div>
     </div>
     <div class="konhakes-cyan-line"></div>

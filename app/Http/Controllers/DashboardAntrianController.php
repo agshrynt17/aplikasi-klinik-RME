@@ -361,12 +361,39 @@ class DashboardAntrianController extends Controller
         }
         $waitingList = $waitingQuery->orderBy('id', 'asc')->get();
 
+        $calledData = $currentCalled ? [
+            'id'           => $currentCalled->id,
+            'kode_nomor'   => $currentCalled->kode_nomor,
+            'nama_loket'   => $currentCalled->masterAntrian->nama_antrian ?? 'POLI DOKTER',
+            'panggilan_ke' => (int)($currentCalled->panggilan_ke ?? 1),
+            'updated_at'   => $currentCalled->updated_at ? $currentCalled->updated_at->timestamp : time(),
+            'master_antrian' => [
+                'nama_antrian' => $currentCalled->masterAntrian->nama_antrian ?? 'POLI DOKTER',
+            ],
+        ] : null;
+
+        // Ambil riwayat panggilan terakhir
+        $historyList = Antrian::with('masterAntrian')
+            ->whereDate('tanggal', $tanggal)
+            ->where('status', 'Dipanggil')
+            ->orderBy('updated_at', 'desc')
+            ->take(5)
+            ->get();
+
         return response()->json([
             'success' => true,
-            'called'  => $currentCalled ? [
-                'kode_nomor' => $currentCalled->kode_nomor,
-                'nama_loket' => $currentCalled->masterAntrian->nama_antrian ?? 'POLI DOKTER',
-            ] : null,
+            'called'  => $calledData,
+            'current' => $calledData,
+            'history' => $historyList->map(function($h) {
+                return [
+                    'id'         => $h->id,
+                    'kode_nomor' => $h->kode_nomor,
+                    'nama_loket' => $h->masterAntrian->nama_antrian ?? 'POLI',
+                    'master_antrian' => [
+                        'nama_antrian' => $h->masterAntrian->nama_antrian ?? 'POLI',
+                    ]
+                ];
+            }),
             'waiting' => $waitingList->map(function($w) {
                 return [
                     'kode_nomor' => $w->kode_nomor,

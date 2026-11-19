@@ -73,6 +73,7 @@ use App\Http\Controllers\SuratKeteranganController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\ProfilFaskesController;
+use App\Http\Controllers\RawatInapController;
 
 // === Landing Page (konhakes.id) ===
 Route::get('/', function () {
@@ -239,6 +240,7 @@ Route::post('/tariftindakan',                 [TarifTindakanController::class, '
 Route::get('/master-tarif-tindakan/{id}/edit', [TarifTindakanController::class, 'edit']);
 Route::get('/tariftindakan/{id}/edit',        [TarifTindakanController::class, 'edit']);
 Route::put('/master-tarif-tindakan/{id}',      [TarifTindakanController::class, 'update']);
+Route::post('/master-tarif-tindakan/{id}/update', [TarifTindakanController::class, 'update']);
 Route::put('/tariftindakan/{id}',             [TarifTindakanController::class, 'update']);
 Route::delete('/master-tarif-tindakan/{id}',   [TarifTindakanController::class, 'destroy']);
 Route::delete('/tariftindakan/{id}',          [TarifTindakanController::class, 'destroy']);
@@ -271,13 +273,17 @@ Route::get('/setting-user/{id}/edit',        [UserController::class, 'edit'])->n
 Route::put('/setting-user/{id}',             [UserController::class, 'update'])->name('user.update');
 Route::delete('/setting-user/{id}',          [UserController::class, 'destroy'])->name('user.destroy');
 
-// Aliases matching KONHAKES exact URLs
+// User Profile
+Route::get('/user/profile',                  [UserController::class, 'profile'])->name('user.profile');
+Route::post('/user/profile',                 [UserController::class, 'updateProfile'])->name('user.profile.update');
+Route::get('/user/admin',                    [UserController::class, 'profile']);
 Route::get('/user/admin/index',              [UserController::class, 'index']);
 Route::get('/user/admin/create',             [UserController::class, 'create']);
 Route::post('/user/admin/store',             [UserController::class, 'store']);
 Route::get('/user/admin/{id}',               [UserController::class, 'show']);
 Route::get('/user/admin/edit/{id}',          [UserController::class, 'edit']);
 Route::post('/user/admin/update/{id}',       [UserController::class, 'update']);
+Route::get('/user/admin/toggle-status/{id}', [UserController::class, 'toggleStatus']);
 Route::delete('/user/admin/delete/{id}',     [UserController::class, 'destroy']);
 
 // === Akun Pembayaran Klaim ===
@@ -405,12 +411,23 @@ Route::get('/modul-kasir/index',         [TransaksiKasirController::class, 'inde
 Route::get('/transaksi-kasir/index',     [TransaksiKasirController::class, 'index']);
 Route::get('/modul-kasir/cetak-laporan', [TransaksiKasirController::class, 'cetakLaporan'])->name('modul-kasir.cetak');
 Route::get('/transaksi-kasir/cetak-laporan', [TransaksiKasirController::class, 'cetakLaporan']);
+Route::get('/transaksi-kasir/{id}/cetak', [TransaksiKasirController::class, 'cetakKwitansi'])->name('transaksi-kasir.cetak');
+Route::get('/modul-kasir/{id}/cetak',     [TransaksiKasirController::class, 'cetakKwitansi'])->name('modul-kasir.cetak');
 Route::get('/transaksi-kasir/{id}',      [TransaksiKasirController::class, 'show'])->name('transaksi-kasir.show');
 Route::get('/modul-kasir/{id}',          [TransaksiKasirController::class, 'show'])->name('modul-kasir.show');
 Route::post('/transaksi-kasir',          [TransaksiKasirController::class, 'store'])->name('transaksi-kasir.store');
 Route::post('/modul-kasir',              [TransaksiKasirController::class, 'store'])->name('modul-kasir.store');
 Route::delete('/transaksi-kasir/{id}',   [TransaksiKasirController::class, 'destroy'])->name('transaksi-kasir.destroy');
 Route::delete('/modul-kasir/{id}',       [TransaksiKasirController::class, 'destroy'])->name('modul-kasir.destroy');
+
+// === Rawat Inap & Bed Management ===
+Route::get('/rawat-inap',                  [RawatInapController::class, 'index'])->name('rawat-inap.index');
+Route::get('/rawat-inap/bed',              [RawatInapController::class, 'index'])->name('rawat-inap.bed');
+Route::get('/rawat-inap/pasien',           [RawatInapController::class, 'daftarPasien'])->name('rawat-inap.pasien');
+Route::post('/rawat-inap/admisi',          [RawatInapController::class, 'storeAdmisi'])->name('rawat-inap.admisi');
+Route::post('/rawat-inap/transfer',        [RawatInapController::class, 'storeTransfer'])->name('rawat-inap.transfer');
+Route::post('/rawat-inap/{id}/discharge',  [RawatInapController::class, 'discharge'])->name('rawat-inap.discharge');
+Route::post('/rawat-inap/bed/store',       [RawatInapController::class, 'storeBed'])->name('rawat-inap.bed.store');
 
 // ==============================================
 // 3. ANTRIAN
@@ -456,6 +473,7 @@ Route::get('/antrian',                     [AntrianController::class, 'index'])-
 Route::get('/antrian/index',               [AntrianController::class, 'index']);
 Route::post('/list-antrian/{id}/status',   [AntrianController::class, 'updateStatus']);
 Route::post('/antrian/{id}/status',        [AntrianController::class, 'updateStatus']);
+Route::post('/antrian/{id}/update-status', [AntrianController::class, 'updateStatus']);
 Route::post('/antrian/booking',            [AntrianController::class, 'bookingAntrian'])->name('antrian.booking');
 Route::post('/list-antrian/booking',       [AntrianController::class, 'bookingAntrian']);
 Route::post('/antrian/{id}/batal',         [AntrianController::class, 'batal'])->name('antrian.batal');
@@ -1640,24 +1658,92 @@ Route::get('/pcare-sarana/{id}/edit',       [\App\Http\Controllers\PcareControll
 Route::match(['post', 'put'], '/pcare-sarana/{id}/update', [\App\Http\Controllers\PcareController::class, 'updateSarana'])->name('pcare.sarana.update');
 Route::delete('/pcare-sarana/{id}',         [\App\Http\Controllers\PcareController::class, 'destroySarana'])->name('pcare.sarana.destroy');
 Route::get('/pcare-sarana/{id}/delete',     [\App\Http\Controllers\PcareController::class, 'destroySarana']);
-Route::get('/pcare/setting/khusus',        [\App\Http\Controllers\PcareController::class, 'settingKhusus'])->name('pcare.setting.khusus');
-Route::get('/pcare/setting/tindakan',      [\App\Http\Controllers\PcareController::class, 'settingTindakan'])->name('pcare.setting.tindakan');
-Route::get('/pcare/setting/alergi',        [\App\Http\Controllers\PcareController::class, 'settingAlergi'])->name('pcare.setting.alergi');
-Route::get('/pcare/setting/prognosa',      [\App\Http\Controllers\PcareController::class, 'settingPrognosa'])->name('pcare.setting.prognosa');
+// === PCare Khusus ===
+Route::get('/pcare-khusus/index',           [\App\Http\Controllers\PcareController::class, 'settingKhusus'])->name('pcare.khusus.index');
+Route::get('/pcare-khusus',                 [\App\Http\Controllers\PcareController::class, 'settingKhusus']);
+Route::get('/pcare/setting/khusus',         [\App\Http\Controllers\PcareController::class, 'settingKhusus'])->name('pcare.setting.khusus');
+Route::post('/pcare-khusus/tarik',          [\App\Http\Controllers\PcareController::class, 'tarikDataKhusus'])->name('pcare.khusus.tarik');
+Route::post('/pcare-khusus/update-batch',   [\App\Http\Controllers\PcareController::class, 'updateBatchKhusus'])->name('pcare.khusus.update_batch');
+Route::get('/pcare-khusus/{id}',            [\App\Http\Controllers\PcareController::class, 'showKhusus'])->name('pcare.khusus.show');
+Route::get('/pcare-khusus/{id}/edit',       [\App\Http\Controllers\PcareController::class, 'editKhusus'])->name('pcare.khusus.edit');
+Route::match(['post', 'put'], '/pcare-khusus/{id}/update', [\App\Http\Controllers\PcareController::class, 'updateKhusus'])->name('pcare.khusus.update');
+Route::delete('/pcare-khusus/{id}',         [\App\Http\Controllers\PcareController::class, 'destroyKhusus'])->name('pcare.khusus.destroy');
+Route::get('/pcare-khusus/{id}/delete',     [\App\Http\Controllers\PcareController::class, 'destroyKhusus']);
+// === PCare Tindakan ===
+Route::get('/pcare-tindakan/index',           [\App\Http\Controllers\PcareController::class, 'settingTindakan'])->name('pcare.tindakan.index');
+Route::get('/pcare-tindakan',                 [\App\Http\Controllers\PcareController::class, 'settingTindakan']);
+Route::get('/pcare/setting/tindakan',         [\App\Http\Controllers\PcareController::class, 'settingTindakan'])->name('pcare.setting.tindakan');
+Route::post('/pcare-tindakan/tarik',          [\App\Http\Controllers\PcareController::class, 'tarikDataTindakan'])->name('pcare.tindakan.tarik');
+Route::post('/pcare-tindakan/update-batch',   [\App\Http\Controllers\PcareController::class, 'updateBatchTindakan'])->name('pcare.tindakan.update_batch');
+Route::get('/pcare-tindakan/{id}/edit',       [\App\Http\Controllers\PcareController::class, 'editTindakan'])->name('pcare.tindakan.edit');
+Route::match(['post', 'put'], '/pcare-tindakan/{id}/update', [\App\Http\Controllers\PcareController::class, 'updateTindakan'])->name('pcare.tindakan.update');
+Route::get('/pcare-alergi/index',           [\App\Http\Controllers\PcareController::class, 'settingAlergi'])->name('pcare.alergi.index');
+Route::get('/pcare-alergi',                 [\App\Http\Controllers\PcareController::class, 'settingAlergi']);
+Route::get('/pcare/setting/alergi',         [\App\Http\Controllers\PcareController::class, 'settingAlergi'])->name('pcare.setting.alergi');
+Route::post('/pcare-alergi/tarik',          [\App\Http\Controllers\PcareController::class, 'tarikDataAlergi'])->name('pcare.alergi.tarik');
+Route::post('/pcare-alergi/update-batch',   [\App\Http\Controllers\PcareController::class, 'updateBatchAlergi'])->name('pcare.alergi.update_batch');
+Route::get('/pcare-alergi/{id}',            [\App\Http\Controllers\PcareController::class, 'showAlergi'])->name('pcare.alergi.show');
+Route::get('/pcare-alergi/{id}/edit',       [\App\Http\Controllers\PcareController::class, 'editAlergi'])->name('pcare.alergi.edit');
+Route::match(['post', 'put'], '/pcare-alergi/{id}/update', [\App\Http\Controllers\PcareController::class, 'updateAlergi'])->name('pcare.alergi.update');
+Route::delete('/pcare-alergi/{id}',         [\App\Http\Controllers\PcareController::class, 'destroyAlergi'])->name('pcare.alergi.destroy');
+Route::get('/pcare-alergi/{id}/delete',      [\App\Http\Controllers\PcareController::class, 'destroyAlergi']);
+Route::get('/pcare-prognosa/index',         [\App\Http\Controllers\PcareController::class, 'settingPrognosa'])->name('pcare.prognosa.index');
+Route::get('/pcare-prognosa',               [\App\Http\Controllers\PcareController::class, 'settingPrognosa']);
+Route::get('/pcare/setting/prognosa',       [\App\Http\Controllers\PcareController::class, 'settingPrognosa'])->name('pcare.setting.prognosa');
+Route::post('/pcare-prognosa/tarik',        [\App\Http\Controllers\PcareController::class, 'tarikDataPrognosa'])->name('pcare.prognosa.tarik');
+Route::post('/pcare-prognosa/update-batch', [\App\Http\Controllers\PcareController::class, 'updateBatchPrognosa'])->name('pcare.prognosa.update_batch');
+Route::get('/pcare-prognosa/{id}',          [\App\Http\Controllers\PcareController::class, 'showPrognosa'])->name('pcare.prognosa.show');
+Route::get('/pcare-prognosa/{id}/edit',     [\App\Http\Controllers\PcareController::class, 'editPrognosa'])->name('pcare.prognosa.edit');
+Route::match(['post', 'put'], '/pcare-prognosa/{id}/update', [\App\Http\Controllers\PcareController::class, 'updatePrognosa'])->name('pcare.prognosa.update');
+Route::delete('/pcare-prognosa/{id}',       [\App\Http\Controllers\PcareController::class, 'destroyPrognosa'])->name('pcare.prognosa.destroy');
+Route::get('/pcare-prognosa/{id}/delete',    [\App\Http\Controllers\PcareController::class, 'destroyPrognosa']);
 
 // === PCare Data ===
-Route::get('/pcare/pencarian-diagnosa',    [\App\Http\Controllers\PcareController::class, 'pencarianDiagnosa'])->name('pcare.pencarian-diagnosa');
+Route::get('/pcare-diagnosa/index',       [\App\Http\Controllers\PcareController::class, 'pencarianDiagnosa'])->name('pcare.diagnosa.index');
+Route::get('/pcare-diagnosa',             [\App\Http\Controllers\PcareController::class, 'pencarianDiagnosa']);
+Route::get('/pcare/pencarian-diagnosa',   [\App\Http\Controllers\PcareController::class, 'pencarianDiagnosa'])->name('pcare.pencarian-diagnosa');
+Route::get('/pcare-pasien/index',          [\App\Http\Controllers\PcareController::class, 'listPasienBpjs'])->name('pcare.pasien.index');
+Route::get('/pcare-pasien',                [\App\Http\Controllers\PcareController::class, 'listPasienBpjs']);
 Route::get('/pcare/list-pasien-bpjs',      [\App\Http\Controllers\PcareController::class, 'listPasienBpjs'])->name('pcare.list-pasien-bpjs');
-Route::get('/pcare/cek-pendaftaran',       [\App\Http\Controllers\PcareController::class, 'cekPendaftaran'])->name('pcare.cek-pendaftaran');
-Route::get('/pcare/cek-kunjungan',         [\App\Http\Controllers\PcareController::class, 'cekKunjungan'])->name('pcare.cek-kunjungan');
-Route::get('/pcare/histori-pendaftaran',   [\App\Http\Controllers\PcareController::class, 'historiPendaftaran'])->name('pcare.histori-pendaftaran');
+Route::post('/pcare-pasien/tarik',         [\App\Http\Controllers\PcareController::class, 'tarikPasienPcare'])->name('pcare.pasien.tarik');
+Route::get('/pcare-pasien/export-excel',    [\App\Http\Controllers\PcareController::class, 'exportExcelPasienBpjs'])->name('pcare.pasien.export_excel');
+Route::get('/pcare-pasien/export-pdf',      [\App\Http\Controllers\PcareController::class, 'exportPdfPasienBpjs'])->name('pcare.pasien.export_pdf');
+Route::get('/pasien/view', function (\Illuminate\Http\Request $request) {
+    $id = trim($request->get('id', ''));
+    $pasien = \App\Models\Pasien::where('no_rm', $id)->orWhere('id', $id)->first();
+    if ($pasien) {
+        return redirect('/pasien/' . $pasien->id . '/edit');
+    }
+    return redirect('/pcare-pasien/index')->with('error', 'Pasien dengan ID/No RM ' . $id . ' tidak ditemukan.');
+})->name('pasien.view');
+Route::get('/pcare-pendaftaran/index',        [\App\Http\Controllers\PcareController::class, 'cekPendaftaran'])->name('pcare.pendaftaran.index');
+Route::get('/pcare-pendaftaran',              [\App\Http\Controllers\PcareController::class, 'cekPendaftaran']);
+Route::get('/pcare/cek-pendaftaran',          [\App\Http\Controllers\PcareController::class, 'cekPendaftaran'])->name('pcare.cek-pendaftaran');
+Route::get('/pcare-pendaftaran/cari-peserta', [\App\Http\Controllers\PcareController::class, 'cariPendaftaranByNoUrut'])->name('pcare.pendaftaran.cari_peserta');
+Route::post('/pcare-pendaftaran/cari-peserta',[\App\Http\Controllers\PcareController::class, 'prosesCariPendaftaranByNoUrut']);
+Route::get('/pcare-kunjungan/index',           [\App\Http\Controllers\PcareController::class, 'cekKunjungan'])->name('pcare.kunjungan.index');
+Route::get('/pcare-kunjungan',                 [\App\Http\Controllers\PcareController::class, 'cekKunjungan']);
+Route::get('/pcare/cek-kunjungan',             [\App\Http\Controllers\PcareController::class, 'cekKunjungan'])->name('pcare.cek-kunjungan');
+Route::get('/pcare-kunjungan/view-pendaftaran',[\App\Http\Controllers\PcareController::class, 'viewKunjunganPendaftaran'])->name('pcare.kunjungan.view_pendaftaran');
+Route::get('/pcare-pendaftaran/index-log',       [\App\Http\Controllers\PcareController::class, 'historiPendaftaran'])->name('pcare.pendaftaran.index_log');
+Route::get('/pcare/histori-pendaftaran',         [\App\Http\Controllers\PcareController::class, 'historiPendaftaran'])->name('pcare.histori-pendaftaran');
+Route::get('/pcare-pendaftaran/view-log',        [\App\Http\Controllers\PcareController::class, 'viewHistoriPendaftaranLog'])->name('pcare.pendaftaran.view_log');
 
 // === i-Care ===
+Route::get('/icare-user/index',              [\App\Http\Controllers\IcareController::class, 'akun'])->name('icare.user.index');
+Route::get('/icare-user',                    [\App\Http\Controllers\IcareController::class, 'akun']);
+Route::post('/icare-user/{id}/update',       [\App\Http\Controllers\IcareController::class, 'updateAkun'])->name('icare.user.update');
+Route::get('/icare-user/{id}/edit',          [\App\Http\Controllers\IcareController::class, 'editAkun'])->name('icare.user.edit');
 Route::get('/icare',                         [\App\Http\Controllers\IcareController::class, 'index'])->name('icare.index');
 Route::get('/icare/akun',                    [\App\Http\Controllers\IcareController::class, 'akun'])->name('icare.akun');
+Route::get('/icare-kunjungan/index',            [\App\Http\Controllers\IcareController::class, 'cekRiwayatKunjungan'])->name('icare.kunjungan.index');
+Route::get('/icare-kunjungan',                  [\App\Http\Controllers\IcareController::class, 'cekRiwayatKunjungan']);
+Route::get('/icare-kunjungan/api-pasien',       [\App\Http\Controllers\IcareController::class, 'apiPasienToday'])->name('icare.kunjungan.api_pasien');
 Route::get('/icare/cek-riwayat-kunjungan',   [\App\Http\Controllers\IcareController::class, 'cekRiwayatKunjungan'])->name('icare.cek-riwayat-kunjungan');
-Route::get('/icare/update-password',         [\App\Http\Controllers\IcareController::class, 'updatePassword'])->name('icare.update-password');
-Route::post('/icare/update-password',        [\App\Http\Controllers\IcareController::class, 'storeUpdatePassword'])->name('icare.update-password.store');
+Route::get('/icare-user/view',                [\App\Http\Controllers\IcareController::class, 'viewDoctorAccount'])->name('icare.user.view');
+Route::post('/icare-user/update-password',     [\App\Http\Controllers\IcareController::class, 'storeDoctorPassword'])->name('icare.user.update_password');
+Route::get('/icare/update-password',           [\App\Http\Controllers\IcareController::class, 'viewDoctorAccount'])->name('icare.update-password');
+Route::post('/icare/update-password',          [\App\Http\Controllers\IcareController::class, 'storeDoctorPassword'])->name('icare.update-password.store');
 
 // === Bridging Satu Sehat (KONHAKES 1:1) ===
 Route::get('/satu-sehat/index',             [\App\Http\Controllers\BridgingConfigController::class, 'configSatuSehat'])->name('satusehat.index');
@@ -1680,29 +1766,90 @@ Route::post('/satusehat-nakes/update-nama',  [\App\Http\Controllers\SatuSehatSet
 
 Route::get('/bridging/satusehat/nakes',      [\App\Http\Controllers\SatuSehatSettingController::class, 'nakes']);
 Route::post('/bridging/satusehat/nakes',     [\App\Http\Controllers\SatuSehatSettingController::class, 'storeNakes']);
-Route::get('/bridging/satusehat/unit',     [\App\Http\Controllers\SatuSehatSettingController::class, 'unit']);
-Route::post('/bridging/satusehat/unit',    [\App\Http\Controllers\SatuSehatSettingController::class, 'storeUnit']);
-Route::get('/bridging/satusehat/ruangan',  [\App\Http\Controllers\SatuSehatSettingController::class, 'ruangan']);
-Route::post('/bridging/satusehat/ruangan', [\App\Http\Controllers\SatuSehatSettingController::class, 'storeRuangan']);
+Route::get('/satusehat-unit/index',            [\App\Http\Controllers\SatuSehatSettingController::class, 'unitIndex'])->name('satusehat.unit.index');
+Route::get('/satusehat-unit',                  [\App\Http\Controllers\SatuSehatSettingController::class, 'unitIndex']);
+Route::get('/satusehat-unit/create',           [\App\Http\Controllers\SatuSehatSettingController::class, 'unitCreate'])->name('satusehat.unit.create');
+Route::post('/satusehat-unit/store',           [\App\Http\Controllers\SatuSehatSettingController::class, 'unitStore'])->name('satusehat.unit.store');
+Route::get('/satusehat-unit/view',             [\App\Http\Controllers\SatuSehatSettingController::class, 'unitView'])->name('satusehat.unit.view');
+Route::post('/satusehat-unit/update',          [\App\Http\Controllers\SatuSehatSettingController::class, 'unitUpdate'])->name('satusehat.unit.update');
+Route::post('/satusehat-unit/sync',            [\App\Http\Controllers\SatuSehatSettingController::class, 'unitSync'])->name('satusehat.unit.sync');
+Route::get('/bridging/satusehat/unit',         [\App\Http\Controllers\SatuSehatSettingController::class, 'unitIndex'])->name('satusehat.unit');
+Route::post('/bridging/satusehat/unit',        [\App\Http\Controllers\SatuSehatSettingController::class, 'storeUnit']);
+// === SATU SEHAT: Setting Lokasi / Ruang Rawat ===
+Route::get('/satusehat-lokasi/index',          [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiIndex'])->name('satusehat.lokasi.index');
+Route::get('/satusehat-lokasi',                [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiIndex']);
+Route::get('/satusehat-lokasi/create',         [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiCreate'])->name('satusehat.lokasi.create');
+Route::post('/satusehat-lokasi/store',         [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiStore'])->name('satusehat.lokasi.store');
+Route::get('/satusehat-lokasi/view',           [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiView'])->name('satusehat.lokasi.view');
+Route::post('/satusehat-lokasi/update',        [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiUpdate'])->name('satusehat.lokasi.update');
+Route::post('/satusehat-lokasi/sync',          [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiSync'])->name('satusehat.lokasi.sync');
+Route::get('/bridging/satusehat/ruangan',      [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiIndex']);
+Route::post('/bridging/satusehat/ruangan',     [\App\Http\Controllers\SatuSehatSettingController::class, 'lokasiStore']);
 
-Route::get('/bridging/satusehat/pasien',   [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'pasien']);
+// === SATU SEHAT: Data Pasien ===
+Route::get('/satusehat-pasien/index',          [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'pasien'])->name('satusehat.pasien.index');
+Route::get('/satusehat-pasien',                [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'pasien']);
+Route::get('/satusehat-pasien/view',           [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'viewPasien'])->name('satusehat.pasien.view');
+Route::post('/satusehat-pasien/sync',          [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'cariIhsPasien'])->name('satusehat.pasien.sync');
+Route::post('/satusehat-pasien/delete-ihs',     [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'deleteIhsPasien'])->name('satusehat.pasien.deleteIhs');
+Route::get('/bridging/satusehat/pasien',       [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'pasien'])->name('satusehat.pasien');
 Route::post('/bridging/satusehat/pasien/sync', [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'cariIhsPasien']);
 
-Route::get('/bridging/satusehat/kunjungan', [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'kunjungan']);
+// === SATU SEHAT: Data Kunjungan ===
+Route::get('/satusehat-kunjungan/index',          [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'kunjungan'])->name('satusehat.kunjungan.index');
+Route::get('/satusehat-kunjungan',                [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'kunjungan']);
+Route::get('/satusehat-kunjungan/view',           [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'viewKunjungan'])->name('satusehat.kunjungan.view');
+Route::get('/satusehat-kunjungan/cetak-pdf',      [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'cetakPdf'])->name('satusehat.kunjungan.cetak');
+Route::post('/satusehat-kunjungan/kirim',         [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'kirimKunjungan'])->name('satusehat.kunjungan.kirim');
+Route::get('/bridging/satusehat/kunjungan',       [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'kunjungan']);
 Route::post('/bridging/satusehat/kunjungan/kirim', [\App\Http\Controllers\BridgingSatuSehatDataController::class, 'kirimKunjungan']);
 
-// === Laporan PMKP ===
-Route::get('/laporan-pmkp/survey-kepuasan',        [\App\Http\Controllers\LaporanPmkpController::class, 'surveyKepuasan']);
+// === Laporan PMKP & Farmasi ===
+Route::get('/laporan-farmasi/laporan-waktu-tunggu-obat', [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguObat'])->name('laporan.farmasi.waktu_tunggu_obat');
+Route::get('/laporan-farmasi/cetak-waktu-tunggu-obat-pdf', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakWaktuTungguObatPdf'])->name('laporan.farmasi.waktu_tunggu_obat.pdf');
+Route::get('/laporan-farmasi/cetak-waktu-tunggu-obat-excel', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakWaktuTungguObatExcel'])->name('laporan.farmasi.waktu_tunggu_obat.excel');
+Route::get('/laporan-pmkp/laporan-survey-kepuasan', [\App\Http\Controllers\LaporanPmkpController::class, 'surveyKepuasan'])->name('laporan.pmkp.survey_kepuasan');
+Route::get('/laporan-pmkp/survey-kepuasan',         [\App\Http\Controllers\LaporanPmkpController::class, 'surveyKepuasan']);
+Route::get('/laporan-pmkp/cetak-survey-kepuasan-pdf', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakSurveyKepuasanPdf'])->name('laporan.pmkp.survey_kepuasan.pdf');
 Route::get('/laporan-pmkp/waktu-tunggu-obat',      [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguObat']);
-Route::get('/laporan-pmkp/waktu-tunggu-pelayanan', [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguPelayanan']);
+Route::get('/laporan-pmkp/laporan-waktu-tunggu-layanan', [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguPelayanan'])->name('laporan.pmkp.waktu_tunggu_layanan');
+Route::get('/laporan-pmkp/waktu-tunggu-pelayanan',       [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguPelayanan']);
+Route::get('/laporan-pmkp/cetak-waktu-tunggu-layanan-pdf', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakWaktuTungguPelayananPdf'])->name('laporan.pmkp.waktu_tunggu_layanan.pdf');
+Route::get('/laporan-pmkp/cetak-waktu-tunggu-layanan-excel', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakWaktuTungguPelayananExcel'])->name('laporan.pmkp.waktu_tunggu_layanan.excel');
+Route::get('/laporan-pmkp/laporan-waktu-tunggu-obat-racik', [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguObatRacik'])->name('laporan.pmkp.waktu_tunggu_racik');
 Route::get('/laporan-pmkp/waktu-tunggu-racik',     [\App\Http\Controllers\LaporanPmkpController::class, 'waktuTungguObatRacik']);
+Route::get('/laporan-pmkp/cetak-waktu-tunggu-racik-pdf', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakWaktuTungguRacikPdf'])->name('laporan.pmkp.waktu_tunggu_racik.pdf');
+Route::get('/laporan-pmkp/cetak-waktu-tunggu-racik-excel', [\App\Http\Controllers\LaporanPmkpController::class, 'cetakWaktuTungguRacikExcel'])->name('laporan.pmkp.waktu_tunggu_racik.excel');
 
-// === Back Office ===
-Route::get('/backoffice/jasa-medis',       [\App\Http\Controllers\BackOfficeController::class, 'jasaMedis']);
-Route::get('/backoffice/klaim-rajal',      [\App\Http\Controllers\BackOfficeController::class, 'klaimRawatJalan']);
-Route::get('/backoffice/pendapatan',       [\App\Http\Controllers\BackOfficeController::class, 'pendapatanPasien']);
-Route::get('/backoffice/laporan-kasir',    [\App\Http\Controllers\BackOfficeController::class, 'lapTransaksiKasir']);
-Route::get('/backoffice/transaksi-kasir',  [\App\Http\Controllers\BackOfficeController::class, 'transaksiKasir']);
+// === Data Pembayaran Pasien & Kasir ===
+Route::get('/pembayaran/index',                     [\App\Http\Controllers\PembayaranController::class, 'index'])->name('pembayaran.index');
+Route::get('/pembayaran',                           [\App\Http\Controllers\PembayaranController::class, 'index']);
+Route::get('/pembayaran/cetak-pdf',                 [\App\Http\Controllers\PembayaranController::class, 'cetakPdf'])->name('pembayaran.pdf');
+Route::get('/pembayaran/cetak-excel',               [\App\Http\Controllers\PembayaranController::class, 'cetakExcel'])->name('pembayaran.excel');
+Route::delete('/pembayaran/{id}',                   [\App\Http\Controllers\PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
+Route::get('/laporan/laporan-transaksi-kasir',       [\App\Http\Controllers\LaporanTransaksiKasirController::class, 'index'])->name('laporan.transaksi-kasir');
+Route::get('/laporan/laporan-transaksi-kasir/pdf',   [\App\Http\Controllers\LaporanTransaksiKasirController::class, 'exportPdf'])->name('laporan.transaksi-kasir.pdf');
+Route::get('/laporan/laporan-transaksi-kasir/excel', [\App\Http\Controllers\LaporanTransaksiKasirController::class, 'exportExcel'])->name('laporan.transaksi-kasir.excel');
+// === Laporan Jasa Tindakan Medis & Back Office ===
+Route::get('/laporan/laporan-jasa-tindakan',       [\App\Http\Controllers\LaporanJasaTindakanController::class, 'index'])->name('laporan.jasa-tindakan');
+Route::get('/laporan/laporan-jasa-tindakan/pdf',   [\App\Http\Controllers\LaporanJasaTindakanController::class, 'exportPdf'])->name('laporan.jasa-tindakan.pdf');
+Route::get('/laporan/laporan-jasa-tindakan/xls',   [\App\Http\Controllers\LaporanJasaTindakanController::class, 'exportXls'])->name('laporan.jasa-tindakan.xls');
+Route::get('/laporan/laporan-jasa-tindakan/excel', [\App\Http\Controllers\LaporanJasaTindakanController::class, 'exportXls']);
+Route::get('/backoffice/jasa-medis',               [\App\Http\Controllers\LaporanJasaTindakanController::class, 'index']);
+// === Transaksi Klaim Pasien ===
+Route::get('/klaim/index',          [\App\Http\Controllers\KlaimController::class, 'index'])->name('klaim.index');
+Route::get('/klaim',                [\App\Http\Controllers\KlaimController::class, 'index']);
+Route::post('/klaim',               [\App\Http\Controllers\KlaimController::class, 'store'])->name('klaim.store');
+Route::put('/klaim/{id}',           [\App\Http\Controllers\KlaimController::class, 'update'])->name('klaim.update');
+Route::delete('/klaim/{id}',        [\App\Http\Controllers\KlaimController::class, 'destroy'])->name('klaim.destroy');
+Route::get('/klaim/export-pdf',     [\App\Http\Controllers\KlaimController::class, 'exportPdf'])->name('klaim.export-pdf');
+Route::get('/klaim/export-excel',   [\App\Http\Controllers\KlaimController::class, 'exportExcel'])->name('klaim.export-excel');
+Route::get('/klaim/pdf',            [\App\Http\Controllers\KlaimController::class, 'exportPdf'])->name('klaim.exportPdf');
+Route::get('/klaim/excel',          [\App\Http\Controllers\KlaimController::class, 'exportExcel'])->name('klaim.exportExcel');
+Route::get('/backoffice/klaim-rajal', [\App\Http\Controllers\KlaimController::class, 'index']);
+Route::get('/backoffice/pendapatan',                 [\App\Http\Controllers\BackOfficeController::class, 'pendapatanPasien']);
+Route::get('/backoffice/laporan-kasir',              [\App\Http\Controllers\LaporanTransaksiKasirController::class, 'index']);
+Route::get('/backoffice/transaksi-kasir',            [\App\Http\Controllers\BackOfficeController::class, 'transaksiKasir']);
 
 // === Transaksi Penjualan Apotek (KONHAKES 1:1) ===
 Route::get('/transaksipenjualan/index',         [\App\Http\Controllers\PenjualanApotekController::class, 'index'])->name('transaksipenjualan.index');

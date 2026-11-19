@@ -9,8 +9,8 @@
     <div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 small text-muted" style="background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">General Consent</li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">General Consent</a></li>
             </ol>
         </nav>
     </div>

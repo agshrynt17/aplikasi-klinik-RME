@@ -154,7 +154,7 @@
     <div class="page-header-box">
         <h1 class="page-title-text">Setting Bridging Antrol BPJS</h1>
         <div class="breadcrumb-custom">
-            <a href="/admin">Beranda</a> &gt; <span>Setting Bridging Antrol BPJS</span>
+            <a href="/dashboard">Beranda</a> &gt; <span>Setting Bridging Antrol BPJS</span>
         </div>
     </div>
 

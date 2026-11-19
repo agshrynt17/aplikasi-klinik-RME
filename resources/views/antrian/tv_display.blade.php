@@ -365,24 +365,52 @@
             });
         }
 
+        // Web Audio Chime Bell (Dua Nada Ding-Dong)
+        function playChimeBell() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(587.33, ctx.currentTime);
+                gain1.gain.setValueAtTime(0.25, ctx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start();
+                osc1.stop(ctx.currentTime + 0.35);
+
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(440, ctx.currentTime + 0.25);
+                gain2.gain.setValueAtTime(0.25, ctx.currentTime + 0.25);
+                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.7);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(ctx.currentTime + 0.25);
+                osc2.stop(ctx.currentTime + 0.7);
+            } catch (err) {}
+        }
+
         // Web Speech API untuk panggilan (Text-to-Speech)
         function playSound(nomor, loket) {
-            // Hilangkan dash pada nomor agar dibaca per huruf/angka dengan jelas
-            // Misal: A-001 -> A, 0, 0, 1
-            let nomorClear = nomor.replace('-', ' ');
-            // Pisahkan tiap karakter dengan spasi agar dieja
-            let ejaanNomor = nomorClear.split('').join(' ');
-
+            playChimeBell();
+            let nomorClear = nomor.replace(/[-_]/g, ' ').trim();
+            let ejaanNomor = nomorClear.split('').map(function(ch) { return (ch === '0' ? 'nol' : ch); }).join(' ');
             let text = "Nomor antrian, " + ejaanNomor + ". Silakan menuju ke, " + loket + ".";
             
-            // Konfigurasi Suara (TTS)
-            let speech = new SpeechSynthesisUtterance();
-            speech.text = text;
-            speech.lang = 'id-ID'; // Bahasa Indonesia
-            speech.rate = 0.8; // Kecepatan bicara (sedikit dilambatkan)
-            speech.pitch = 1;
-
-            window.speechSynthesis.speak(speech);
+            setTimeout(() => {
+                window.speechSynthesis.cancel();
+                let speech = new SpeechSynthesisUtterance(text);
+                speech.lang = 'id-ID';
+                speech.rate = 0.85;
+                speech.pitch = 1.0;
+                window.speechSynthesis.speak(speech);
+            }, 500);
         }
 
         // Jalankan polling setiap 3 detik

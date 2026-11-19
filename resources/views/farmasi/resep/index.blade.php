@@ -226,7 +226,7 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Transaksi Resep</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; <span>Transaksi Resep</span>
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; <a href="{{ url()->current() }}">Transaksi Resep</a>
         </div>
     </div>
 

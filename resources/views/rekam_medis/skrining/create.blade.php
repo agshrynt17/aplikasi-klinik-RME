@@ -13,7 +13,7 @@
             Form Pendaftaran Skrining
         </h4>
         <div style="font-size: 11.5px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <a href="/skrining/index" style="color: #777; text-decoration: none;">Pendaftaran Skrining</a>
             <span class="mx-1" style="color: #999;">&gt;</span>

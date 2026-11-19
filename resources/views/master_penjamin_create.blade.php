@@ -16,7 +16,7 @@
             <ol class="breadcrumb mb-0 small text-muted" style="font-size: 12px;">
                 <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="/master-penjamin" class="text-decoration-none text-muted">Penjamin</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">{{ $pageTitle }}</li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">{{ $pageTitle }}</a></li>
             </ol>
         </nav>
     </div>

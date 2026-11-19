@@ -7,8 +7,8 @@
         <h3 class="fw-normal mb-0" style="color: #333; font-size: 24px;">Setting Umum Lainnya</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0" style="font-size: 12px; background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Setting Umum Lainnya</li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Setting Umum Lainnya</a></li>
             </ol>
         </nav>
     </div>

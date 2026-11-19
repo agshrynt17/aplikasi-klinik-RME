@@ -59,7 +59,7 @@ class UserController extends Controller
                     'name'          => 'NUR AENI OKTAVIA A md kep',
                     'pegawai_name'  => 'NUR AENI OKTAVIA A md kep',
                     'nik'           => '332902611080002',
-                    'email'         => 'kliniksyafiracikampek@gmail.com',
+                    'email'         => 'nuraeni@kliniktelagasari.com',
                     'is_active'     => true,
                     'created_at'    => '2023-06-28 09:20:00',
                     'last_login_at' => '2026-10-14 04:20:42',
@@ -227,6 +227,13 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        if (!$request->filled('name') && $request->filled('pegawai_id')) {
+            $peg = Pegawai::find($request->pegawai_id);
+            if ($peg) {
+                $request->merge(['name' => $peg->nama_pegawai]);
+            }
+        }
+
         $request->validate([
             'username'   => 'required|max:100|unique:users,username',
             'name'       => 'required|max:255',
@@ -261,6 +268,49 @@ class UserController extends Controller
         }
 
         return redirect('/user/admin/index')->with('success', 'User berhasil ditambahkan.');
+    }
+
+    public function profile()
+    {
+        $user = auth()->user() ?? User::with('pegawai', 'role')->first();
+        if (!$user) {
+            return redirect('/login');
+        }
+        $user->load('pegawai', 'role');
+        return view('user.profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user() ?? User::first();
+        if (!$user) {
+            return redirect('/login');
+        }
+
+        $request->validate([
+            'name'     => 'required|max:255',
+            'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:4|confirmed',
+        ], [
+            'name.required'      => 'Nama lengkap wajib diisi.',
+            'email.required'     => 'Alamat email wajib diisi.',
+            'email.unique'       => 'Email ini sudah digunakan oleh akun lain.',
+            'password.min'       => 'Password minimal harus 4 karakter.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ]);
+
+        $dataToUpdate = [
+            'name'  => $request->name,
+            'email' => $request->email,
+        ];
+
+        if ($request->filled('password')) {
+            $dataToUpdate['password'] = Hash::make($request->password);
+        }
+
+        $user->update($dataToUpdate);
+
+        return redirect()->back()->with('success', 'Profil dan data akun Anda berhasil diperbarui.');
     }
 
     public function show($id)
@@ -321,6 +371,25 @@ class UserController extends Controller
         }
 
         return redirect('/user/admin/index')->with('success', 'User berhasil diperbarui.');
+    }
+
+    public function toggleStatus($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        $statusStr = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_active' => $user->is_active,
+                'message' => "Status akun '{$user->username}' berhasil {$statusStr}."
+            ]);
+        }
+
+        return redirect()->back()->with('success', "Status akun '{$user->username}' berhasil {$statusStr}.");
     }
 
     public function destroy($id)

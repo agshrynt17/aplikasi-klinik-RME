@@ -224,7 +224,7 @@
     <div class="page-header-box">
         <h1 class="page-title-text">Log Pengambilan Antrian Dari Mobile JKN</h1>
         <div class="breadcrumb-custom">
-            <a href="/admin">Beranda</a> &gt; <span>Log Pengambilan Antrian Dari Mobile JKN</span>
+            <a href="/dashboard">Beranda</a> &gt; <span>Log Pengambilan Antrian Dari Mobile JKN</span>
         </div>
     </div>
 

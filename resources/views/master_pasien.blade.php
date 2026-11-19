@@ -69,8 +69,8 @@
     <h3 class="fw-bold mb-0 text-dark" style="font-size: 1.5rem;">Data Pasien</h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0 small text-muted">
-            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data Pasien</li>
+            <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Data Pasien</a></li>
         </ol>
     </nav>
 </div>

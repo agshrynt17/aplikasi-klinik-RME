@@ -293,12 +293,37 @@ class PendaftaranController extends Controller
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
         $noReg = $pendaftaran->nomor_registrasi;
-        $pendaftaran->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Pendaftaran ' . $noReg . ' berhasil dibatalkan / dihapus.',
-        ]);
+        // Cek apakah sudah lunas di kasir
+        $isLunas = \App\Models\TransaksiKasir::where('pendaftaran_id', $id)
+            ->where('status_pembayaran', 'Lunas')
+            ->exists();
+
+        if ($isLunas) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pendaftaran ' . $noReg . ' tidak dapat dibatalkan karena tagihan kasir sudah LUNAS. Batalkan transaksi pembayaran di Kasir terlebih dahulu jika ingin membatalkan.'
+            ], 422);
+        }
+
+        \Illuminate\Support\Facades\DB::beginTransaction();
+        try {
+            // Hapus transaksi kasir yang belum lunas (draft) jika ada
+            \App\Models\TransaksiKasir::where('pendaftaran_id', $id)->delete();
+            $pendaftaran->delete();
+            \Illuminate\Support\Facades\DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pendaftaran ' . $noReg . ' berhasil dibatalkan / dihapus.',
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal membatalkan pendaftaran: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**

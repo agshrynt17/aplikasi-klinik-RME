@@ -6,8 +6,8 @@
     <h3 class="fw-normal mb-0 text-dark" style="font-size: 24px; color: #333;">List Antrian Pelayanan</h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0 small" style="font-size: 12px;">
-            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
-            <li class="breadcrumb-item active text-muted" aria-current="page">List Antrian Pelayanan</li>
+            <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">List Antrian Pelayanan</a></li>
         </ol>
     </nav>
 </div>
@@ -211,6 +211,14 @@
 
                     <!-- Aksi -->
                     <td style="text-align: center; white-space: nowrap;">
+                        <button type="button" class="btn btn-xs text-white btnPanggilAntrian mb-1 w-100" 
+                                data-id="{{ $item->id }}" 
+                                data-nomor="{{ $item->kode_nomor }}" 
+                                data-loket="{{ $item->masterAntrian->poliklinik->nama_poli ?? ($item->masterAntrian->nama_antrian ?? 'POLI DOKTER') }}"
+                                style="background-color: #00a65a; border-color: #008d4c; font-size: 11px; padding: 3px 6px; border-radius: 2px;"
+                                title="Panggil Antrian">
+                            <i class="fas fa-volume-up me-1"></i> {{ $item->status_poli == 'Dipanggil' ? 'Panggil Ulang' : 'Panggil' }}
+                        </button>
                         <button type="button" class="btn btn-xs text-white btnCetakUlang mb-1 w-100" data-id="{{ $item->id }}" style="background-color: #00c0ef; border-color: #00acd6; font-size: 11px; padding: 2px 6px; border-radius: 2px;">
                             <i class="fas fa-print me-1"></i> Cetak Ulang
                         </button>
@@ -451,6 +459,76 @@
                 error: function(xhr) {
                     alert('Gagal menyimpan booking antrian. Pastikan tanggal dan antrian terisi.');
                 }
+            });
+        });
+
+        // Fungsi Bunyi Chime Bell Dua Nada (Ding-Dong)
+        function playChimeBell() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                gain1.gain.setValueAtTime(0.25, ctx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start();
+                osc1.stop(ctx.currentTime + 0.35);
+
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(440, ctx.currentTime + 0.25); // A4
+                gain2.gain.setValueAtTime(0.25, ctx.currentTime + 0.25);
+                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.7);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(ctx.currentTime + 0.25);
+                osc2.stop(ctx.currentTime + 0.7);
+            } catch (err) {}
+        }
+
+        // Panggil Antrian (Voice Announcement TTS + Chime Bell)
+        $(document).off('click', '.btnPanggilAntrian').on('click', '.btnPanggilAntrian', function(e) {
+            e.preventDefault();
+            let btn = $(this);
+            let id = btn.data('id');
+            let nomor = String(btn.data('nomor'));
+            let loket = btn.data('loket') || 'Poli Dokter';
+
+            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Memanggil...');
+
+            $.post('/antrian/' + id + '/update-status', {
+                _token: '{{ csrf_token() }}',
+                action: 'panggil'
+            }, function(res) {
+                btn.prop('disabled', false).html('<i class="fas fa-volume-up me-1"></i> Panggil Ulang');
+                showAlert('success', 'Antrian ' + nomor + ' dipanggil.');
+
+                // Bunyikan Bell Ding Dong & Suara TTS
+                playChimeBell();
+                if ('speechSynthesis' in window) {
+                    let formatted = nomor.replace(/[-_]/g, ' ').trim();
+                    let spelled = formatted.split('').map(function(ch) { return (ch === '0' ? 'nol' : ch); }).join(' ');
+                    let text = "Nomor antrian, " + spelled + ", silakan menuju ke, " + loket;
+
+                    setTimeout(() => {
+                        window.speechSynthesis.cancel();
+                        let utt = new SpeechSynthesisUtterance(text);
+                        utt.lang = 'id-ID';
+                        utt.rate = 0.85;
+                        utt.pitch = 1.0;
+                        window.speechSynthesis.speak(utt);
+                    }, 500);
+                }
+            }).fail(function() {
+                btn.prop('disabled', false).html('<i class="fas fa-volume-up me-1"></i> Panggil');
+                alert('Gagal memanggil antrian.');
             });
         });
 

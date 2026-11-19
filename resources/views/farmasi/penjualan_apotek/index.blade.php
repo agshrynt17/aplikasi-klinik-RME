@@ -165,7 +165,7 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Transaksi Penjualan Apotek</h1>
         <div class="konhakes-breadcrumb">
-            <a href="/dashboard"><i class="fa fa-dashboard"></i> Beranda</a> &gt; <span>Transaksi Penjualan Apotek</span>
+            <a href="/dashboard"><i class="fa fa-dashboard"></i> Beranda</a> &gt; <a href="{{ url()->current() }}">Transaksi Penjualan Apotek</a>
         </div>
     </div>
     <div class="orange-divider"></div>

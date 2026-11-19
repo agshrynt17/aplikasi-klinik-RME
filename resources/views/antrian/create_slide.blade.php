@@ -103,7 +103,7 @@
     <div class="page-header-box">
         <h1 class="page-title-text">{{ $pageTitle }}</h1>
         <div class="breadcrumb-custom">
-            <a href="/admin">Beranda</a> &gt; <a href="/slide-antrian">Slide Antrians</a> &gt; <span>{{ $pageTitle }}</span>
+            <a href="/dashboard">Beranda</a> &gt; <a href="/slide-antrian">Slide Antrians</a> &gt; <span>{{ $pageTitle }}</span>
         </div>
     </div>
 

@@ -146,7 +146,7 @@
     <div class="d-flex justify-content-between align-items-center konhakes-title-box">
         <h3>Data Stok Barang Per-Gudang</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span class="mx-1">&gt;</span> <span>Data Stok Barang Per-Gudang</span>
+            <a href="/dashboard">Beranda</a> <span class="mx-1">&gt;</span> <a href="{{ url()->current() }}">Data Stok Barang Per-Gudang</a>
         </div>
     </div>
     <div class="konhakes-orange-line"></div>

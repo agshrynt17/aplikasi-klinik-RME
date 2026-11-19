@@ -7,9 +7,9 @@
         <h3 class="fw-normal mb-0" style="color: #333; font-size: 24px;">Create User</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0" style="font-size: 12px; background: transparent; padding: 0;">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="/user/admin/index" class="text-decoration-none text-muted">Users</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Create User</li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Create User</a></li>
             </ol>
         </nav>
     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="name" class="form-label text-dark fw-bold" style="font-size: 13px;">Full Name</label>
-                        <input type="text" name="name" id="name" class="form-control form-control-sm" style="background-color: #eee; font-size: 13px;" value="{{ old('name') }}" readonly>
+                        <input type="text" name="name" id="name" class="form-control form-control-sm" style="font-size: 13px;" value="{{ old('name') }}" placeholder="Nama Lengkap Karyawan" required>
                     </div>
                     <div class="col-md-4">
                         <label for="email" class="form-label text-dark fw-bold" style="font-size: 13px;">Email</label>
@@ -76,8 +76,8 @@
                     <div class="col-md-6">
                         <label for="is_active" class="form-label text-dark fw-bold" style="font-size: 13px;">Status</label>
                         <select name="is_active" id="is_active" class="form-select form-select-sm" style="font-size: 13px;">
-                            <option value="0" {{ old('is_active', '0') == '0' ? 'selected' : '' }}>Inactive</option>
-                            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>Active</option>
+                            <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Active</option>
+                            <option value="0" {{ old('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -109,38 +109,62 @@
 
 <script>
 $(document).ready(function () {
-    // When employee is selected, automatically populate Full Name, Email, and suggest Username
+    function applySelectedPegawai() {
+        let selected = $('#pegawai_id').find(':selected');
+        let name = selected.data('name') || '';
+        let email = selected.data('email') || '';
+        
+        if (name && !$('#name').val()) {
+            $('#name').val(name);
+        }
+
+        if (name) {
+            let cleanUsername = name.replace(/^(dr\.|drg\.|Apt\.|Ners\.|Prof\.)\s*/i, '')
+                                    .replace(/[,.].*$/, '')
+                                    .trim()
+                                    .toLowerCase()
+                                    .replace(/\s+/g, '');
+            if (!$('#username').val() || $('#username').val() === 'admin') {
+                $('#username').val(cleanUsername);
+            }
+
+            if (email) {
+                $('#email').val(email);
+            } else if (!$('#email').val()) {
+                $('#email').val(cleanUsername + '@gmail.com');
+            }
+        }
+    }
+
+    // When employee selection changes
     $('#pegawai_id').on('change', function () {
         let selected = $(this).find(':selected');
         let name = selected.data('name') || '';
         let email = selected.data('email') || '';
         
-        $('#name').val(name);
-
         if (name) {
-            // Suggest username if empty
-            if (!$('#username').val()) {
-                let cleanUsername = name.replace(/^(dr\.|drg\.|Apt\.|Ners\.|Prof\.)\s*/i, '')
-                                        .replace(/[,.].*$/, '')
-                                        .trim()
-                                        .toLowerCase()
-                                        .replace(/\s+/g, '');
+            $('#name').val(name);
+            let cleanUsername = name.replace(/^(dr\.|drg\.|Apt\.|Ners\.|Prof\.)\s*/i, '')
+                                    .replace(/[,.].*$/, '')
+                                    .trim()
+                                    .toLowerCase()
+                                    .replace(/\s+/g, '');
+            if (!$('#username').val() || $('#username').val() === 'admin') {
                 $('#username').val(cleanUsername);
             }
 
-            // Fill email if available or generate default suggestion
             if (email) {
                 $('#email').val(email);
             } else if (!$('#email').val()) {
-                let cleanEmailName = name.replace(/^(dr\.|drg\.|Apt\.|Ners\.|Prof\.)\s*/i, '')
-                                         .replace(/[,.].*$/, '')
-                                         .trim()
-                                         .toLowerCase()
-                                         .replace(/\s+/g, '');
-                $('#email').val(cleanEmailName + '@gmail.com');
+                $('#email').val(cleanUsername + '@gmail.com');
             }
         }
     });
+
+    // Auto trigger on page load if an employee is already selected (e.g. after validation error redirect)
+    if ($('#pegawai_id').val()) {
+        applySelectedPegawai();
+    }
 });
 </script>
 @endsection

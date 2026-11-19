@@ -10,7 +10,7 @@
             Data Barang
         </h4>
         <div style="font-size: 11.5px; color: #777;">
-            <a href="/" style="color: #777; text-decoration: none;">Beranda</a>
+            <a href="/dashboard" style="color: #777; text-decoration: none;">Beranda</a>
             <span class="mx-1" style="color: #999;">&gt;</span>
             <span style="color: #999;">Data Barang</span>
         </div>
@@ -127,6 +127,7 @@
                         <th style="color: #337ab7; font-weight: 600; padding: 7px 6px; width: 100px;">Jenis Produk (KFA)</th>
                         <th style="color: #337ab7; font-weight: 600; padding: 7px 6px; width: 80px;">Kode KFA</th>
                         <th class="text-end" style="color: #337ab7; font-weight: 600; padding: 7px 8px; width: 70px;">HNA</th>
+                        <th class="text-center" style="color: #337ab7; font-weight: 600; padding: 7px 6px; width: 90px;">Sisa Stok</th>
                         <th class="text-center" style="color: #337ab7; font-weight: 600; padding: 7px 6px; width: 85px;">Minimum Stok</th>
                         <th style="color: #337ab7; font-weight: 600; padding: 7px 8px; width: 120px;">Keterangan</th>
                         <th class="text-center" style="color: #337ab7; font-weight: 600; padding: 7px 6px; width: 65px;">Aksi</th>
@@ -162,6 +163,25 @@
                         <td style="padding: 7px 6px; color: #555;">{{ $item->kode_kfa ?: '-' }}</td>
                         <td class="text-end" style="padding: 7px 8px; color: #333; font-weight: 500;">
                             {{ number_format($item->hna, 0, ',', '') }}
+                        </td>
+                        <td class="text-center" style="padding: 7px 6px;">
+                            @php
+                                $sisaStok = $item->stok ?? 0;
+                                $minStok = $item->minimum_stok ?? 0;
+                            @endphp
+                            @if($sisaStok <= $minStok)
+                                <span class="badge bg-danger shadow-sm" style="font-size: 11px; padding: 4px 7px;" title="Peringatan: Stok menipis / mencapai batas minimum ({{ $minStok }})">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>{{ $sisaStok }}
+                                </span>
+                            @elseif($sisaStok <= ($minStok * 1.5))
+                                <span class="badge bg-warning text-dark shadow-sm" style="font-size: 11px; padding: 4px 7px;" title="Peringatan: Stok mendekati batas minimum ({{ $minStok }})">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ $sisaStok }}
+                                </span>
+                            @else
+                                <span class="badge bg-success shadow-sm" style="font-size: 11px; padding: 4px 7px;" title="Stok aman">
+                                    <i class="fas fa-check-circle me-1"></i>{{ $sisaStok }}
+                                </span>
+                            @endif
                         </td>
                         <td class="text-center" style="padding: 7px 6px;">
                             <span class="btn-min-stok text-info" style="cursor: pointer;" 
@@ -258,54 +278,47 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     // Toggle Search Card
-    const btnToggleSearch = document.getElementById('btnToggleSearch');
-    const searchCard = document.getElementById('searchCard');
-    if (btnToggleSearch && searchCard) {
-        btnToggleSearch.addEventListener('click', function() {
-            searchCard.classList.toggle('d-none');
-        });
-    }
+    $(document).off('click', '#btnToggleSearch').on('click', '#btnToggleSearch', function() {
+        $('#searchCard').toggleClass('d-none');
+    });
 
     // Modal Edit Min Stok
-    const modalMinStokEl = document.getElementById('modalMinStok');
-    if (modalMinStokEl) {
-        const modalMinStok = new bootstrap.Modal(modalMinStokEl);
-        document.querySelectorAll('.btn-min-stok').forEach(function(el) {
-            el.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const val = this.getAttribute('data-val');
-                document.getElementById('minStokId').value = id;
-                document.getElementById('minStokVal').value = val;
-                modalMinStok.show();
-            });
-        });
+    $(document).off('click', '.btn-min-stok').on('click', '.btn-min-stok', function() {
+        const id = $(this).attr('data-id');
+        const val = $(this).attr('data-val');
+        $('#minStokId').val(id);
+        $('#minStokVal').val(val);
+        const modalMinStokEl = document.getElementById('modalMinStok');
+        if (modalMinStokEl) {
+            bootstrap.Modal.getOrCreateInstance(modalMinStokEl).show();
+        }
+    });
 
-        document.getElementById('formMinStok').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = document.getElementById('minStokId').value;
-            const val = document.getElementById('minStokVal').value;
+    $(document).off('submit', '#formMinStok').on('submit', '#formMinStok', function(e) {
+        e.preventDefault();
+        const id = $('#minStokId').val();
+        const val = $('#minStokVal').val();
 
-            fetch('/barang/' + id + '/min-stok', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ minimum_stok: val })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert(data.message || 'Gagal mengubah minimum stok.');
-                }
-            })
-            .catch(() => alert('Terjadi kesalahan jaringan.'));
-        });
-    }
+        fetch('/barang/' + id + '/min-stok', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ minimum_stok: val })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Gagal mengubah minimum stok.');
+            }
+        })
+        .catch(() => alert('Terjadi kesalahan jaringan.'));
+    });
 });
 </script>
 @endsection

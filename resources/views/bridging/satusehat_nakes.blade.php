@@ -167,7 +167,7 @@
     <div class="konhakes-header">
         <h3 class="konhakes-title">Setting ID Satu Sehat Tenaga Kesehatan</h3>
         <div class="konhakes-breadcrumb">
-            <a href="/">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span> <span style="color: #777;">Setting ID Satu Sehat Tenaga Kesehatan</span>
+            <a href="/dashboard">Beranda</a> <span style="color: #ccc; margin: 0 2px;">&gt;</span> <a href="{{ url()->current() }}" style="color: #777;">Setting ID Satu Sehat Tenaga Kesehatan</a>
         </div>
     </div>
 

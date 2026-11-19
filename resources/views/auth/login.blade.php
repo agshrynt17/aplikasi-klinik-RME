@@ -265,6 +265,34 @@
             pointer-events: none;
         }
 
+        /* Password Toggle Button (Icon Mata) */
+        .password-toggle-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 42px;
+            color: #777777;
+            font-size: 16px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: color 0.2s ease, transform 0.1s ease;
+        }
+
+        .password-toggle-btn:hover {
+            color: #0073b7;
+        }
+
+        .password-toggle-btn:active {
+            transform: scale(0.92);
+        }
+
         /* Captcha Verification Code */
         .verify-label {
             font-size: 13.5px;
@@ -428,11 +456,11 @@
                 </div>
 
                 <!-- Password -->
-                <div class="form-group">
-                    <input type="password" id="loginform-password" class="form-control" name="LoginForm[password]" autocomplete="off" placeholder="Password" value="" required>
-                    <span class="form-control-feedback">
-                        <i class="fas fa-lock"></i>
-                    </span>
+                <div class="form-group" style="position: relative;">
+                    <input type="password" id="loginform-password" class="form-control" name="LoginForm[password]" autocomplete="current-password" placeholder="Password" value="" required style="padding-right: 42px;">
+                    <button type="button" id="togglePasswordBtn" class="password-toggle-btn" title="Lihat Password" tabindex="-1">
+                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                    </button>
                 </div>
 
                 <!-- Kode Verifikasi (Captcha) -->
@@ -540,6 +568,28 @@
                     if (verifyInput) {
                         verifyInput.value = '';
                         verifyInput.focus();
+                    }
+                });
+            }
+
+            // Toggle Password Visibility (Icon Mata)
+            const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+            const passwordInput = document.getElementById('loginform-password');
+            const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+            if (togglePasswordBtn && passwordInput && togglePasswordIcon) {
+                togglePasswordBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        togglePasswordIcon.classList.remove('fa-eye');
+                        togglePasswordIcon.classList.add('fa-eye-slash');
+                        togglePasswordBtn.setAttribute('title', 'Sembunyikan Password');
+                    } else {
+                        passwordInput.type = 'password';
+                        togglePasswordIcon.classList.remove('fa-eye-slash');
+                        togglePasswordIcon.classList.add('fa-eye');
+                        togglePasswordBtn.setAttribute('title', 'Lihat Password');
                     }
                 });
             }

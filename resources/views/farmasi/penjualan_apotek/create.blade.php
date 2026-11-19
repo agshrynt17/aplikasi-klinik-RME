@@ -243,7 +243,7 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Tambah Transaksi Penjualan</h1>
         <div class="konhakes-breadcrumb">
-            <a href="/dashboard">Beranda</a> &gt; <a href="{{ route('transaksipenjualan.index') }}">Transaksipenjualans</a> &gt; <span>Tambah Transaksi Penjualan</span>
+            <a href="/dashboard">Beranda</a> &gt; <a href="{{ route('transaksipenjualan.index') }}">Transaksipenjualans</a> &gt; <a href="{{ url()->current() }}">Tambah Transaksi Penjualan</a>
         </div>
     </div>
 

@@ -141,9 +141,9 @@
     <div class="konhakes-header">
         <h1 class="konhakes-title">Create Mutasi Barang</h1>
         <div class="konhakes-breadcrumb">
-            <a href="{{ url('/') }}">Beranda</a> &gt; 
+            <a href="{{ url('/dashboard') }}">Beranda</a> &gt; 
             <a href="{{ $backUrl ?? url('/mutasibarang/index') }}">{{ $backTitle ?? 'Mutasibarangs' }}</a> &gt; 
-            <span>Create Mutasi Barang</span>
+            <a href="{{ url()->current() }}">Create Mutasi Barang</a>
         </div>
     </div>
 

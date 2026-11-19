@@ -33,9 +33,9 @@
         <h3 class="fw-bold mb-0 text-dark" style="font-size: 1.5rem;">Formulir Survei Kepuasan Pasien</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 small text-muted">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-muted">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="/survei-kepuasan" class="text-decoration-none text-muted">Survei Kepuasan</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Formulir</li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="{{ url()->current() }}" class="text-decoration-none">Formulir</a></li>
             </ol>
         </nav>
     </div>

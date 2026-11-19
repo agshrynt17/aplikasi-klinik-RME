@@ -11,6 +11,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Highcharts -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <style>
@@ -43,6 +47,37 @@
             background-color: #337ab7 !important;
             border-color: #2e6da4 !important;
             color: #fff !important;
+        }
+
+        /* Global Breadcrumb Styling */
+        .konhakes-breadcrumb, .breadcrumb {
+            font-size: 12px !important;
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+        }
+        .konhakes-breadcrumb a, .breadcrumb a, .breadcrumb-item a,
+        .konhakes-breadcrumb span.breadcrumb-link, .breadcrumb span.breadcrumb-link {
+            color: #337ab7 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+        }
+        .konhakes-breadcrumb a:hover, .breadcrumb a:hover, .breadcrumb-item a:hover,
+        .konhakes-breadcrumb span.breadcrumb-link:hover, .breadcrumb span.breadcrumb-link:hover {
+            color: #23527c !important;
+            text-decoration: underline !important;
+        }
+        .breadcrumb-item.active, .breadcrumb-item.active a {
+            color: #337ab7 !important;
+        }
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: #777 !important;
+            content: ">" !important;
+            padding: 0 5px !important;
+        }
+        .konhakes-breadcrumb .separator {
+            color: #777 !important;
+            margin: 0 5px !important;
         }
 
         /* Top Navbar */
@@ -317,8 +352,7 @@
                     <li><div class="dropdown-header text-dark fw-bold py-1">{{ $userName }}</div></li>
                     <li><div class="dropdown-item-text text-muted small pb-2"><i class="fas fa-shield-alt text-primary me-1"></i> Role: {{ $userRole }}</div></li>
                     <li><hr class="dropdown-divider my-1"></li>
-                    <li><a class="dropdown-item" href="/user/admin"><i class="fas fa-user fa-sm fa-fw me-2 text-muted"></i> Profil Saya</a></li>
-                    <li><a class="dropdown-item" href="/setting-user"><i class="fas fa-cogs fa-sm fa-fw me-2 text-muted"></i> Ganti Password</a></li>
+                    <li><a class="dropdown-item" href="/user/profile"><i class="fas fa-user fa-sm fa-fw me-2 text-muted"></i> Profil Saya</a></li>
                     <li><hr class="dropdown-divider my-1"></li>
                     <li><a class="dropdown-item text-danger fw-bold" href="/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i> Keluar (Logout)</a></li>
                 </ul>
@@ -444,6 +478,19 @@
                 </ul>
             </li>
             @endif
+            @php
+                $isRanapActive = request()->is('rawat-inap*');
+            @endphp
+            <li class="{{ $isRanapActive ? 'open' : '' }}" id="menuRawatInap">
+                <a href="#" class="toggle-submenu {{ $isRanapActive ? 'active' : '' }}">
+                    <span><i class="fas fa-bed menu-icon"></i> Rawat Inap &amp; Bed</span>
+                    <i class="fas {{ $isRanapActive ? 'fa-angle-down' : 'fa-angle-left' }}"></i>
+                </a>
+                <ul class="nav-submenu" style="{{ $isRanapActive ? 'display: block;' : '' }}">
+                    <li><a href="/rawat-inap/bed" class="{{ request()->is('rawat-inap/bed*') || request()->is('rawat-inap') ? 'active' : '' }}"><i class="fas fa-th menu-icon"></i> Bed Management (BOR)</a></li>
+                    <li><a href="/rawat-inap/pasien" class="{{ request()->is('rawat-inap/pasien*') ? 'active' : '' }}"><i class="fas fa-user-injured menu-icon"></i> Daftar Pasien Ranap</a></li>
+                </ul>
+            </li>
             @php
                 $isAntrianActive = request()->is('master-antrian*') || 
                                    request()->is('jadwal-antrian*') || 
@@ -923,17 +970,17 @@
                                     <li><a href="/pcare-status-pulang/index" class="{{ request()->is('pcare/setting/status-pulang*') || request()->is('pcare-status-pulang*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Status Pulang</a></li>
                                     <li><a href="/pcare-spesialis/index" class="{{ request()->is('pcare/setting/spesialis*') || request()->is('pcare-spesialis*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Spesialis</a></li>
                                     <li><a href="/pcare-sarana/index" class="{{ request()->is('pcare/setting/sarana*') || request()->is('pcare-sarana*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Sarana</a></li>
-                                    <li><a href="/pcare/setting/khusus" class="{{ request()->is('pcare/setting/khusus*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Khusus</a></li>
-                                    <li><a href="/pcare/setting/tindakan" class="{{ request()->is('pcare/setting/tindakan*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Setting Tindakan</a></li>
-                                    <li><a href="/pcare/setting/alergi" class="{{ request()->is('pcare/setting/alergi*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Alergi</a></li>
-                                    <li><a href="/pcare/setting/prognosa" class="{{ request()->is('pcare/setting/prognosa*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Prognosa</a></li>
+                                    <li><a href="/pcare-khusus/index" class="{{ request()->is('pcare/setting/khusus*') || request()->is('pcare-khusus*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Data Khusus</a></li>
+                                    <li><a href="/pcare-tindakan/index" class="{{ request()->is('pcare/setting/tindakan*') || request()->is('pcare-tindakan*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Setting Master Tindakan</a></li>
+                                    <li><a href="/pcare-alergi/index" class="{{ request()->is('pcare/setting/alergi*') || request()->is('pcare-alergi*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Data Alergi</a></li>
+                                    <li><a href="/pcare-prognosa/index" class="{{ request()->is('pcare/setting/prognosa*') || request()->is('pcare-prognosa*') ? 'active' : '' }}"><i class="fas fa-angle-double-right menu-icon"></i> Setting Data Prognosa</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/pcare/pencarian-diagnosa" class="{{ request()->is('pcare/pencarian-diagnosa*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Pencarian Diagnosa</a></li>
-                            <li><a href="/pcare/list-pasien-bpjs" class="{{ request()->is('pcare/list-pasien-bpjs*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> List Pasien BPJS</a></li>
-                            <li><a href="/pcare/cek-pendaftaran" class="{{ request()->is('pcare/cek-pendaftaran*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Cek Pendaftaran Pcare</a></li>
-                            <li><a href="/pcare/cek-kunjungan" class="{{ request()->is('pcare/cek-kunjungan*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Cek Kunjungan</a></li>
-                            <li><a href="/pcare/histori-pendaftaran" class="{{ request()->is('pcare/histori-pendaftaran*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Histori Pendaftaran</a></li>
+                            <li><a href="/pcare-diagnosa/index" class="{{ request()->is('pcare/pencarian-diagnosa*') || request()->is('pcare-diagnosa*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Pencarian Diagnosa</a></li>
+                            <li><a href="/pcare-pasien/index" class="{{ request()->is('pcare/list-pasien-bpjs*') || request()->is('pcare-pasien*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> List Pasien BPJS</a></li>
+                            <li><a href="/pcare-pendaftaran/index" class="{{ request()->is('pcare/cek-pendaftaran*') || request()->is('pcare-pendaftaran*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Cek Pendaftaran Pcare</a></li>
+                            <li><a href="/pcare-kunjungan/index" class="{{ request()->is('pcare/cek-kunjungan*') || request()->is('pcare-kunjungan*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Cek Kunjungan</a></li>
+                            <li><a href="/pcare-pendaftaran/index-log" class="{{ request()->is('pcare/histori-pendaftaran*') || request()->is('pcare-pendaftaran/index-log*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Histori Pendaftaran</a></li>
                         </ul>
                     </li>
                     {{-- i-Care --}}
@@ -943,9 +990,9 @@
                             <i class="fas {{ request()->is('icare*') ? 'fa-angle-down' : 'fa-angle-left' }} float-end mt-1"></i>
                         </a>
                         <ul class="nav-submenu" style="padding-left: 15px; {{ request()->is('icare*') ? 'display: block;' : '' }}">
-                            <li><a href="/icare/akun" class="{{ request()->is('icare/akun*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Akun Bridging i-Care</a></li>
-                            <li><a href="/icare/cek-riwayat-kunjungan" class="{{ request()->is('icare/cek-riwayat*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Cek Riwayat Kunjungan</a></li>
-                            <li><a href="/icare/update-password" class="{{ request()->is('icare/update-password*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Update Password i-Care</a></li>
+                            <li><a href="/icare-user/index" class="{{ request()->is('icare/akun*') || request()->is('icare-user*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Akun Bridging i-Care</a></li>
+                            <li><a href="/icare-kunjungan/index" class="{{ request()->is('icare/cek-riwayat*') || request()->is('icare-kunjungan*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Cek Riwayat Kunjungan</a></li>
+                            <li><a href="/icare-user/view" class="{{ request()->is('icare/update-password*') || request()->is('icare-user/view*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Update Password i-Care</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -967,41 +1014,40 @@
                             <li><a href="/satu-sehat/index" class="{{ request()->is('*satu-sehat*') || request()->is('*satusehat') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Key & URL Access</a></li>
                             <li><a href="/satu-sehat/profil-klinik" class="{{ request()->is('*profil-klinik*') || request()->is('*satusehat/faskes*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Data Faskes</a></li>
                             <li><a href="/satusehat-nakes/index" class="{{ request()->is('*satusehat*nakes*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Setting Data Nakes</a></li>
-                            <li><a href="/bridging/satusehat/unit" class="{{ request()->is('*satusehat/unit*') ? 'active' : '' }}"><i class="far fa-circle menu-icon"></i> Setting Unit Layanan</a></li>
-                            <li><a href="/bridging/satusehat/ruangan" class="{{ request()->is('*satusehat/ruangan*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Setting Ruang Rawat</a></li>
+                            <li><a href="/satusehat-unit/index" class="{{ request()->is('*satusehat-unit*') || request()->is('*satusehat/unit*') ? 'active' : '' }}"><i class="far fa-circle menu-icon"></i> Setting Unit Layanan</a></li>
+                            <li><a href="/satusehat-lokasi/index" class="{{ request()->is('*satusehat-lokasi*') || request()->is('*satusehat/ruangan*') ? 'active' : '' }}"><i class="far fa-circle menu-icon"></i> Setting Ruang Rawat</a></li>
                         </ul>
                     </li>
-                    <li><a href="/bridging/satusehat/pasien" class="{{ request()->is('*satusehat/pasien*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Data Pasien Satu Sehat</a></li>
-                    <li><a href="/bridging/satusehat/kunjungan" class="{{ request()->is('*satusehat/kunjungan*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Data Kunjungan</a></li>
+                    <li><a href="/satusehat-pasien/index" class="{{ request()->is('*satusehat-pasien*') || request()->is('*satusehat/pasien*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Data Pasien Satu Sehat</a></li>
+                    <li><a href="/satusehat-kunjungan/index" class="{{ request()->is('*satusehat-kunjungan*') || request()->is('*satusehat/kunjungan*') ? 'active' : '' }}" style="padding-left: 30px;"><i class="fas fa-list menu-icon"></i> Data Kunjungan</a></li>
                 </ul>
             </li>
             @endif
             @if(!$u || $u->hasPermission(['laporan_keuangan', 'profil_faskes', 'manajemen_user']))
-            <li>
+            <li class="{{ request()->is('*laporan-pmkp*') || request()->is('*laporan-farmasi*') ? 'open active' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-chart-line menu-icon"></i> Laporan PMKP</span>
-                    <i class="fas fa-angle-left"></i>
+                    <i class="fas {{ request()->is('*laporan-pmkp*') || request()->is('*laporan-farmasi*') ? 'fa-angle-down' : 'fa-angle-left' }}"></i>
                 </a>
-                <ul class="nav-submenu">
-                    <li><a href="/laporan-pmkp/survey-kepuasan"><i class="fas fa-list menu-icon"></i> Lap. Survey Kepuasan</a></li>
-                    <li><a href="/laporan-pmkp/waktu-tunggu-obat"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Obat</a></li>
-                    <li><a href="/laporan-pmkp/waktu-tunggu-pelayanan"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Pelayanan</a></li>
-                    <li><a href="/laporan-pmkp/waktu-tunggu-racik"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Obat Racik</a></li>
+                <ul class="nav-submenu" style="{{ request()->is('*laporan-pmkp*') || request()->is('*laporan-farmasi*') ? 'display: block;' : '' }}">
+                    <li><a href="/laporan-farmasi/laporan-waktu-tunggu-obat" class="{{ request()->is('*waktu-tunggu-obat*') && !request()->is('*racik*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Obat</a></li>
+                    <li><a href="/laporan-pmkp/laporan-waktu-tunggu-obat-racik" class="{{ request()->is('*waktu-tunggu*racik*') || request()->is('*obat-racik*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Obat Racik</a></li>
+                    <li><a href="/laporan-pmkp/laporan-waktu-tunggu-layanan" class="{{ request()->is('*waktu-tunggu-layanan*') || request()->is('*waktu-tunggu-pelayanan*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Lap. Waktu Tunggu Pelayanan</a></li>
+                    <li><a href="/laporan-pmkp/laporan-survey-kepuasan" class="{{ request()->is('*survey-kepuasan*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Lap. Survey Kepuasan</a></li>
                 </ul>
             </li>
             @endif
             @if(!$u || $u->hasPermission(['kasir', 'laporan_keuangan', 'manajemen_user']))
-            <li>
+            <li class="{{ request()->is('*transaksi-kasir*') || request()->is('*backoffice*') || request()->is('pembayaran*') || request()->is('*jasa-tindakan*') || request()->is('klaim*') ? 'open' : '' }}">
                 <a href="#" class="toggle-submenu">
                     <span><i class="fas fa-briefcase menu-icon"></i> Back Office</span>
                     <i class="fas fa-angle-left"></i>
                 </a>
                 <ul class="nav-submenu">
-                    <li><a href="/backoffice/jasa-medis"><i class="fas fa-list menu-icon"></i> Lap. Jasa Medis Tindakan</a></li>
-                    <li><a href="/backoffice/klaim-rajal"><i class="fas fa-list menu-icon"></i> Klaim Rawat Jalan</a></li>
-                    <li><a href="/backoffice/pendapatan"><i class="fas fa-list menu-icon"></i> Pendapatan Pasien</a></li>
-                    <li><a href="/backoffice/laporan-kasir"><i class="fas fa-list menu-icon"></i> Lap. Transaksi Kasir</a></li>
-                    <li><a href="/backoffice/transaksi-kasir"><i class="fas fa-list menu-icon"></i> Transaksi Kasir</a></li>
+                    <li><a href="/pembayaran/index" class="{{ request()->is('pembayaran*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Data Pembayaran Pasien</a></li>
+                    <li><a href="/laporan/laporan-transaksi-kasir" class="{{ request()->is('*transaksi-kasir*') || request()->is('*laporan-kasir*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Lap. Transaksi Kasir</a></li>
+                    <li><a href="/laporan/laporan-jasa-tindakan" class="{{ request()->is('*jasa-tindakan*') || request()->is('*jasa-medis*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Lap. Jasa Medis Tindakan</a></li>
+                    <li><a href="/klaim/index" class="{{ request()->is('klaim*') || request()->is('*klaim-rajal*') ? 'active' : '' }}"><i class="fas fa-list menu-icon"></i> Transaksi Klaim Pasien</a></li>
                     <li><a href="/farmasi/master-vendor"><i class="fas fa-list menu-icon"></i> Supplier & Distributor (PBF)</a></li>
                     <li><a href="/farmasi/order-pembelian"><i class="fas fa-list menu-icon"></i> Pengadaan & OP Obat</a></li>
                 </ul>
@@ -1046,9 +1092,7 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Scripts -->
     <script>
         $(document).ready(function() {
             function syncMenuState() {
@@ -1135,6 +1179,14 @@
                         activeLink = $('a[href="/satu-sehat/index"]');
                     } else if (currentPath.startsWith('/satusehat-nakes') || currentPath.startsWith('/bridging/satusehat/nakes')) {
                         activeLink = $('a[href="/satusehat-nakes/index"]');
+                    } else if (currentPath.startsWith('/laporan/laporan-transaksi-kasir') || currentPath.startsWith('/backoffice/laporan-kasir')) {
+                        activeLink = $('a[href="/laporan/laporan-transaksi-kasir"]');
+                    } else if (currentPath.startsWith('/pembayaran')) {
+                        activeLink = $('a[href="/pembayaran/index"]');
+                    } else if (currentPath.startsWith('/laporan/laporan-jasa-tindakan') || currentPath.startsWith('/backoffice/jasa-medis')) {
+                        activeLink = $('a[href="/laporan/laporan-jasa-tindakan"]');
+                    } else if (currentPath.startsWith('/klaim') || currentPath.startsWith('/backoffice/klaim-rajal')) {
+                        activeLink = $('a[href="/klaim/index"]');
                     }
                 }
 
@@ -1260,6 +1312,8 @@
                             $('#main-content-body').html(response);
                             window.history.pushState({"html":response,"pageTitle":""},"", href);
                             syncMenuState();
+                            document.dispatchEvent(new Event('DOMContentLoaded'));
+                            $(document).trigger('ready');
                         },
                         error: function(xhr) {
                             $('#main-content-body').html('<div class="alert alert-danger mt-3">Gagal memuat halaman. (' + xhr.status + ')</div>');
@@ -1273,6 +1327,8 @@
                 if(e.state){
                     $('#main-content-body').html(e.state.html);
                     syncMenuState();
+                    document.dispatchEvent(new Event('DOMContentLoaded'));
+                    $(document).trigger('ready');
                 } else {
                     window.location.reload();
                 }
