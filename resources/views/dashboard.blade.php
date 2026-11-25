@@ -597,6 +597,30 @@
         color: #888888;
     }
 
+    @media (max-width: 575.98px) {
+        .kpi-card {
+            padding: 8px 6px !important;
+        }
+        .kpi-icon-box {
+            width: 32px;
+            height: 32px;
+            font-size: 15px;
+            margin-bottom: 6px !important;
+        }
+        .kpi-val {
+            font-size: 1.25rem;
+        }
+        .kpi-title {
+            font-size: 10px;
+        }
+        .kpi-trend {
+            font-size: 9.5px;
+        }
+        .kpi-sub {
+            font-size: 9px;
+        }
+    }
+
     /* Action Tiles */
     .action-tile {
         position: relative;

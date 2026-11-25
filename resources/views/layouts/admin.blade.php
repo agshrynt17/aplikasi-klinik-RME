@@ -237,7 +237,9 @@
             margin-top: 56px;
             padding: 20px;
             min-height: calc(100vh - 98px);
-            transition: 0.3s;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         /* Main Footer - KONHAKES 1:1 */
@@ -248,7 +250,7 @@
             border-top: 1px solid #d2d6de;
             font-size: 11.5px;
             margin-left: 250px;
-            transition: 0.3s;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -264,12 +266,183 @@
             text-decoration: underline;
         }
 
-        @media (max-width: 768px) {
+        /* Mobile Sidebar Backdrop Overlay */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1035;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            transition: opacity 0.3s ease;
+        }
+
+        /* Responsive Breakpoints & Mobile Optimization */
+        @media (max-width: 991.98px) {
+            .top-navbar {
+                padding: 0 12px;
+            }
+            .brand-logo {
+                width: auto !important;
+                max-width: 220px;
+            }
+            .brand-logo .brand-text-main {
+                font-size: 1.25rem !important;
+            }
+            .brand-logo .brand-text-sub {
+                font-size: 0.72rem !important;
+            }
+            .sidebar {
+                left: -260px !important;
+                z-index: 1045 !important;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.2) !important;
+            }
+            body.sidebar-open .sidebar {
+                left: 0 !important;
+            }
+            body.sidebar-open .sidebar-backdrop {
+                display: block !important;
+                opacity: 1 !important;
+            }
+            body.sidebar-open {
+                overflow: hidden !important;
+            }
+            .content-wrapper {
+                margin-left: 0 !important;
+                padding: 14px 10px !important;
+                width: 100% !important;
+            }
             .main-footer {
-                margin-left: 0;
+                margin-left: 0 !important;
                 flex-direction: column;
-                gap: 5px;
+                gap: 8px;
                 text-align: center;
+                padding: 12px 10px;
+            }
+            .main-footer .pull-left,
+            .main-footer .pull-right {
+                float: none !important;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar-user .user-role-badge {
+                display: none !important;
+            }
+            .navbar-user .user-name-text {
+                max-width: 110px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        @media (min-width: 992px) {
+            body.sidebar-collapsed .sidebar {
+                left: -250px !important;
+            }
+            body.sidebar-collapsed .content-wrapper,
+            body.sidebar-collapsed .main-footer {
+                margin-left: 0 !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .top-navbar {
+                padding: 0 8px;
+                height: 52px;
+            }
+            .sidebar {
+                top: 52px;
+                width: 260px;
+            }
+            .sidebar-backdrop {
+                top: 52px;
+            }
+            .content-wrapper {
+                margin-top: 52px;
+                padding: 10px 6px !important;
+            }
+            .brand-logo {
+                gap: 6px !important;
+                max-width: 185px;
+            }
+            .brand-logo div[style*="width: 40px"] {
+                width: 32px !important;
+                height: 32px !important;
+                margin-right: 4px !important;
+            }
+            .brand-logo .brand-text-sub {
+                font-size: 0.68rem !important;
+            }
+            .brand-logo .brand-text-main {
+                font-size: 1.15rem !important;
+            }
+            .navbar-user .user-name-text {
+                display: none !important;
+            }
+            .navbar-user a.dropdown-toggle {
+                padding: 4px;
+            }
+        }
+
+        /* Universal Responsive Table Styling */
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .table-responsive::-webkit-scrollbar {
+            height: 6px;
+        }
+        .table-responsive::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Ensure table action cells stay intact on all screens */
+        .table td:last-child,
+        .table th:last-child {
+            white-space: nowrap;
+        }
+
+        /* Universal Form & Action Toolbar Responsive Rules */
+        @media (max-width: 767.98px) {
+            .card-body {
+                padding: 12px 10px !important;
+            }
+            .d-flex.justify-content-between:not(.no-stack):not(.pagination):not(.navbar) {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px;
+            }
+            .d-flex.justify-content-between:not(.no-stack):not(.pagination):not(.navbar) > div {
+                width: 100%;
+            }
+            .btn-responsive-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                width: 100%;
+            }
+            .btn-responsive-group .btn {
+                flex: 1 1 auto;
+            }
+            .modal-dialog {
+                margin: 0.5rem;
+                max-width: calc(100% - 1rem);
             }
         }
 
@@ -327,10 +500,10 @@
                     <i class="fas fa-plus" style="color: #89cff0; font-size: 20px; position: absolute; top: 8px; right: 8px;"></i>
                 </div>
                 <div style="display: flex; flex-direction: column; line-height: 1.1;">
-                    <div style="font-size: 0.85rem; font-weight: 900; letter-spacing: 0.5px;">
+                    <div style="font-size: 0.85rem; font-weight: 900; letter-spacing: 0.5px;" class="brand-text-sub">
                         <span style="color: #0056b3;">KLINIK</span> <span style="color: #e60000;">24 JAM.</span>
                     </div>
-                    <div style="font-size: 1.6rem; font-weight: 800; color: #1e5647; letter-spacing: -0.5px; font-family: 'Arial', sans-serif;">
+                    <div style="font-size: 1.6rem; font-weight: 800; color: #1e5647; letter-spacing: -0.5px; font-family: 'Arial', sans-serif;" class="brand-text-main">
                         Telagasari
                     </div>
                 </div>
@@ -346,7 +519,7 @@
             <div class="dropdown">
                 <a class="text-white text-decoration-none dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; font-size: 12.5px; font-weight: 600;">
                     <i class="fas fa-user-circle" style="font-size: 16px;"></i>
-                    <span>{{ $userName }} <span class="badge bg-light text-dark ms-1" style="font-size: 10px; font-weight: 700;">{{ $userRole }}</span></span>
+                    <span class="user-name-text">{{ $userName }}</span> <span class="badge bg-light text-dark ms-1 user-role-badge" style="font-size: 10px; font-weight: 700;">{{ $userRole }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="position: absolute;">
                     <li><div class="dropdown-header text-dark fw-bold py-1">{{ $userName }}</div></li>
@@ -359,6 +532,9 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
@@ -1255,18 +1431,46 @@
                 }
             });
 
-            // Toggle Sidebar
-            $('#toggleSidebar').click(function() {
-                if ($('#sidebar').css('left') === '0px') {
-                    $('#sidebar').css('left', '-250px');
-                    $('#contentWrapper').css('margin-left', '0');
-                    $('#mainFooter').css('margin-left', '0');
+            // Responsive Sidebar & Backdrop Handling
+            function toggleSidebar() {
+                if (window.innerWidth < 992) {
+                    $('body').toggleClass('sidebar-open');
                 } else {
-                    $('#sidebar').css('left', '0px');
-                    $('#contentWrapper').css('margin-left', '250px');
-                    $('#mainFooter').css('margin-left', '250px');
+                    $('body').toggleClass('sidebar-collapsed');
+                }
+            }
+
+            $('#toggleSidebar').off('click').on('click', function(e) {
+                e.stopPropagation();
+                toggleSidebar();
+            });
+
+            $('#sidebarBackdrop').on('click', function() {
+                $('body').removeClass('sidebar-open');
+            });
+
+            $(document).on('keydown', function(e) {
+                if (e.key === 'Escape' && $('body').hasClass('sidebar-open')) {
+                    $('body').removeClass('sidebar-open');
                 }
             });
+
+            $(window).on('resize', function() {
+                if (window.innerWidth >= 992) {
+                    $('body').removeClass('sidebar-open');
+                }
+            });
+
+            // Universal Auto Table-Responsive Wrapper
+            function applyResponsiveTables() {
+                $('#main-content-body table').each(function() {
+                    let tbl = $(this);
+                    if (!tbl.parent().hasClass('table-responsive') && !tbl.hasClass('no-responsive')) {
+                        tbl.wrap('<div class="table-responsive"></div>');
+                    }
+                });
+            }
+            applyResponsiveTables();
 
             // Live Server Time Clock
             function updateClock() {
@@ -1312,6 +1516,11 @@
                             $('#main-content-body').html(response);
                             window.history.pushState({"html":response,"pageTitle":""},"", href);
                             syncMenuState();
+                            applyResponsiveTables();
+                            if (window.innerWidth < 992) {
+                                $('body').removeClass('sidebar-open');
+                            }
+                            window.scrollTo({top: 0, behavior: 'smooth'});
                             document.dispatchEvent(new Event('DOMContentLoaded'));
                             $(document).trigger('ready');
                         },
@@ -1327,6 +1536,10 @@
                 if(e.state){
                     $('#main-content-body').html(e.state.html);
                     syncMenuState();
+                    applyResponsiveTables();
+                    if (window.innerWidth < 992) {
+                        $('body').removeClass('sidebar-open');
+                    }
                     document.dispatchEvent(new Event('DOMContentLoaded'));
                     $(document).trigger('ready');
                 } else {

@@ -389,6 +389,71 @@
         .box-footer a:hover {
             text-decoration: underline;
         }
+
+        /* Responsive Mobile Layout for Login Page */
+        @media (max-width: 991.98px) {
+            .login-bg-mask {
+                display: none !important;
+            }
+            .watermark-overlay {
+                display: none !important;
+            }
+            .login-page {
+                background: #ebf4fc !important;
+                padding: 15px 12px;
+            }
+            .login-box {
+                max-width: 100% !important;
+                margin: 10px auto !important;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .login-card-header {
+                height: auto !important;
+                padding: 14px 12px !important;
+            }
+            .header-brand {
+                max-width: 100% !important;
+                gap: 10px !important;
+            }
+            .header-logo-icon {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            .header-logo-icon i {
+                font-size: 20px !important;
+            }
+            .header-text-title {
+                font-size: 15px !important;
+            }
+            .header-text-sub {
+                font-size: 11px !important;
+            }
+            .header-illustration-right,
+            .header-mask-blend {
+                display: none !important;
+            }
+            .login-box-body {
+                padding: 18px 14px !important;
+            }
+            .login-title {
+                font-size: 19px !important;
+            }
+            .captcha-container {
+                flex-direction: column !important;
+                gap: 8px !important;
+            }
+            .captcha-canvas-wrap {
+                width: 100% !important;
+                height: 44px !important;
+            }
+            .box-footer {
+                padding: 12px 10px !important;
+                font-size: 11px !important;
+            }
+        }
     </style>
 </head>
 <body class="login-page">
